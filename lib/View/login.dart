@@ -13,6 +13,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State <LoginView> {
   final _formKey = GlobalKey<FormState>();
   bool visible = true;
+  String temp = "";
   void pushRegister(BuildContext context) {
       Navigator.push(
         context,
@@ -20,10 +21,10 @@ class _LoginViewState extends State <LoginView> {
       );
   }
 
+  TextEditingController userController = TextEditingController();
+  TextEditingController passController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    TextEditingController userController = TextEditingController();
-    TextEditingController passController = TextEditingController();
 
     Map? dataForm = widget.data;
 
@@ -34,42 +35,47 @@ class _LoginViewState extends State <LoginView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              inputForm((p0){
-                if (p0 == null||p0.isEmpty) {
-                  return 'Username tidak boleh kosong';
-                }
-                return null;
-              },
-                TextEditingController: userController,
-                hintTxt: 'Username',
-                helperTxt: 'Inputkan user yang telah terdaftar',
-                icon: Icons.person,
-              ),
-
-              inputForm((p0) {
-                if (p0 == null||p0.isEmpty) {
-                  return 'Password kosong';
-                }
-                return null;
-              },
-                TextEditingController: passController,
-                hintTxt: 'Password',
-                helperTxt: 'Inputkan password yang telah terdaftar',
-                icon: Icons.lock,
-                passwordVisible: visible,
-                
-                suffixIcon: IconButton(
-                  icon: Icon(visible ? Icons.visibility : Icons.visibility_off),
-                  onPressed: () {
-                    setState(() {
-                      visible = !visible;
-                      passController.text = passController.text;
-                    });
-                  },
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: TextField(
+                  controller: userController,
+                  decoration: InputDecoration(
+                    hintText: 'Username',
+                    helperText: 'Masukkan username',
+                    prefixIcon: Icon(Icons.person),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                 ),
-                keyboardType: TextInputType.visiblePassword,
-                textInputAction: TextInputAction.done,
-                filled: true,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: TextField(
+                  controller: passController,
+                  obscureText: visible,
+                  onChanged: (value) => setState(() {
+                    passController.text = value;
+                  }),
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    helperText: 'Masukkan password',
+                    prefixIcon: Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        visible ? Icons.visibility : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          visible = !visible;
+                        });
+                      },
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
               ),
 
               Row(

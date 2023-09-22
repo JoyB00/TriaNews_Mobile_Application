@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Padding inputForm(Function(String?) validasi, {required TextEditingController,
 required String hintTxt, required String helperTxt, required IconData icon, bool passwordVisible = false, IconButton? suffixIcon,
-TextInputType? keyboardType, TextInputAction? textInputAction, bool filled = false}) {
+}) {
   return Padding(
     padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
     child: SizedBox(
@@ -12,8 +12,7 @@ TextInputType? keyboardType, TextInputAction? textInputAction, bool filled = fal
         validator: (value) => validasi(value),
         autofocus: true,
         obscureText: passwordVisible,
-        keyboardType: keyboardType,
-        textInputAction: textInputAction,
+        // onChanged: (value) => ,
         decoration: InputDecoration(
           hintText: hintTxt,
           helperText: helperTxt,
