@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_pbp/login.dart';
 
 import 'package:news_pbp/Component/formComponent.dart';
 // import 'package:ugd_1/View/login.dart';
@@ -20,7 +21,7 @@ class _RegisterState extends State<Register> {
   TextEditingController notelpController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
 
-  Gender _selectedGender = Gender.male;
+  Gender _selectedGender = Gender.other;
   bool showPassword = false;
   bool _isTermsChecked = false;
 
@@ -30,14 +31,30 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(
         title: const Text("Register"),
       ),
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 50.0),
+          padding: const EdgeInsets.only(top: 50.0),
           child: Form(
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Text(
+                  "Selamat Datang",
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue),
+                ),
+                Text(
+                  "Silahkan Isi Identitas anda",
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 133, 133, 133),
+                      fontStyle: FontStyle.italic),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                ),
                 inputForm((p0) {
                   if (p0 == null || p0.isEmpty) {
                     return 'username Tidak Boleh Kosong';
@@ -108,38 +125,36 @@ class _RegisterState extends State<Register> {
                   },
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Text('Jenis Kelamin : '),
                     Padding(
-                      padding: const EdgeInsets.only(left: 60),
+                      padding: const EdgeInsets.only(left: 20),
                     ),
                     Text('Pria'),
                     Radio(
-                      value: Gender.female,
+                      value: Gender.male,
                       groupValue: _selectedGender,
-                      onChanged: (Gender? p0) {
+                      onChanged: (Gender? value) {
                         setState(() {
-                          _selectedGender = p0!;
+                          _selectedGender = value!;
                         });
                       },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        right: 120,
-                      ),
-                    ),
                     Text('Wanita'),
                     Radio(
-                      value: Gender.other,
+                      value: Gender.female,
                       groupValue: _selectedGender,
-                      onChanged: (Gender? p0) {
+                      onChanged: (Gender? value) {
                         setState(() {
-                          _selectedGender = p0!;
+                          _selectedGender = value!;
                         });
                       },
                     ),
                   ],
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Checkbox(
                       value: _isTermsChecked,
@@ -154,8 +169,12 @@ class _RegisterState extends State<Register> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    if (_isTermsChecked) {
-                      _showConfirmationDialog();
+                    if (_selectedGender == Gender.other) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Pilih Jenis Kelamin kamu'),
+                      ));
+                    } else if (_isTermsChecked) {
+                      _handleRegistration();
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content:
@@ -163,7 +182,7 @@ class _RegisterState extends State<Register> {
                       ));
                     }
                   },
-                  child: const Text('register'),
+                  child: const Text('Daftar Sekarang'),
                 )
               ],
             ),
@@ -188,7 +207,7 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  Future<void> _showConfirmationDialog() async {
+  Future<void> _showConfirmationDialog(Map<String, dynamic> formData) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -212,7 +231,14 @@ class _RegisterState extends State<Register> {
             TextButton(
               child: Text('Daftar'),
               onPressed: () {
-                _handleRegistration();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => LoginView(
+                      data: formData,
+                    ),
+                  ),
+                );
               },
             ),
           ],
@@ -227,14 +253,7 @@ class _RegisterState extends State<Register> {
       formData['username'] = usernameController.text;
       formData['password'] = passwordController.text;
       formData['gender'] = _selectedGender.toString();
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => LoginView(
-            data: formData,
-          ),
-        ),
-      );
+      _showConfirmationDialog(formData);
     }
   }
 }
