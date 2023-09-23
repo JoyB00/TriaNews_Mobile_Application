@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_pbp/view/profile.dart';
 
 void main() {
   runApp(const MainApp());
