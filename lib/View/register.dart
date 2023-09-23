@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:news_pbp/login.dart';
-
 import 'package:news_pbp/Component/formComponent.dart';
 // import 'package:ugd_1/View/login.dart';
 
