@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_pbp/View/register.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:news_pbp/pages/home.dart';
+import 'package:news_pbp/main.dart';
 
 class LoginView extends StatefulWidget {
   final Map? data;
@@ -40,7 +41,7 @@ class _LoginViewState extends State<LoginView> {
             //change theme
             FloatingActionButton(
               onPressed: () {
-                AdaptiveTheme.of(context).toggleThemeMode();
+                changeTheme(AdaptiveTheme.of(context).mode, context);
               },
               child: const Icon(Icons.lightbulb),
             ),

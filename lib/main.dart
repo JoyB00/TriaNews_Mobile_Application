@@ -23,3 +23,12 @@ class MainApp extends StatelessWidget {
     );
   }
 }
+
+//theme mode changer
+  void changeTheme(AdaptiveThemeMode adaptiveThemeMode, BuildContext context) {
+    if(adaptiveThemeMode == AdaptiveThemeMode.light){
+      AdaptiveTheme.of(context).setDark();
+    }else{
+      AdaptiveTheme.of(context).setLight();
+    }
+  }
