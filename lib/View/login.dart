@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:news_pbp/View/register.dart';
 import 'package:news_pbp/component/form_componentLogin.dart';
 import 'package:news_pbp/main.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:news_pbp/pages/home.dart';
 
 class LoginView extends StatefulWidget {
   final Map? data;
@@ -19,7 +21,7 @@ class _LoginViewState extends State<LoginView> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => const LoginView(),
+        builder: (_) => const Register(),
       ),
     );
   }
@@ -121,7 +123,7 @@ class _LoginViewState extends State<LoginView> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const LoginView(),
+                            builder: (_) => const HomePage(),
                           ),
                         );
                       }
