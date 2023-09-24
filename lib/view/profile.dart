@@ -66,7 +66,14 @@ class ProfileView extends StatelessWidget {
               width: 350,
               height: 120,
               decoration: BoxDecoration(
-                color: Colors.lightBlue[50],
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 1,
+                      offset: Offset(2, 3))
+                ],
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(
                   color: Colors.blue,
@@ -131,7 +138,14 @@ class ProfileView extends StatelessWidget {
               width: 350,
               height: 120,
               decoration: BoxDecoration(
-                color: Colors.lightBlue[50],
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 1,
+                      offset: Offset(2, 3))
+                ],
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(
                   color: Colors.blue,
@@ -184,7 +198,7 @@ class ProfileView extends StatelessWidget {
                       ),
                       child: CircleAvatar(
                         radius: 50,
-                        backgroundColor: Colors.amber,
+                        backgroundImage: AssetImage('images/Dendy.jpeg'),
                       ))
                 ],
               ),
@@ -196,7 +210,14 @@ class ProfileView extends StatelessWidget {
               width: 350,
               height: 120,
               decoration: BoxDecoration(
-                color: Colors.lightBlue[50],
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 1,
+                      offset: Offset(2, 3))
+                ],
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(
                   color: Colors.blue,
@@ -248,9 +269,8 @@ class ProfileView extends StatelessWidget {
                         ),
                       ),
                       child: CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.amber,
-                      ))
+                          radius: 50,
+                          backgroundImage: AssetImage('images/Jeanny.jpeg')))
                 ],
               ),
             ),
@@ -261,7 +281,14 @@ class ProfileView extends StatelessWidget {
               width: 350,
               height: 120,
               decoration: BoxDecoration(
-                color: Colors.lightBlue[50],
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 1,
+                      offset: Offset(2, 3))
+                ],
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(
                   color: Colors.blue,
@@ -313,9 +340,8 @@ class ProfileView extends StatelessWidget {
                         ),
                       ),
                       child: CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.amber,
-                      ))
+                          radius: 50,
+                          backgroundImage: AssetImage('images/Joel.jpeg')))
                 ],
               ),
             ),
@@ -326,7 +352,7 @@ class ProfileView extends StatelessWidget {
               width: 350,
               height: 120,
               decoration: BoxDecoration(
-                color: Colors.lightBlue[50],
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(
                   color: Colors.blue,
@@ -379,7 +405,7 @@ class ProfileView extends StatelessWidget {
                       ),
                       child: CircleAvatar(
                         radius: 50,
-                        backgroundColor: Colors.amber,
+                        backgroundImage: AssetImage('images/Joseph.jpeg'),
                       ))
                 ],
               ),
