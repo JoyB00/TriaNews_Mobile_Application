@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:news_pbp/View/profile.dart';
 import 'package:news_pbp/data/news.dart';
 
 class HomePage extends StatefulWidget {
@@ -8,11 +11,6 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-
-
-
-
-
 class _HomePageState extends State<HomePage> {
   final int _cells = 8;
   final double _containerSizeSmall = 120;
@@ -20,6 +18,19 @@ class _HomePageState extends State<HomePage> {
   final double _padding = 10;
   int _clicked = 0;
   bool isDark = false;
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  static const List<Widget> _widgetOption = <Widget>[
+    HomePage(),
+    HomePage(),
+    ProfileView(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +143,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
+              Container(
+                child: _widgetOption.elementAt(_selectedIndex),
+              ),
             ]),
           ),
           bottomNavigationBar: BottomNavigationBar(
@@ -152,7 +166,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                   label: 'Profile'),
             ],
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
           ),
+          extendBody: _widgetOptions.elementAt(_selectedIndex),
         ));
   }
 }
