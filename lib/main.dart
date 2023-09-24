@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
     return AdaptiveTheme(
       light: ThemeData.light(),
       dark: ThemeData.dark(),
-      //debugShowFloatingThemeButton: true, // <------ add this line
+      debugShowFloatingThemeButton: true, // <------ add this line
       initial: AdaptiveThemeMode.light,
       builder: (theme, darkTheme) => MaterialApp(
         theme: theme,
@@ -25,10 +25,10 @@ class MainApp extends StatelessWidget {
 }
 
 //theme mode changer
-  void changeTheme(AdaptiveThemeMode adaptiveThemeMode, BuildContext context) {
-    if(adaptiveThemeMode == AdaptiveThemeMode.light){
-      AdaptiveTheme.of(context).setDark();
-    }else{
-      AdaptiveTheme.of(context).setLight();
-    }
+void changeTheme(AdaptiveThemeMode adaptiveThemeMode, BuildContext context) {
+  if (adaptiveThemeMode == AdaptiveThemeMode.light) {
+    AdaptiveTheme.of(context).setDark();
+  } else {
+    AdaptiveTheme.of(context).setLight();
   }
+}

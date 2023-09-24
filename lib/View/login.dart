@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:news_pbp/View/home.dart';
 import 'package:news_pbp/View/register.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:news_pbp/pages/home.dart';
 import 'package:news_pbp/main.dart';
 
 class LoginView extends StatefulWidget {

@@ -8,32 +8,13 @@ class ProfileView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Developer Profile"),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-              ),
-              label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.list,
-              ),
-              label: 'List'),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-              ),
-              label: 'Profile'),
-        ],
+        backgroundColor: Colors.blue,
       ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(padding: EdgeInsets.all(15.0)),
-
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
@@ -68,12 +49,11 @@ class ProfileView extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.blue.withOpacity(0.2),
                       spreadRadius: 2,
                       blurRadius: 1,
                       offset: Offset(2, 3))
                 ],
-                color: Colors.white,
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(
                   color: Colors.blue,
@@ -126,7 +106,7 @@ class ProfileView extends StatelessWidget {
                       ),
                       child: CircleAvatar(
                         radius: 50,
-                        backgroundColor: Colors.amber,
+                        backgroundImage: AssetImage('images/Wilju.jpeg'),
                       ))
                 ],
               ),
@@ -140,12 +120,11 @@ class ProfileView extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.blue.withOpacity(0.2),
                       spreadRadius: 2,
                       blurRadius: 1,
                       offset: Offset(2, 3))
                 ],
-                color: Colors.white,
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(
                   color: Colors.blue,
@@ -212,12 +191,11 @@ class ProfileView extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.blue.withOpacity(0.2),
                       spreadRadius: 2,
                       blurRadius: 1,
                       offset: Offset(2, 3))
                 ],
-                color: Colors.white,
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(
                   color: Colors.blue,
@@ -283,12 +261,11 @@ class ProfileView extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.blue.withOpacity(0.2),
                       spreadRadius: 2,
                       blurRadius: 1,
                       offset: Offset(2, 3))
                 ],
-                color: Colors.white,
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(
                   color: Colors.blue,
@@ -352,7 +329,13 @@ class ProfileView extends StatelessWidget {
               width: 350,
               height: 120,
               decoration: BoxDecoration(
-                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.blue.withOpacity(0.2),
+                      spreadRadius: 2,
+                      blurRadius: 1,
+                      offset: Offset(2, 3))
+                ],
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(
                   color: Colors.blue,
