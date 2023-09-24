@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_pbp/component/form_component.dart';
 import 'package:news_pbp/main.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 
 class LoginView extends StatefulWidget {
   final Map? data;
@@ -35,6 +36,10 @@ class _LoginViewState extends State <LoginView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              //change theme
+              FloatingActionButton(onPressed: () {
+                AdaptiveTheme.of(context).toggleThemeMode();
+              }, child: const Icon(Icons.lightbulb),),
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: TextField(
