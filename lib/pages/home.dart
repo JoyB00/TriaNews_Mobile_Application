@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/news.dart';
+import 'package:news_pbp/data/news.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
