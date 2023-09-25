@@ -18,7 +18,7 @@ class _RegisterState extends State<Register> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController notelpController = TextEditingController();
-  TextEditingController _dateController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
 
   Gender _selectedGender = Gender.other;
   bool showPassword = false;
@@ -38,21 +38,21 @@ class _RegisterState extends State<Register> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   "Selamat Datang",
                   style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                       color: Colors.blue),
                 ),
-                Text(
+                const Text(
                   "Silahkan Isi Identitas anda",
                   style: TextStyle(
-                      color: const Color.fromARGB(255, 133, 133, 133),
+                      color: Color.fromARGB(255, 133, 133, 133),
                       fontStyle: FontStyle.italic),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
+                const Padding(
+                  padding: EdgeInsets.only(top: 10.0),
                 ),
                 inputForm((p0) {
                   if (p0 == null || p0.isEmpty) {
@@ -126,11 +126,11 @@ class _RegisterState extends State<Register> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Jenis Kelamin : '),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
+                    const Text('Jenis Kelamin : '),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 20),
                     ),
-                    Text('Pria'),
+                    const Text('Pria'),
                     Radio(
                       value: Gender.male,
                       groupValue: _selectedGender,
@@ -140,7 +140,7 @@ class _RegisterState extends State<Register> {
                         });
                       },
                     ),
-                    Text('Wanita'),
+                    const Text('Wanita'),
                     Radio(
                       value: Gender.female,
                       groupValue: _selectedGender,
@@ -163,19 +163,19 @@ class _RegisterState extends State<Register> {
                         });
                       },
                     ),
-                    Text('Saya setuju dengan Terms of Service'),
+                    const Text('Saya setuju dengan Terms of Service'),
                   ],
                 ),
                 ElevatedButton(
                   onPressed: () {
                     if (_selectedGender == Gender.other) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('Pilih Jenis Kelamin kamu'),
                       ));
                     } else if (_isTermsChecked) {
                       _handleRegistration();
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content:
                             Text('Anda harus menyetujui Terms of Service.'),
                       ));
@@ -212,8 +212,8 @@ class _RegisterState extends State<Register> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Konfirmasi'),
-          content: SingleChildScrollView(
+          title: const Text('Konfirmasi'),
+          content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 Text('Apakah data Anda sudah benar?'),
@@ -222,13 +222,13 @@ class _RegisterState extends State<Register> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Daftar'),
+              child: const Text('Daftar'),
               onPressed: () {
                 Navigator.push(
                   context,

@@ -14,8 +14,8 @@ class ProfileView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(padding: EdgeInsets.all(15.0)),
-            Align(
+            const Padding(padding: EdgeInsets.all(15.0)),
+            const Align(
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: EdgeInsets.only(left: 30, bottom: 5),
@@ -28,7 +28,7 @@ class ProfileView extends StatelessWidget {
                 ),
               ),
             ),
-            Align(
+            const Align(
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: EdgeInsets.only(left: 30, bottom: 15),
@@ -43,7 +43,8 @@ class ProfileView extends StatelessWidget {
 
             //William Juvent
             Container(
-              margin: EdgeInsets.only(bottom: 8, top: 15, left: 30, right: 30),
+              margin: const EdgeInsets.only(
+                  bottom: 8, top: 15, left: 30, right: 30),
               width: 350,
               height: 120,
               decoration: BoxDecoration(
@@ -52,7 +53,7 @@ class ProfileView extends StatelessWidget {
                       color: Colors.blue.withOpacity(0.2),
                       spreadRadius: 2,
                       blurRadius: 1,
-                      offset: Offset(2, 3))
+                      offset: const Offset(2, 3))
                 ],
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(
@@ -63,7 +64,7 @@ class ProfileView extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Column(
+                  const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
@@ -94,8 +95,8 @@ class ProfileView extends StatelessWidget {
                   ),
                   Container(
                       width: 150,
-                      margin: EdgeInsets.only(left: 21),
-                      padding: EdgeInsets.all(5),
+                      margin: const EdgeInsets.only(left: 21),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.0),
                         color: Colors.blue,
@@ -104,7 +105,7 @@ class ProfileView extends StatelessWidget {
                           width: 3.0,
                         ),
                       ),
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                         radius: 50,
                         backgroundImage: AssetImage('images/Wilju.jpeg'),
                       ))
@@ -114,7 +115,7 @@ class ProfileView extends StatelessWidget {
 
             //Dendy
             Container(
-              margin: EdgeInsets.all(8.0),
+              margin: const EdgeInsets.all(8.0),
               width: 350,
               height: 120,
               decoration: BoxDecoration(
@@ -123,7 +124,7 @@ class ProfileView extends StatelessWidget {
                       color: Colors.blue.withOpacity(0.2),
                       spreadRadius: 2,
                       blurRadius: 1,
-                      offset: Offset(2, 3))
+                      offset: const Offset(2, 3))
                 ],
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(
@@ -134,7 +135,7 @@ class ProfileView extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Column(
+                  const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
@@ -165,8 +166,8 @@ class ProfileView extends StatelessWidget {
                   ),
                   Container(
                       width: 150,
-                      margin: EdgeInsets.only(left: 21),
-                      padding: EdgeInsets.all(5),
+                      margin: const EdgeInsets.only(left: 21),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.0),
                         color: Colors.blue,
@@ -175,7 +176,7 @@ class ProfileView extends StatelessWidget {
                           width: 3.0,
                         ),
                       ),
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                         radius: 50,
                         backgroundImage: AssetImage('images/Dendy.jpeg'),
                       ))
@@ -185,7 +186,7 @@ class ProfileView extends StatelessWidget {
 
             //Jeanny
             Container(
-              margin: EdgeInsets.all(8.0),
+              margin: const EdgeInsets.all(8.0),
               width: 350,
               height: 120,
               decoration: BoxDecoration(
@@ -194,7 +195,7 @@ class ProfileView extends StatelessWidget {
                       color: Colors.blue.withOpacity(0.2),
                       spreadRadius: 2,
                       blurRadius: 1,
-                      offset: Offset(2, 3))
+                      offset: const Offset(2, 3))
                 ],
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(
@@ -205,7 +206,7 @@ class ProfileView extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Column(
+                  const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
@@ -236,8 +237,8 @@ class ProfileView extends StatelessWidget {
                   ),
                   Container(
                       width: 150,
-                      margin: EdgeInsets.only(left: 27),
-                      padding: EdgeInsets.all(5),
+                      margin: const EdgeInsets.only(left: 27),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.0),
                         color: Colors.blue,
@@ -246,7 +247,7 @@ class ProfileView extends StatelessWidget {
                           width: 3.0,
                         ),
                       ),
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                           radius: 50,
                           backgroundImage: AssetImage('images/Jeanny.jpeg')))
                 ],
@@ -255,7 +256,7 @@ class ProfileView extends StatelessWidget {
 
             // Joel
             Container(
-              margin: EdgeInsets.all(8.0),
+              margin: const EdgeInsets.all(8.0),
               width: 350,
               height: 120,
               decoration: BoxDecoration(
@@ -264,7 +265,7 @@ class ProfileView extends StatelessWidget {
                       color: Colors.blue.withOpacity(0.2),
                       spreadRadius: 2,
                       blurRadius: 1,
-                      offset: Offset(2, 3))
+                      offset: const Offset(2, 3))
                 ],
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(
@@ -275,7 +276,7 @@ class ProfileView extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Column(
+                  const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
@@ -306,8 +307,8 @@ class ProfileView extends StatelessWidget {
                   ),
                   Container(
                       width: 150,
-                      margin: EdgeInsets.only(left: 31),
-                      padding: EdgeInsets.all(5),
+                      margin: const EdgeInsets.only(left: 31),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.0),
                         color: Colors.blue,
@@ -316,7 +317,7 @@ class ProfileView extends StatelessWidget {
                           width: 3.0,
                         ),
                       ),
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                           radius: 50,
                           backgroundImage: AssetImage('images/Joel.jpeg')))
                 ],
@@ -325,7 +326,7 @@ class ProfileView extends StatelessWidget {
 
             // Joseph
             Container(
-              margin: EdgeInsets.all(8.0),
+              margin: const EdgeInsets.all(8.0),
               width: 350,
               height: 120,
               decoration: BoxDecoration(
@@ -334,7 +335,7 @@ class ProfileView extends StatelessWidget {
                       color: Colors.blue.withOpacity(0.2),
                       spreadRadius: 2,
                       blurRadius: 1,
-                      offset: Offset(2, 3))
+                      offset: const Offset(2, 3))
                 ],
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(
@@ -345,7 +346,7 @@ class ProfileView extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Column(
+                  const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
@@ -376,8 +377,8 @@ class ProfileView extends StatelessWidget {
                   ),
                   Container(
                       width: 150,
-                      margin: EdgeInsets.only(left: 38),
-                      padding: EdgeInsets.all(5),
+                      margin: const EdgeInsets.only(left: 38),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.0),
                         color: Colors.blue,
@@ -386,7 +387,7 @@ class ProfileView extends StatelessWidget {
                           width: 3.0,
                         ),
                       ),
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                         radius: 50,
                         backgroundImage: AssetImage('images/Joseph.jpeg'),
                       ))

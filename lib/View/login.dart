@@ -52,7 +52,7 @@ class _LoginViewState extends State<LoginView> {
                 decoration: InputDecoration(
                   hintText: 'Username',
                   helperText: 'Masukkan username',
-                  prefixIcon: Icon(Icons.person),
+                  prefixIcon: const Icon(Icons.person),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -70,7 +70,7 @@ class _LoginViewState extends State<LoginView> {
                 decoration: InputDecoration(
                   hintText: 'Password',
                   helperText: 'Masukkan password',
-                  prefixIcon: Icon(Icons.lock),
+                  prefixIcon: const Icon(Icons.lock),
                   suffixIcon: IconButton(
                     icon: Icon(
                       visible ? Icons.visibility : Icons.visibility_off,
@@ -128,7 +128,7 @@ class _LoginViewState extends State<LoginView> {
                       }
                     }
                   },
-                  child: Text('Login'),
+                  child: const Text('Login'),
                 ),
                 TextButton(
                   onPressed: () {
@@ -137,7 +137,7 @@ class _LoginViewState extends State<LoginView> {
                     formData['password'] = passController.text;
                     pushRegister(context);
                   },
-                  child: Text('Daftar akunmu!'),
+                  child: const Text('Daftar akunmu!'),
                 ),
               ],
             )
