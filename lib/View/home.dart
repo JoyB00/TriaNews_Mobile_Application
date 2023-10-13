@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_pbp/pages/grid.dart';
 import 'package:news_pbp/View/profile.dart';
+import 'package:news_pbp/pages/profileNew.dart';
 
 class HomePage extends StatefulWidget {
   final Map<String, dynamic> user;
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
     ),
     // index 2
     ProfileView(),
+    ProfilePage(),
   ];
 
   @override
@@ -39,16 +41,25 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.home,
+                color: Colors.blue,
               ),
               label: 'Home'),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.list,
+                color: Colors.blue,
               ),
               label: 'List'),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.person,
+                Icons.group,
+                color: Colors.blue,
+              ),
+              label: 'Anggota'),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person_2,
+                color: Colors.blue,
               ),
               label: 'Profile'),
         ],

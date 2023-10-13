@@ -24,7 +24,7 @@ class _LoginViewState extends State<LoginView> {
         builder: (_) => const Register(),
       ),
     );
-  } 
+  }
 
   TextEditingController userController = TextEditingController();
   TextEditingController passController = TextEditingController();
@@ -96,8 +96,9 @@ class _LoginViewState extends State<LoginView> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       // dataForm?['username'] != userController.text ||
-                          //dataForm?['password'] != passController.text
-                          var user = await SQLHelper.loginUser(userController.text, passController.text);
+                      //dataForm?['password'] != passController.text
+                      var user = await SQLHelper.loginUser(
+                          userController.text, passController.text);
                       if (user.isEmpty) {
                         showDialog(
                             context: context,
@@ -150,6 +151,5 @@ class _LoginViewState extends State<LoginView> {
         ),
       )),
     );
-    }
   }
-
+}

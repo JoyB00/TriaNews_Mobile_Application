@@ -4,8 +4,6 @@ import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/View/login.dart';
 // import 'package:ugd_1/View/login.dart';
 
-enum Gender { male, female, other }
-
 class Register extends StatefulWidget {
   const Register({Key? key});
 
@@ -248,13 +246,16 @@ class _RegisterState extends State<Register> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => LoginView(
+                      builder: (_) => const LoginView(
                           //data: formData,
                           ),
                     ),
                   );
                 } catch (e) {
-                  print(e);
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Email yang digunakan sudah terdaftar'),
+                  ));
                 }
               },
             ),
