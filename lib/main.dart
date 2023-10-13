@@ -18,7 +18,7 @@ class MainApp extends StatelessWidget {
       builder: (theme, darkTheme) => MaterialApp(
         theme: theme,
         darkTheme: darkTheme,
-        home: const LoginView(),
+        home: LoginView(),
       ),
     );
   }

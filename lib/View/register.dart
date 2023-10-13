@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:news_pbp/component/formComponent_Regiter.dart';
+import 'package:flutter/services.dart';
+import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/View/login.dart';
 // import 'package:ugd_1/View/login.dart';
 
@@ -19,8 +20,6 @@ class _RegisterState extends State<Register> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController notelpController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
-
-  Gender _selectedGender = Gender.other;
   bool showPassword = false;
   bool _isTermsChecked = false;
 
@@ -35,155 +34,158 @@ class _RegisterState extends State<Register> {
           padding: const EdgeInsets.only(top: 50.0),
           child: Form(
             key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Selamat Datang",
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue),
-                ),
-                const Text(
-                  "Silahkan Isi Identitas anda",
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 133, 133, 133),
-                      fontStyle: FontStyle.italic),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 10.0),
-                ),
-                inputForm((p0) {
-                  if (p0 == null || p0.isEmpty) {
-                    return 'username Tidak Boleh Kosong';
-                  }
-                  return null;
-                },
-                    controller: usernameController,
-                    hintTxt: "Username",
-                    helperTxt: "Joel Gans",
-                    iconData: Icons.person),
-                inputForm((p0) {
-                  if (p0 == null || p0.isEmpty) {
-                    return 'Email Tidak Boleh Kosong';
-                  }
-                  if (!p0.contains('@')) {
-                    return 'Email harus menggunakan @';
-                  }
-                  return null;
-                },
-                    controller: emailController,
-                    hintTxt: "Email",
-                    helperTxt: "kelompok3@gmail.com",
-                    iconData: Icons.email),
-                inputForm(
-                    (p0) {
-                      if (p0 == null || p0.isEmpty) {
-                        return 'Password Tidak Boleh Kosong';
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Selamat Datang",
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue),
+                  ),
+                  const Text(
+                    "Silahkan Isi Identitas anda",
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 133, 133, 133),
+                        fontStyle: FontStyle.italic),
+                  ),
+                  const Padding(padding: EdgeInsets.all(5.0)),
+                  TextFormField(
+                      controller: usernameController,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.person),
+                        labelText: 'Username',
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Username tidak boleh kosong';
+                        } else if (value.length < 6) {
+                          return 'Username kurang dari 6 karakter';
+                        }
+                        return null;
+                      }),
+                  const Padding(padding: EdgeInsets.all(5.0)),
+                  TextFormField(
+                      controller: emailController,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.email),
+                        labelText: 'Email',
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Email Tidak Boleh Kosong';
+                        } else if (value.length < 6) {
+                          return 'Email harus Memakai @';
+                        }
+                        return null;
+                      }),
+                  const Padding(padding: EdgeInsets.all(5.0)),
+                  TextFormField(
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock),
+                        labelText: 'Password',
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              showPassword = !showPassword;
+                            });
+                          },
+                          icon: Icon(
+                            showPassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: showPassword ? Colors.grey : Colors.blue,
+                          ),
+                        ),
+                      ),
+                      obscureText: showPassword,
+                      validator: (value) {
+                        if (value == '') {
+                          return 'Password tidak boleh kosong';
+                        } else if (value!.length < 5) {
+                          return "password Kurang dari 5 digit";
+                        }
+                        return null;
+                      }),
+                  const Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 5.0, horizontal: 16.0)),
+                  TextFormField(
+                      controller: notelpController,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.phone),
+                        labelText: 'Phone Number',
+                      ),
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == '') {
+                          return 'No hp Tidak Boleh Kosong';
+                        } else if (value!.length <= 11) {
+                          return 'No Hp tidak boleh kurang dari 11 digit';
+                        }
+                        return null;
+                      }),
+                  const Padding(padding: EdgeInsets.all(5.0)),
+                  TextFormField(
+                      controller: _dateController,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.calendar_today),
+                        labelText: 'Born Date',
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectDate();
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.calendar_today,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Tanggal tidak boleh kosong';
+                        }
+                        return null;
+                      }),
+                  const Padding(padding: EdgeInsets.all(5.0)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Checkbox(
+                        value: _isTermsChecked,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _isTermsChecked = value!;
+                          });
+                        },
+                      ),
+                      const Text('Saya setuju dengan Terms of Service'),
+                    ],
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_isTermsChecked) {
+                        _handleRegistration();
+                      } else {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content:
+                              Text('Anda harus menyetujui Terms of Service.'),
+                        ));
                       }
-                      if (p0.length < 5) {
-                        return 'Password minimal 5 digit';
-                      }
-                      return null;
                     },
-                    controller: passwordController,
-                    hintTxt: 'Password',
-                    helperTxt: '*****',
-                    iconData: Icons.password,
-                    isPassword: true,
-                    showPassword: showPassword,
-                    toggleObscureText: () {
-                      setState(() {
-                        showPassword = !showPassword;
-                      });
-                    }),
-                inputForm((p0) {
-                  if (p0 == null || p0.isEmpty) {
-                    return 'Nomor Telepon tidak Boleh kosong';
-                  }
-                  return null;
-                },
-                    controller: notelpController,
-                    hintTxt: 'No Telp',
-                    helperTxt: '081293741834',
-                    iconData: Icons.phone_android),
-                inputForm(
-                  (p0) {
-                    if (_dateController.text.isEmpty) {
-                      return 'Tannggal Lahir tidak boleh kosong';
-                    }
-                    return null;
-                  },
-                  controller: _dateController,
-                  hintTxt: 'Tanggal Lahir',
-                  helperTxt: '20-09-2003',
-                  iconData: Icons.calendar_today,
-                  onTapDatePicker: () {
-                    _selectDate();
-                  },
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('Jenis Kelamin : '),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 20),
-                    ),
-                    const Text('Pria'),
-                    Radio(
-                      value: Gender.male,
-                      groupValue: _selectedGender,
-                      onChanged: (Gender? value) {
-                        setState(() {
-                          _selectedGender = value!;
-                        });
-                      },
-                    ),
-                    const Text('Wanita'),
-                    Radio(
-                      value: Gender.female,
-                      groupValue: _selectedGender,
-                      onChanged: (Gender? value) {
-                        setState(() {
-                          _selectedGender = value!;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Checkbox(
-                      value: _isTermsChecked,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _isTermsChecked = value!;
-                        });
-                      },
-                    ),
-                    const Text('Saya setuju dengan Terms of Service'),
-                  ],
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_selectedGender == Gender.other) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Pilih Jenis Kelamin kamu'),
-                      ));
-                    } else if (_isTermsChecked) {
-                      _handleRegistration();
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content:
-                            Text('Anda harus menyetujui Terms of Service.'),
-                      ));
-                    }
-                  },
-                  child: const Text('Daftar Sekarang'),
-                )
-              ],
+                    child: const Text('Daftar Sekarang'),
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -192,17 +194,27 @@ class _RegisterState extends State<Register> {
   }
 
   Future<void> _selectDate() async {
-    DateTime? _picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2024),
+      firstDate: DateTime(1945),
+      lastDate: DateTime(2040),
     );
 
-    if (_picked != null) {
-      setState(() {
-        _dateController.text = _picked.toString().split(" ")[0];
-      });
+    if (picked != null) {
+      DateTime currentDate = DateTime.now();
+      Duration ageDifference = currentDate.difference(picked);
+      int userAge = ageDifference.inDays ~/ 365;
+      if (userAge < 17) {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Maaf, Anda harus berusia minimal 17 tahun.'),
+        ));
+      } else {
+        setState(() {
+          _dateController.text = picked.toString().split(" ")[0];
+        });
+      }
     }
   }
 
@@ -229,15 +241,21 @@ class _RegisterState extends State<Register> {
             ),
             TextButton(
               child: const Text('Daftar'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => LoginView(
-                      data: formData,
+              onPressed: () async {
+                try {
+                  await addUser();
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => LoginView(
+                          //data: formData,
+                          ),
                     ),
-                  ),
-                );
+                  );
+                } catch (e) {
+                  print(e);
+                }
               },
             ),
           ],
@@ -246,12 +264,16 @@ class _RegisterState extends State<Register> {
     );
   }
 
+  Future<void> addUser() async {
+    await SQLHelper.addUser(emailController.text, notelpController.text,
+        usernameController.text, passwordController.text, _dateController.text);
+  }
+
   void _handleRegistration() {
     if (_formKey.currentState!.validate()) {
       Map<String, dynamic> formData = {};
       formData['username'] = usernameController.text;
       formData['password'] = passwordController.text;
-      formData['gender'] = _selectedGender.toString();
       _showConfirmationDialog(formData);
     }
   }

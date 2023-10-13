@@ -3,7 +3,8 @@ import 'package:news_pbp/pages/grid.dart';
 import 'package:news_pbp/View/profile.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final Map<String, dynamic> user;
+  const HomePage({super.key, required this.user});
 
   @override
   State<HomePage> createState() => _HomePageState();

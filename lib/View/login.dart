@@ -3,11 +3,12 @@ import 'package:news_pbp/View/home.dart';
 import 'package:news_pbp/View/register.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:news_pbp/main.dart';
+import 'package:news_pbp/database/sql_helper.dart';
 
 class LoginView extends StatefulWidget {
-  final Map? data;
-
-  const LoginView({super.key, this.data});
+  //Future<List<Map<String, dynamic>>>? data = SQLHelper.getUser();
+  //LoginView({super.key, this.data});
+  const LoginView({super.key});
   @override
   State<LoginView> createState() => _LoginViewState();
 }
@@ -23,13 +24,13 @@ class _LoginViewState extends State<LoginView> {
         builder: (_) => const Register(),
       ),
     );
-  }
+  } 
 
   TextEditingController userController = TextEditingController();
   TextEditingController passController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    Map? dataForm = widget.data;
+    //List<Map<String, dynamic>>? dataForm = widget.data;
 
     return Scaffold(
       body: SafeArea(
@@ -92,10 +93,12 @@ class _LoginViewState extends State<LoginView> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      if (dataForm?['username'] != userController.text ||
-                          dataForm?['password'] != passController.text) {
+                      // dataForm?['username'] != userController.text ||
+                          //dataForm?['password'] != passController.text
+                          var user = await SQLHelper.loginUser(userController.text, passController.text);
+                      if (user.isEmpty) {
                         showDialog(
                             context: context,
                             builder: (_) => AlertDialog(
@@ -122,7 +125,9 @@ class _LoginViewState extends State<LoginView> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const HomePage(),
+                            builder: (_) => HomePage(
+                              user: user[0],
+                            ),
                           ),
                         );
                       }
@@ -145,5 +150,6 @@ class _LoginViewState extends State<LoginView> {
         ),
       )),
     );
+    }
   }
-}
+
