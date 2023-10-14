@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:news_pbp/View/inputanberita.dart';
+import 'package:news_pbp/entity/user.dart';
 import 'package:news_pbp/pages/grid.dart';
 import 'package:news_pbp/View/profile.dart';
+import 'package:news_pbp/pages/newsPage.dart';
 import 'package:news_pbp/pages/profileNew.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,25 +16,29 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  late List<Widget> _widgetOptions;
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    // index 0
-    Grid(),
-    // index 1
-    Center(
-      child: Text(
-        'On Progress',
+  void initState() {
+    super.initState();
+    _widgetOptions = [
+      const NewsPage(),
+      // index 1
+      const Center(
+        child: Text(
+          'On Progress',
+        ),
       ),
-    ),
-    // index 2
-    ProfileView(),
-    ProfilePage(),
-  ];
+      // index 2
+      const ProfileView(),
+      ProfilePage(user: widget.user),
+      // const InputanBerita(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {

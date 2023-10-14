@@ -1,10 +1,10 @@
 name: news_pbp
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: ">=3.1.0 <4.0.0"
 
 dependencies:
   adaptive_theme: ^3.4.0
@@ -12,7 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
   shared_preferences: ^2.2.2
-  
+  image_picker: ^0.8.4+4
+  path_provider: ^2.0.5
+  flutter_slidable: ^0.6.0
 
 dev_dependencies:
   flutter_test:

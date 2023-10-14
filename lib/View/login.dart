@@ -6,8 +6,6 @@ import 'package:news_pbp/main.dart';
 import 'package:news_pbp/database/sql_helper.dart';
 
 class LoginView extends StatefulWidget {
-  //Future<List<Map<String, dynamic>>>? data = SQLHelper.getUser();
-  //LoginView({super.key, this.data});
   const LoginView({super.key});
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -30,8 +28,6 @@ class _LoginViewState extends State<LoginView> {
   TextEditingController passController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    //List<Map<String, dynamic>>? dataForm = widget.data;
-
     return Scaffold(
       body: SafeArea(
           child: Form(
@@ -95,8 +91,6 @@ class _LoginViewState extends State<LoginView> {
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      // dataForm?['username'] != userController.text ||
-                      //dataForm?['password'] != passController.text
                       var user = await SQLHelper.loginUser(
                           userController.text, passController.text);
                       if (user.isEmpty) {
@@ -123,6 +117,10 @@ class _LoginViewState extends State<LoginView> {
                                   ],
                                 ));
                       } else {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text('Login Sukses'),
+                        ));
                         Navigator.push(
                           context,
                           MaterialPageRoute(

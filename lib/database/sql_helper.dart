@@ -33,7 +33,7 @@ class SQLHelper {
       'username': username,
       'password': password,
       'dateofbirth': dateofbirth
-    };                                
+    };
     return await db.insert('user', data);
   }
 
@@ -44,14 +44,15 @@ class SQLHelper {
   }
 
   //update
-  static Future<int> editUser(int id, String email, String notelp, String username,
-      String password, String dateofbirth) async {
+  static Future<int> editUser(int id, String email, String notelp,
+      String username, String password) async {
     final db = await SQLHelper.db();
-    final data = {'email': email,
+    final data = {
+      'email': email,
       'notelp': notelp,
       'username': username,
-      'password': password,
-      'dateofbirth': dateofbirth};
+      'password': password
+    };
     return await db.update('user', data, where: 'id = $id');
   }
 
@@ -62,8 +63,11 @@ class SQLHelper {
   }
 
   //login user
-  static Future<List<Map<String, dynamic>>> loginUser(String username, String password) async {
+  static Future<List<Map<String, dynamic>>> loginUser(
+      String username, String password) async {
     final db = await SQLHelper.db();
-    return db.query('user', where: 'username = ? AND password = ?', whereArgs: [username, password]);
+    return db.query('user',
+        where: 'username = ? AND password = ?',
+        whereArgs: [username, password]);
   }
 }

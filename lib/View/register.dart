@@ -242,13 +242,13 @@ class _RegisterState extends State<Register> {
               onPressed: () async {
                 try {
                   await addUser();
-
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Register Sukses'),
+                  ));
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const LoginView(
-                          //data: formData,
-                          ),
+                      builder: (_) => const LoginView(),
                     ),
                   );
                 } catch (e) {
