@@ -53,26 +53,6 @@ class _InputanBerita extends State<InputanBerita> {
   TextEditingController kategoriController = TextEditingController();
   String imgString = "";
 
-  //final ImagePicker picker = ImagePicker();
-  //XFile? image;
-  //we can upload image from camera or from gallery based on parameter
-  // Future <void> getImage(ImageSource media) async {
-  //   var img = await picker.pickImage(source: media);
-  //   if(img != null && img is XFile){
-  //     setState(() {
-  //       image = img;
-  //     });
-  //   }
-
-  // }
-
-  // pickImageFromGallery() {
-  //   ImagePicker().pickImage(source: ImageSource.gallery).then((imgFile) async {
-  //       String imgString = Utility.base64String(await imgFile!.readAsBytes());
-  //       //print(imgString);
-  //       News photo1 = News(image: imgString);
-  //   });
-
   @override
   Widget build(BuildContext context) {
     if (widget.id != null) {
@@ -97,17 +77,6 @@ class _InputanBerita extends State<InputanBerita> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // ElevatedButton(
-                      //   onPressed: () {
-                      //     ImagePicker()
-                      //         .pickImage(source: ImageSource.gallery)
-                      //         .then((imgFile) async {
-                      //       imgString = Utility.base64String(
-                      //           await imgFile!.readAsBytes());
-                      //     });
-                      //   },
-                      //   child: const Text('Upload Photo'),
-                      // ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -152,7 +121,7 @@ class _InputanBerita extends State<InputanBerita> {
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Judul Berita Tidak Boleh Kosong';
+                              return 'Kategori Tidak Boleh Kosong';
                             } else if (value.compareTo('sport') != 0 &&
                                 value.compareTo('politik') != 0 &&
                                 value.compareTo('digital') != 0) {
@@ -201,18 +170,6 @@ class _InputanBerita extends State<InputanBerita> {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          // if (imgString.isEmpty) {
-                          //   ScaffoldMessenger.of(context).showSnackBar(
-                          //     const SnackBar(
-                          //       content: Row(
-                          //         children: [
-                          //           SizedBox(width: 10),
-                          //           Text('Image is required'),
-                          //         ],
-                          //       ),
-                          //     ),
-                          //   );
-                          // } else {
                           if (_formKey.currentState!.validate()) {
                             if (widget.id == null) {
                               await addNews(kategoriController.text);
