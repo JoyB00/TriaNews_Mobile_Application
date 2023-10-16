@@ -1,5 +1,9 @@
 import 'package:sqflite/sqflite.dart' as sql;
+import 'package:path/path.dart';
 import 'dart:async';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:news_pbp/entity/news.dart';
 
 class SQLNews {
   //create

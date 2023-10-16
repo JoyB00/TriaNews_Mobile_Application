@@ -16,7 +16,6 @@ class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
   bool visible = true;
   String temp = "";
-  int id = -1;
   void pushRegister(BuildContext context) {
     Navigator.push(
       context,
@@ -24,6 +23,14 @@ class _LoginViewState extends State<LoginView> {
         builder: (_) => const Register(),
       ),
     );
+  }
+
+  Future<void> loadUserData(int id) async {
+    final prefs = await SharedPreferences.getInstance();
+    List<Map<String, dynamic>> user = await SQLHelper.getUser(id);
+    setState(() {
+      prefs.setInt('userId', user[0]['id']);
+    });
   }
 
   TextEditingController userController = TextEditingController();
@@ -119,16 +126,16 @@ class _LoginViewState extends State<LoginView> {
                                   ],
                                 ));
                       } else {
-                        getIdUser(user, id);
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                           content: Text('Login Sukses'),
                         ));
+                        loadUserData(user[0]['id']);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (_) => HomePage(
-                              id: id,
+                
                             ),
                           ),
                         );
@@ -152,12 +159,5 @@ class _LoginViewState extends State<LoginView> {
         ),
       )),
     );
-  }
-
-  Future<void> getIdUser(var user, int id) async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      id = prefs.getInt('id') ?? user['id'];
-    });
   }
 }

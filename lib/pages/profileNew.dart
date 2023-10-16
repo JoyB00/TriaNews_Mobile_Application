@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/pages/updateProfile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:news_pbp/entity/user.dart';
 
 class ProfilePage extends StatefulWidget {
-  final int id;
-  const ProfilePage({super.key, required this.id});
+  const ProfilePage({super.key});
 
   @override
   ProfilePageState createState() => ProfilePageState();
 }
 
 class ProfilePageState extends State<ProfilePage> {
-  int userId = 0;
   String userEmail = '';
   String userNama = '';
   String userNoTelp = '';
@@ -21,11 +22,26 @@ class ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
+    loadUserData();
+  }
+
+  Future<void> loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<Map<String, dynamic>> user =
+        await SQLHelper.getUser(prefs.getInt('userId') ?? 0);
+
+    setState(() {
+      userEmail = user[0]['email'];
+      userNama = user[0]['username'];
+      userNoTelp = user[0]['notelp'];
+      userPass = user[0]['password'];
+      userTglLahir = user[0]['dateofbirth'];
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    Future<List<Map<String, dynamic>>> user = SQLHelper.getUserbyID(widget.id);
+    loadUserData();
 
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +68,8 @@ class ProfilePageState extends State<ProfilePage> {
                         color: Colors.blue),
                   ),
                   Text(
-                    user[username];
+                    //show username from prof
+                    userNama,
                     style: const TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -64,7 +81,7 @@ class ProfilePageState extends State<ProfilePage> {
                     decoration: InputDecoration(
                         border: const UnderlineInputBorder(),
                         labelText: "Email : $userEmail",
-                        labelStyle: const TextStyle(
+                        labelStyle: TextStyle(
                             color: Colors.grey, fontWeight: FontWeight.bold)),
                   ),
                   const Padding(padding: EdgeInsets.all(10.0)),
@@ -73,7 +90,7 @@ class ProfilePageState extends State<ProfilePage> {
                     decoration: InputDecoration(
                         border: const UnderlineInputBorder(),
                         labelText: "No Telepon : $userNoTelp",
-                        labelStyle: const TextStyle(
+                        labelStyle: TextStyle(
                             color: Colors.grey, fontWeight: FontWeight.bold)),
                   ),
                   const Padding(padding: EdgeInsets.all(10.0)),
@@ -82,20 +99,23 @@ class ProfilePageState extends State<ProfilePage> {
                     decoration: InputDecoration(
                         border: const UnderlineInputBorder(),
                         labelText: 'Tanggal Lahir : $userTglLahir',
-                        labelStyle: const TextStyle(
+                        labelStyle: TextStyle(
                             color: Colors.grey, fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),
             ),
+
+            // Text('Nama: $userNama'),
+            // Text('Email: $userEmail'),
+            // Text('No Telepon: $userNoTelp'),
+            // Text('Tanggal Lahir: $userTglLahir'),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => UpdateProfilePage(
-                              user: widget.user,
-                            )));
+                        builder: (context) => UpdateProfilePage()));
               },
               child: const Text('Perbarui Profil'),
             ),

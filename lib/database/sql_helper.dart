@@ -38,14 +38,9 @@ class SQLHelper {
   }
 
   //read
-  static Future<List<Map<String, dynamic>>> getUser() async {
+  static Future<List<Map<String, dynamic>>> getUser(int userId) async {
     final db = await SQLHelper.db();
-    return db.query('user');
-  }
-
-  static Future<List<Map<String, dynamic>>> getUserbyID(int id) async {
-    final db = await SQLHelper.db();
-    return db.query('user', where: 'id = ', whereArgs: [id]);
+    return db.query('user', where: 'id = ?', whereArgs: [userId]);
   }
 
   //update

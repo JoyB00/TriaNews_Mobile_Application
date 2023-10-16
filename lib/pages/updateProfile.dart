@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:news_pbp/database/sql_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:news_pbp/entity/user.dart';
 
 class UpdateProfilePage extends StatefulWidget {
-  final int id;
-  const UpdateProfilePage({super.key, required this.id});
+  const UpdateProfilePage({super.key});
 
   @override
   UpdateProfilePageState createState() => UpdateProfilePageState();
@@ -19,14 +20,21 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
 
   bool showPassword = false;
 
+  Future<void> loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<Map<String, dynamic>> user =
+        await SQLHelper.getUser(prefs.getInt('userId') ?? 0);
+
+    usernameController.text = user[0]['username'];
+    emailController.text = user[0]['email'];
+    passwordController.text = user[0]['password'];
+    notelpController.text = user[0]['notelp'];
+  }
+
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> user = widget.user;
-    usernameController.text = user['username'];
-    emailController.text = user['email'];
-    passwordController.text = user['password'];
-    notelpController.text = user['notelp'];
-
+    
+    loadUserData();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Perbarui Profil'),
@@ -135,23 +143,18 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
                       }),
                   const Padding(padding: EdgeInsets.all(30.0)),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        try {
-                          editUser(user['id']);
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text('Update Profile Sukses'),
-                          ));
-                          Navigator.pop(context);
-                        } catch (e) {
-                          Navigator.of(context).pop();
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content:
-                                Text('Email yang digunakan sudah terdaftar'),
-                          ));
-                        }
+                        final prefs = await SharedPreferences.getInstance();
+                        int id = prefs.getInt('userId') ?? 0;
+                        await editUser(id);
+                        SharedPreferences.getInstance().then((prefs) {
+                          // prefs.setString('userNama', usernameController.text);
+                          // prefs.setString('userNoTelp', notelpController.text);
+                          // prefs.setString('userPass', passwordController.text);
+                          // prefs.setString('userEmail', emailController.text);
+                        });
+                        Navigator.pop(context);
                       }
                     },
                     child: const Text('Simpan Perubahan'),
