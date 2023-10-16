@@ -4,6 +4,7 @@ import 'package:news_pbp/View/register.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:news_pbp/main.dart';
 import 'package:news_pbp/database/sql_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -15,6 +16,7 @@ class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
   bool visible = true;
   String temp = "";
+  int id = -1;
   void pushRegister(BuildContext context) {
     Navigator.push(
       context,
@@ -117,6 +119,7 @@ class _LoginViewState extends State<LoginView> {
                                   ],
                                 ));
                       } else {
+                        getIdUser(user, id);
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                           content: Text('Login Sukses'),
@@ -125,7 +128,7 @@ class _LoginViewState extends State<LoginView> {
                           context,
                           MaterialPageRoute(
                             builder: (_) => HomePage(
-                              user: user[0],
+                              id: id,
                             ),
                           ),
                         );
@@ -149,5 +152,12 @@ class _LoginViewState extends State<LoginView> {
         ),
       )),
     );
+  }
+
+  Future<void> getIdUser(var user, int id) async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      id = prefs.getInt('id') ?? user['id'];
+    });
   }
 }

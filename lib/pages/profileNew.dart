@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/pages/updateProfile.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
-  final Map<String, dynamic> user;
-  const ProfilePage({super.key, required this.user});
+  final int id;
+  const ProfilePage({super.key, required this.id});
 
   @override
   ProfilePageState createState() => ProfilePageState();
@@ -23,26 +21,12 @@ class ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    loadUserData();
-  }
-
-  Future<void> loadUserData() async {
-    Map<String, dynamic> user = widget.user;
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      userId = prefs.getInt('userId') ?? user['id'];
-      userEmail = prefs.getString('userEmail') ?? user['email'];
-      userNama = prefs.getString('userNama') ?? user['username'];
-      userNoTelp = prefs.getString('userNoTelp') ?? user['notelp'];
-      userPass = prefs.getString('userPass') ?? user['password'];
-      userTglLahir = prefs.getString('userTglLahir') ?? user['dateofbirth'];
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    loadUserData();
-    // Map<String, dynamic> user = widget.user;
+    Future<List<Map<String, dynamic>>> user = SQLHelper.getUserbyID(widget.id);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profil'),
@@ -68,7 +52,7 @@ class ProfilePageState extends State<ProfilePage> {
                         color: Colors.blue),
                   ),
                   Text(
-                    userNama,
+                    user[username];
                     style: const TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -80,7 +64,7 @@ class ProfilePageState extends State<ProfilePage> {
                     decoration: InputDecoration(
                         border: const UnderlineInputBorder(),
                         labelText: "Email : $userEmail",
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                             color: Colors.grey, fontWeight: FontWeight.bold)),
                   ),
                   const Padding(padding: EdgeInsets.all(10.0)),
@@ -89,7 +73,7 @@ class ProfilePageState extends State<ProfilePage> {
                     decoration: InputDecoration(
                         border: const UnderlineInputBorder(),
                         labelText: "No Telepon : $userNoTelp",
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                             color: Colors.grey, fontWeight: FontWeight.bold)),
                   ),
                   const Padding(padding: EdgeInsets.all(10.0)),
@@ -98,17 +82,12 @@ class ProfilePageState extends State<ProfilePage> {
                     decoration: InputDecoration(
                         border: const UnderlineInputBorder(),
                         labelText: 'Tanggal Lahir : $userTglLahir',
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                             color: Colors.grey, fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),
             ),
-
-            // Text('Nama: $userNama'),
-            // Text('Email: $userEmail'),
-            // Text('No Telepon: $userNoTelp'),
-            // Text('Tanggal Lahir: $userTglLahir'),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(

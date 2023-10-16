@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:news_pbp/database/sql_helper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UpdateProfilePage extends StatefulWidget {
-  final Map<String, dynamic> user;
-  const UpdateProfilePage({super.key, required this.user});
+  final int id;
+  const UpdateProfilePage({super.key, required this.id});
 
   @override
   UpdateProfilePageState createState() => UpdateProfilePageState();
@@ -136,16 +135,23 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
                       }),
                   const Padding(padding: EdgeInsets.all(30.0)),
                   ElevatedButton(
-                    onPressed: () async {
+                    onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        await editUser(user['id']);
-                        SharedPreferences.getInstance().then((prefs) {
-                          prefs.setString('userNama', usernameController.text);
-                          prefs.setString('userNoTelp', notelpController.text);
-                          prefs.setString('userPass', passwordController.text);
-                          prefs.setString('userEmail', emailController.text);
-                        });
-                        Navigator.pop(context);
+                        try {
+                          editUser(user['id']);
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text('Update Profile Sukses'),
+                          ));
+                          Navigator.pop(context);
+                        } catch (e) {
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content:
+                                Text('Email yang digunakan sudah terdaftar'),
+                          ));
+                        }
                       }
                     },
                     child: const Text('Simpan Perubahan'),

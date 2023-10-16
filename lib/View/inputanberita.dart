@@ -1,9 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
-//import 'package:news_pbp/entity/news.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:news_pbp/database/sql_news.dart';
 
 class InputanBerita extends StatefulWidget {
@@ -26,23 +22,6 @@ class InputanBerita extends StatefulWidget {
   State<InputanBerita> createState() => _InputanBerita();
 }
 
-class Utility {
-  static Image imageFromBase64String(String base64String) {
-    return Image.memory(
-      base64Decode(base64String),
-      fit: BoxFit.fill,
-    );
-  }
-
-  static Uint8List dataFromBase64String(String base64String) {
-    return base64Decode(base64String);
-  }
-
-  static String base64String(Uint8List data) {
-    return base64Encode(data);
-  }
-}
-
 class _InputanBerita extends State<InputanBerita> {
   Future<File> imageFile = Future<File>.value(File(""));
   var image = Image.asset("");
@@ -53,27 +32,6 @@ class _InputanBerita extends State<InputanBerita> {
   TextEditingController dateController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController kategoriController = TextEditingController();
-  String imgString = "";
-
-  //final ImagePicker picker = ImagePicker();
-  //XFile? image;
-  //we can upload image from camera or from gallery based on parameter
-  // Future <void> getImage(ImageSource media) async {
-  //   var img = await picker.pickImage(source: media);
-  //   if(img != null && img is XFile){
-  //     setState(() {
-  //       image = img;
-  //     });
-  //   }
-
-  // }
-
-  // pickImageFromGallery() {
-  //   ImagePicker().pickImage(source: ImageSource.gallery).then((imgFile) async {
-  //       String imgString = Utility.base64String(await imgFile!.readAsBytes());
-  //       //print(imgString);
-  //       News photo1 = News(image: imgString);
-  //   });
 
   @override
   Widget build(BuildContext context) {
@@ -99,21 +57,9 @@ class _InputanBerita extends State<InputanBerita> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // ElevatedButton(
-                      //   onPressed: () {
-                      //     ImagePicker()
-                      //         .pickImage(source: ImageSource.gallery)
-                      //         .then((imgFile) async {
-                      //       imgString = Utility.base64String(
-                      //           await imgFile!.readAsBytes());
-                      //     });
-                      //   },
-                      //   child: const Text('Upload Photo'),
-                      // ),
                       const SizedBox(
                         height: 10,
                       ),
-                      //Input judul, author, date, desciption
                       const Padding(padding: EdgeInsets.all(5.0)),
                       TextFormField(
                           controller: judulController,
@@ -154,7 +100,7 @@ class _InputanBerita extends State<InputanBerita> {
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Judul Berita Tidak Boleh Kosong';
+                              return 'Kategori Tidak Boleh Kosong';
                             } else if (value.compareTo('sport') != 0 &&
                                 value.compareTo('politik') != 0 &&
                                 value.compareTo('digital') != 0) {
@@ -203,18 +149,6 @@ class _InputanBerita extends State<InputanBerita> {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          // if (imgString.isEmpty) {
-                          //   ScaffoldMessenger.of(context).showSnackBar(
-                          //     const SnackBar(
-                          //       content: Row(
-                          //         children: [
-                          //           SizedBox(width: 10),
-                          //           Text('Image is required'),
-                          //         ],
-                          //       ),
-                          //     ),
-                          //   );
-                          // } else {
                           if (_formKey.currentState!.validate()) {
                             if (widget.id == null) {
                               await addNews(kategoriController.text);

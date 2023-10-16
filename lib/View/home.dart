@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:news_pbp/View/inputanberita.dart';
-import 'package:news_pbp/entity/user.dart';
-import 'package:news_pbp/pages/grid.dart';
 import 'package:news_pbp/View/profile.dart';
+import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/pages/newsPage.dart';
 import 'package:news_pbp/pages/profileNew.dart';
 
 class HomePage extends StatefulWidget {
-  final Map<String, dynamic> user;
-  const HomePage({super.key, required this.user});
+  final int id;
+  const HomePage({super.key, required this.id});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -23,6 +21,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  @override
   void initState() {
     super.initState();
     _widgetOptions = [
@@ -35,8 +34,7 @@ class _HomePageState extends State<HomePage> {
       ),
       // index 2
       const ProfileView(),
-      ProfilePage(user: widget.user),
-      // const InputanBerita(),
+      ProfilePage(id: widget.id),
     ];
   }
 

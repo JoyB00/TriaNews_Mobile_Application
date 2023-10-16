@@ -43,6 +43,11 @@ class SQLHelper {
     return db.query('user');
   }
 
+  static Future<List<Map<String, dynamic>>> getUserbyID(int id) async {
+    final db = await SQLHelper.db();
+    return db.query('user', where: 'id = ', whereArgs: [id]);
+  }
+
   //update
   static Future<int> editUser(int id, String email, String notelp,
       String username, String password) async {
