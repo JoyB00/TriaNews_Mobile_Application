@@ -238,9 +238,9 @@ class _RegisterState extends State<Register> {
             ),
             TextButton(
               child: const Text('Daftar'),
-              onPressed: () {
+              onPressed: () async {
                 try {
-                  addUser();
+                  await addUser();
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Register Sukses'),
                   ));
