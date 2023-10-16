@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:news_pbp/View/inputanberita.dart';
-// import 'package:news_pbp/entity/user.dart';
-// import 'package:news_pbp/pages/grid.dart';
 import 'package:news_pbp/View/profile.dart';
 import 'package:news_pbp/pages/newsPage.dart';
 import 'package:news_pbp/pages/profileNew.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:news_pbp/database/sql_helper.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,11 +19,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  // Future<void> loadUserData() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   List<Map<String, dynamic>> user = await SQLHelper.getUser(prefs.getInt('userId') ?? 0);
-  // }
-
+  @override
   void initState() {
     super.initState();
     _widgetOptions = [
@@ -41,8 +32,7 @@ class _HomePageState extends State<HomePage> {
       ),
       // index 2
       const ProfileView(),
-      ProfilePage(),
-      // const InputanBerita(),
+      const ProfilePage(),
     ];
   }
 

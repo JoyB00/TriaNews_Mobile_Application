@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:news_pbp/database/sql_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:news_pbp/entity/user.dart';
 
 class UpdateProfilePage extends StatefulWidget {
   const UpdateProfilePage({super.key});
@@ -33,7 +32,6 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    
     loadUserData();
     return Scaffold(
       appBar: AppBar(
@@ -67,9 +65,9 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
                   TextFormField(
                       controller: usernameController,
                       decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.person),
-                          labelText: 'Username',
-                          hintText: 'asdasd'),
+                        prefixIcon: Icon(Icons.person),
+                        labelText: 'Username',
+                      ),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Username tidak boleh kosong';
@@ -88,7 +86,7 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Email Tidak Boleh Kosong';
-                        } else if (value.length < 6) {
+                        } else if (!value.contains('@')) {
                           return 'Email harus Memakai @';
                         }
                         return null;
@@ -145,16 +143,19 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
                   ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        final prefs = await SharedPreferences.getInstance();
-                        int id = prefs.getInt('userId') ?? 0;
-                        await editUser(id);
-                        SharedPreferences.getInstance().then((prefs) {
-                          // prefs.setString('userNama', usernameController.text);
-                          // prefs.setString('userNoTelp', notelpController.text);
-                          // prefs.setString('userPass', passwordController.text);
-                          // prefs.setString('userEmail', emailController.text);
-                        });
-                        Navigator.pop(context);
+                        try {
+                          final prefs = await SharedPreferences.getInstance();
+                          int id = prefs.getInt('userId') ?? 0;
+                          await editUser(id);
+                          // ignore: use_build_context_synchronously
+                          Navigator.pop(context);
+                        } catch (e) {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content:
+                                Text('Email yang digunakan sudah terdaftar'),
+                          ));
+                        }
                       }
                     },
                     child: const Text('Simpan Perubahan'),

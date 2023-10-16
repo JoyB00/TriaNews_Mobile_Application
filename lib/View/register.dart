@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/View/login.dart';
-// import 'package:ugd_1/View/login.dart';
 
 class Register extends StatefulWidget {
-  const Register({Key? key});
- 
+  const Register({super.key});
+
   @override
   State<Register> createState() => _RegisterState();
 }
@@ -76,7 +75,7 @@ class _RegisterState extends State<Register> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Email Tidak Boleh Kosong';
-                        } else if (value.length < 6) {
+                        } else if (!value.contains('@')) {
                           return 'Email harus Memakai @';
                         }
                         return null;
@@ -239,9 +238,9 @@ class _RegisterState extends State<Register> {
             ),
             TextButton(
               child: const Text('Daftar'),
-              onPressed: () async {
+              onPressed: () {
                 try {
-                  await addUser();
+                  addUser();
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Register Sukses'),
                   ));

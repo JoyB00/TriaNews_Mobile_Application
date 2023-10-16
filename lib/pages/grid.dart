@@ -64,39 +64,36 @@ class _GridState extends State<Grid> {
               }),
             ),
           ),
-          Container(
-            child: SingleChildScrollView(
-              child: SizedBox(
-                height: size.height,
-                child: Wrap(
-                  children: List.generate(
-                    _cells,
-                    (col) => Padding(
-                      padding: EdgeInsets.all(_padding),
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _clicked != col + 1
-                                ? _clicked = col + 1
-                                : _clicked = 0;
-                          });
-                        },
-                        child: Container(
-                          height: _clicked == col + 1
-                              ? _containerSizeLarge
-                              : _containerSizeSmall,
-                          width: _clicked == col + 1
-                              ? _containerSizeLarge
-                              : _containerSizeSmall,
-                          decoration: const BoxDecoration(
-                            color: Colors.blueGrey,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
+          SingleChildScrollView(
+            child: SizedBox(
+              height: size.height,
+              child: Wrap(
+                children: List.generate(
+                  _cells,
+                  (col) => Padding(
+                    padding: EdgeInsets.all(_padding),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _clicked != col + 1
+                              ? _clicked = col + 1
+                              : _clicked = 0;
+                        });
+                      },
+                      child: Container(
+                        height: _clicked == col + 1
+                            ? _containerSizeLarge
+                            : _containerSizeSmall,
+                        width: _clicked == col + 1
+                            ? _containerSizeLarge
+                            : _containerSizeSmall,
+                        decoration: const BoxDecoration(
+                          color: Colors.blueGrey,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(5),
                           ),
-                          child:
-                              Center(child: Image.network(choices[col].link)),
                         ),
+                        child: Center(child: Image.network(choices[col].link)),
                       ),
                     ),
                   ),

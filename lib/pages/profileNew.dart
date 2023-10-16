@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/pages/updateProfile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:news_pbp/entity/user.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -81,7 +79,7 @@ class ProfilePageState extends State<ProfilePage> {
                     decoration: InputDecoration(
                         border: const UnderlineInputBorder(),
                         labelText: "Email : $userEmail",
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                             color: Colors.grey, fontWeight: FontWeight.bold)),
                   ),
                   const Padding(padding: EdgeInsets.all(10.0)),
@@ -90,7 +88,7 @@ class ProfilePageState extends State<ProfilePage> {
                     decoration: InputDecoration(
                         border: const UnderlineInputBorder(),
                         labelText: "No Telepon : $userNoTelp",
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                             color: Colors.grey, fontWeight: FontWeight.bold)),
                   ),
                   const Padding(padding: EdgeInsets.all(10.0)),
@@ -99,23 +97,18 @@ class ProfilePageState extends State<ProfilePage> {
                     decoration: InputDecoration(
                         border: const UnderlineInputBorder(),
                         labelText: 'Tanggal Lahir : $userTglLahir',
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                             color: Colors.grey, fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),
             ),
-
-            // Text('Nama: $userNama'),
-            // Text('Email: $userEmail'),
-            // Text('No Telepon: $userNoTelp'),
-            // Text('Tanggal Lahir: $userTglLahir'),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => UpdateProfilePage()));
+                        builder: (context) => const UpdateProfilePage()));
               },
               child: const Text('Perbarui Profil'),
             ),

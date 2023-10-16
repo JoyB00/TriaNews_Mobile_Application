@@ -13,8 +13,8 @@ class NewsPage extends StatefulWidget {
 class _NewsPageState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const Scaffold(
+    return const MaterialApp(
+      home: Scaffold(
         body: ElevatedCardExample(),
       ),
     );
@@ -47,10 +47,10 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("TAMBAH BERITA"),
+          title: const Text("TAMBAH BERITA"),
           actions: [
             IconButton(
-                icon: Icon(Icons.add),
+                icon: const Icon(Icons.add),
                 onPressed: () async {
                   Navigator.push(
                     context,
@@ -66,7 +66,7 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                             )),
                   ).then((_) => refresh());
                 }),
-            IconButton(icon: Icon(Icons.clear), onPressed: () async {})
+            IconButton(icon: const Icon(Icons.clear), onPressed: () async {})
           ],
         ),
         body: ListView.builder(
@@ -134,19 +134,19 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 10.0, vertical: 10.0)),
                               Text(
-                                "Judul Berita : " + newsList[index]['judul'],
-                                style: TextStyle(
+                                "Judul Berita : ${newsList[index]['judul']}",
+                                style: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
-                              Text("Author : " + newsList[index]['author']),
+                              Text("Author : ${newsList[index]['author']}"),
                               Text(
-                                "Deskripsi : " + newsList[index]['deskripsi'],
-                                style: TextStyle(fontSize: 12),
+                                "Deskripsi : ${newsList[index]['deskripsi']}",
+                                style: const TextStyle(fontSize: 12),
                               ),
                               Text(
-                                "Tanggal Publish : " + newsList[index]['date'],
-                                style:
-                                    TextStyle(fontSize: 10, color: Colors.grey),
+                                "Tanggal Publish : ${newsList[index]['date']}",
+                                style: const TextStyle(
+                                    fontSize: 10, color: Colors.grey),
                               )
                             ],
                           ),

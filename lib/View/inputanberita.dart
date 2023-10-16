@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-//import 'package:news_pbp/entity/news.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:news_pbp/database/sql_news.dart';
 
 class InputanBerita extends StatefulWidget {

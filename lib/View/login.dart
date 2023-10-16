@@ -103,6 +103,7 @@ class _LoginViewState extends State<LoginView> {
                       var user = await SQLHelper.loginUser(
                           userController.text, passController.text);
                       if (user.isEmpty) {
+                        // ignore: use_build_context_synchronously
                         showDialog(
                             context: context,
                             builder: (_) => AlertDialog(
@@ -126,17 +127,17 @@ class _LoginViewState extends State<LoginView> {
                                   ],
                                 ));
                       } else {
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                           content: Text('Login Sukses'),
                         ));
                         loadUserData(user[0]['id']);
+                        // ignore: use_build_context_synchronously
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => HomePage(
-                
-                            ),
+                            builder: (_) => const HomePage(),
                           ),
                         );
                       }
