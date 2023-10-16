@@ -12,9 +12,10 @@
 
 Membuat aplikasi berbentuk berita yang dapat dibaca oleh seluruh masyarakat.
 
-# UGD 2
+# UGD DATA
 
-- Login / Register : Toggle Password Show/Hide
-- Register : Check button, radio button, date, alert
-- HomeView : Grid View expanded, profile
-- Login: Change Theme button (Dark/Light applied to all view)
+- Register Page & Inputan Register : Joel dan Dendy
+- Login Page, SQLHELPER (user) & SQL NEWS : Jeanny
+- Profile View & Update Profile : Dendy, Jeanny, Josh
+- Shared Preference : Jeanny
+- Home View & CRUD : Dendy, Joel, William
