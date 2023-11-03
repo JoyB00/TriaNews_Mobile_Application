@@ -1,10 +1,19 @@
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:news_pbp/View/camera/camera.dart';
 import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/pages/updateProfile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final String? imagePath;
+  final CameraController? cameraController;
+
+  const ProfilePage({Key? key, this.imagePath, this.cameraController})
+      : super(key: key);
 
   @override
   ProfilePageState createState() => ProfilePageState();
@@ -17,10 +26,12 @@ class ProfilePageState extends State<ProfilePage> {
   String userPass = '';
   String userTglLahir = '';
 
+  File? fileResult;
   @override
   void initState() {
     super.initState();
     loadUserData();
+    fileResult = File(widget.imagePath.toString());
   }
 
   Future<void> loadUserData() async {
@@ -49,15 +60,31 @@ class ProfilePageState extends State<ProfilePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            const CircleAvatar(
-              radius: 100,
-              backgroundImage: AssetImage('images/luffy.jpg'),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 3.0)),
+            CircleAvatar(
+              radius: 80,
+              backgroundImage: FileImage(fileResult!),
             ),
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 50.0, vertical: 0.0),
               child: Column(
                 children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CameraView()));
+                    },
+                    child: const Text('Ganti Profile'),
+                  ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     _getFromGallery(fileResult!);
+                  //   },
+                  //   child: Text("PICK FROM GALLERY"),
+                  // ),
                   const Text(
                     "Selamat Datang",
                     style: TextStyle(
@@ -116,5 +143,16 @@ class ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+}
+
+_getFromGallery(File imageFile) async {
+  PickedFile? pickedFile = await ImagePicker().getImage(
+    source: ImageSource.gallery,
+    maxWidth: 1800,
+    maxHeight: 1800,
+  );
+  if (pickedFile != null) {
+    imageFile = File(pickedFile.path);
   }
 }

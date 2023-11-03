@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:news_pbp/View/inputanberita.dart';
 import 'package:news_pbp/database/sql_news.dart';
+import 'package:news_pbp/pages/detailNews.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NewsPage extends StatefulWidget {
   const NewsPage({super.key});
@@ -34,6 +36,14 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
     final data = await SQLNews.getNews();
     setState(() {
       newsList = data;
+    });
+  }
+
+  Future<void> loadNewsData(int id) async {
+    final prefs = await SharedPreferences.getInstance();
+    List<Map<String, dynamic>> news = await SQLNews.getSpesificNews(id);
+    setState(() {
+      prefs.setInt('newsId', news[0]['id']);
     });
   }
 
@@ -108,7 +118,7 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                   title: Container(
                       margin: const EdgeInsets.only(
                           bottom: 8, top: 15, left: 5, right: 5),
-                      width: double.infinity,
+                      width: 500,
                       height: 200,
                       decoration: BoxDecoration(
                           boxShadow: [
@@ -133,21 +143,46 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                               const Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 10.0, vertical: 10.0)),
-                              Text(
-                                "Judul Berita : ${newsList[index]['judul']}",
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              SizedBox(
+                                width: 200,
+                                child: Text(
+                                  newsList[index]['judul'],
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  softWrap: true,
+                                ),
                               ),
                               Text("Author : ${newsList[index]['author']}"),
-                              Text(
-                                "Deskripsi : ${newsList[index]['deskripsi']}",
-                                style: const TextStyle(fontSize: 12),
+                              SizedBox(
+                                width: 200,
+                                child: Text(
+                                  "Deskripsi : ${newsList[index]['deskripsi']}",
+                                  style: const TextStyle(fontSize: 12),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  softWrap: true,
+                                ),
                               ),
                               Text(
                                 "Tanggal Publish : ${newsList[index]['date']}",
                                 style: const TextStyle(
                                     fontSize: 10, color: Colors.grey),
-                              )
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  loadNewsData(newsList[index]['id']);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const DetailNews()));
+                                },
+                                child: const Text('Lihat Detail'),
+                              ),
                             ],
                           ),
                         ],

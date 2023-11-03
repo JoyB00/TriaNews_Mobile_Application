@@ -1,7 +1,6 @@
 import 'package:sqflite/sqflite.dart' as sql;
 import 'dart:async';
 
-
 class SQLNews {
   //create
   static Future<void> createTables(sql.Database database) async {
@@ -45,6 +44,12 @@ class SQLNews {
   static Future<List<Map<String, dynamic>>> getNews() async {
     final db = await SQLNews.db();
     return db.query('news');
+  }
+
+  //read
+  static Future<List<Map<String, dynamic>>> getSpesificNews(int newsId) async {
+    final db = await SQLNews.db();
+    return db.query('news', where: 'id = ?', whereArgs: [newsId]);
   }
 
   //update

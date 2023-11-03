@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:news_pbp/database/sql_news.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class InputanBerita extends StatefulWidget {
   // const InputanBerita({Key? key}) : super(key: key);
@@ -52,6 +53,37 @@ class _InputanBerita extends State<InputanBerita> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController kategoriController = TextEditingController();
   String imgString = "";
+
+  final SpeechToText _speechToText = SpeechToText();
+
+  bool _speechEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    initSpeech();
+  }
+
+  void initSpeech() async {
+    _speechEnabled = await _speechToText.initialize();
+    setState(() {});
+  }
+
+  void _startListening() async {
+    await _speechToText.listen(onResult: _onSpeechResult);
+    setState(() {});
+  }
+
+  void _stopListening() async {
+    await _speechToText.stop();
+    setState(() {});
+  }
+
+  void _onSpeechResult(result) {
+    setState(() {
+      descriptionController.text = "${result.recognizedWords}";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -165,6 +197,29 @@ class _InputanBerita extends State<InputanBerita> {
                             }
                             return null;
                           }),
+                      const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.0)),
+                      Text(
+                        _speechToText.isListening
+                            ? "Mendengarkan"
+                            : _speechEnabled
+                                ? "Tekan Microphone untuk mengisi deskripsi"
+                                : "Speech not available",
+                      ),
+                      FloatingActionButton(
+                        onPressed: _speechToText.isListening
+                            ? _stopListening
+                            : _startListening,
+                        tooltip: 'Listen',
+                        backgroundColor: Colors.blue,
+                        child: Icon(
+                          _speechToText.isNotListening
+                              ? Icons.mic_off
+                              : Icons.mic,
+                          color: Colors.white,
+                        ),
+                      ),
+
                       const SizedBox(
                         height: 10,
                       ),
