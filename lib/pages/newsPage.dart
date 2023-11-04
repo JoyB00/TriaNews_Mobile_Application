@@ -3,6 +3,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:news_pbp/View/inputanberita.dart';
 import 'package:news_pbp/database/sql_news.dart';
 import 'package:news_pbp/pages/detailNews.dart';
+import 'package:news_pbp/qr_scan/generateQrPage.dart';
+import 'package:news_pbp/qr_scan/scan_qr_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NewsPage extends StatefulWidget {
@@ -79,117 +81,143 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
             IconButton(icon: const Icon(Icons.clear), onPressed: () async {})
           ],
         ),
-        body: ListView.builder(
-            itemCount: newsList.length,
-            itemBuilder: (context, index) {
-              return Slidable(
-                actionPane: const SlidableDrawerActionPane(),
-                secondaryActions: [
-                  IconSlideAction(
-                    caption: 'Update',
-                    color: Colors.blue,
-                    icon: Icons.update,
-                    onTap: () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => InputanBerita(
-                                  image: newsList[index]['image'],
-                                  id: newsList[index]['id'],
-                                  judul: newsList[index]['judul'],
-                                  author: newsList[index]['author'],
-                                  deskripsi: newsList[index]['deskripsi'],
-                                  kategori: newsList[index]['kategori'],
-                                  date: newsList[index]['date'],
-                                )),
-                      ).then((_) => refresh());
-                    },
-                  ),
-                  IconSlideAction(
-                    caption: 'Delete',
-                    color: Colors.red,
-                    icon: Icons.delete,
-                    onTap: () async {
-                      await deleteNews(newsList[index]['id']);
-                    },
-                  )
-                ],
-                child: ListTile(
-                  title: Container(
-                      margin: const EdgeInsets.only(
-                          bottom: 8, top: 15, left: 5, right: 5),
-                      width: 500,
-                      height: 200,
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 15,
-                                offset: const Offset(2, 10))
-                          ],
-                          borderRadius: BorderRadius.circular(20.0),
-                          color: Colors.white),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          CircleAvatar(
-                            radius: 50,
-                            backgroundImage:
-                                AssetImage(newsList[index]['image']),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 10.0, vertical: 10.0)),
-                              SizedBox(
-                                width: 200,
-                                child: Text(
-                                  newsList[index]['judul'],
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  softWrap: true,
+        body: Column(children: [
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const BarcodeScannerPageView()));
+            },
+            child: const Text('Cari Berita Melalui Qr Code'),
+          ),
+          Expanded(
+              child: ListView.builder(
+                  itemCount: newsList.length,
+                  itemBuilder: (context, index) {
+                    return Slidable(
+                      actionPane: const SlidableDrawerActionPane(),
+                      secondaryActions: [
+                        IconSlideAction(
+                          caption: 'Update',
+                          color: Colors.blue,
+                          icon: Icons.update,
+                          onTap: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => InputanBerita(
+                                        image: newsList[index]['image'],
+                                        id: newsList[index]['id'],
+                                        judul: newsList[index]['judul'],
+                                        author: newsList[index]['author'],
+                                        deskripsi: newsList[index]['deskripsi'],
+                                        kategori: newsList[index]['kategori'],
+                                        date: newsList[index]['date'],
+                                      )),
+                            ).then((_) => refresh());
+                          },
+                        ),
+                        IconSlideAction(
+                          caption: 'Delete',
+                          color: Colors.red,
+                          icon: Icons.delete,
+                          onTap: () async {
+                            await deleteNews(newsList[index]['id']);
+                          },
+                        )
+                      ],
+                      child: ListTile(
+                        title: Container(
+                            margin: const EdgeInsets.only(
+                                bottom: 8, top: 15, left: 5, right: 5),
+                            width: 500,
+                            height: 230,
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 15,
+                                      offset: const Offset(2, 10))
+                                ],
+                                borderRadius: BorderRadius.circular(20.0),
+                                color: Colors.white),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage:
+                                      AssetImage(newsList[index]['image']),
                                 ),
-                              ),
-                              Text("Author : ${newsList[index]['author']}"),
-                              SizedBox(
-                                width: 200,
-                                child: Text(
-                                  "Deskripsi : ${newsList[index]['deskripsi']}",
-                                  style: const TextStyle(fontSize: 12),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  softWrap: true,
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10.0, vertical: 10.0)),
+                                    SizedBox(
+                                      width: 200,
+                                      child: Text(
+                                        newsList[index]['judul'],
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        softWrap: true,
+                                      ),
+                                    ),
+                                    Text(
+                                        "Author : ${newsList[index]['author']}"),
+                                    SizedBox(
+                                      width: 200,
+                                      child: Text(
+                                        "Deskripsi : ${newsList[index]['deskripsi']}",
+                                        style: const TextStyle(fontSize: 12),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        softWrap: true,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Tanggal Publish : ${newsList[index]['date']}",
+                                      style: const TextStyle(
+                                          fontSize: 10, color: Colors.grey),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        loadNewsData(newsList[index]['id']);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DetailNews(
+                                                        index: newsList[index]
+                                                            ['id'])));
+                                      },
+                                      child: const Text('Lihat Detail'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        loadNewsData(newsList[index]['id']);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const GenerateQRPage()));
+                                      },
+                                      child: const Text('Lihat Qr Code'),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Text(
-                                "Tanggal Publish : ${newsList[index]['date']}",
-                                style: const TextStyle(
-                                    fontSize: 10, color: Colors.grey),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  loadNewsData(newsList[index]['id']);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const DetailNews()));
-                                },
-                                child: const Text('Lihat Detail'),
-                              ),
-                            ],
-                          ),
-                        ],
-                      )),
-                ),
-              );
-            }));
+                              ],
+                            )),
+                      ),
+                    );
+                  }))
+        ]));
   }
 
   Future<void> deleteNews(int id) async {

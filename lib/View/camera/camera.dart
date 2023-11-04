@@ -3,7 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 // import 'package:modul_cam_qr_1095/utils/logging_utils.dart';
 import 'package:news_pbp/View/camera/display_picture.dart';
-import 'package:news_pbp/View/profile.dart';
+// import 'package:news_pbp/View/profile.dart';
 import 'package:news_pbp/pages/profileNew.dart';
 
 class CameraView extends StatefulWidget {

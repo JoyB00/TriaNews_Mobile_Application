@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:news_pbp/database/sql_news.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailNews extends StatefulWidget {
-  const DetailNews({Key? key}) : super(key: key);
+  final int? index;
+  const DetailNews({Key? key, this.index}) : super(key: key);
 
   @override
   State<DetailNews> createState() => DetailNewsState();
@@ -37,17 +37,15 @@ class DetailNewsState extends State<DetailNews> {
   }
 
   Future<void> loadNewsData() async {
-    final prefs = await SharedPreferences.getInstance();
-    List<Map<String, dynamic>> news =
-        await SQLNews.getSpesificNews(prefs.getInt('newsId') ?? 0);
+    final news = await SQLNews.getNews();
 
     setState(() {
-      image = news[0]['image'];
-      judul = news[0]['judul'];
-      deskripsi = news[0]['deskripsi'];
-      author = news[0]['author'];
-      kategori = news[0]['kategori'];
-      tanggalPublish = news[0]['date'];
+      image = news[widget.index! - 1]['image'];
+      judul = news[widget.index! - 1]['judul'];
+      deskripsi = news[widget.index! - 1]['deskripsi'];
+      author = news[widget.index! - 1]['author'];
+      kategori = news[widget.index! - 1]['kategori'];
+      tanggalPublish = news[widget.index! - 1]['date'];
     });
   }
 
