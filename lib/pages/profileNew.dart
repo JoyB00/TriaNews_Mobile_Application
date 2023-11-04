@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:news_pbp/View/camera/camera.dart';
@@ -7,6 +6,7 @@ import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/pages/updateProfile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:news_pbp/View/inputanberita.dart';
 
 class ProfilePage extends StatefulWidget {
   final String? imagePath;
@@ -25,6 +25,8 @@ class ProfilePageState extends State<ProfilePage> {
   String userNoTelp = '';
   String userPass = '';
   String userTglLahir = '';
+  String? image;
+  File? userImage;
 
   File? fileResult;
   @override
@@ -45,6 +47,10 @@ class ProfilePageState extends State<ProfilePage> {
       userNoTelp = user[0]['notelp'];
       userPass = user[0]['password'];
       userTglLahir = user[0]['dateofbirth'];
+      image = user[0]['image'];
+      if(image != null){
+        userImage = File(image!);
+      }
     });
   }
 
@@ -63,7 +69,7 @@ class ProfilePageState extends State<ProfilePage> {
             const Padding(padding: EdgeInsets.symmetric(vertical: 3.0)),
             CircleAvatar(
               radius: 80,
-              backgroundImage: FileImage(fileResult!),
+              backgroundImage: (image !=null ? AssetImage(image!) : const AssetImage('images/luffy.jpg')),
             ),
             Padding(
               padding:
@@ -144,6 +150,10 @@ class ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+
+  Image viewImage(File image){
+    return Image.file(image);
+  }
 }
 
 _getFromGallery(File imageFile) async {
@@ -155,4 +165,6 @@ _getFromGallery(File imageFile) async {
   if (pickedFile != null) {
     imageFile = File(pickedFile.path);
   }
+
+  
 }

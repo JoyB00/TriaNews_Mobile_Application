@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 // import 'package:modul_cam_qr_1095/utils/logging_utils.dart';
 import 'package:news_pbp/View/camera/display_picture.dart';
-import 'package:news_pbp/View/profile.dart';
+import 'package:news_pbp/View/inputanberita.dart';
+//import 'package:news_pbp/View/profile.dart';
 import 'package:news_pbp/pages/profileNew.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:news_pbp/database/sql_helper.dart';
 
 class CameraView extends StatefulWidget {
   const CameraView({super.key});
@@ -17,6 +21,22 @@ class _CameraViewState extends State<CameraView> {
   Future<void>? _initializeCameraFuture;
   late CameraController _cameraController;
   var count = 0;
+  var id = 0;
+  String nama = 'abc';
+  
+  Future<void> loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<Map<String, dynamic>> user = await SQLHelper.getUser(prefs.getInt('userId') ?? 0);
+    setState(() {
+      id = user[0]['id'];
+      nama = user[0]['username'];
+    });
+  }
+
+  String convertImagetoString(image){
+    String imgString = Utility.base64String(image.readAsBytesSync());
+    return imgString;
+  }
 
   @override
   void initState() {
@@ -53,7 +73,7 @@ class _CameraViewState extends State<CameraView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Take a Picture"),
+        title: Text(nama),
       ),
       body: FutureBuilder<void>(
         future: _initializeCameraFuture,
@@ -76,9 +96,13 @@ class _CameraViewState extends State<CameraView> {
 
   Future<DisplayPictureScreen?> previewImageResult() async {
     try {
+      loadUserData();
       await _initializeCameraFuture;
       final image = await _cameraController.takePicture();
       if (!mounted) return null;
+      
+          String result = image.path;
+          editImage(id, result);
       Navigator.of(context).pop(
         MaterialPageRoute(builder: (context) {
           _cameraController.pausePreview();
@@ -95,4 +119,9 @@ class _CameraViewState extends State<CameraView> {
     }
     return null;
   }
+
+  Future<void> editImage(int id, String result) async {
+    await SQLHelper.addImage(result, id);
+  }
 }
+
