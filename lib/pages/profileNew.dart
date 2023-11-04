@@ -27,6 +27,7 @@ class ProfilePageState extends State<ProfilePage> {
   String userTglLahir = '';
   String? image;
   File? userImage;
+  Image convert = Image.asset('images/luffy.jpg');
 
   File? fileResult;
   @override
@@ -50,6 +51,7 @@ class ProfilePageState extends State<ProfilePage> {
       image = user[0]['image'];
       if(image != null){
         userImage = File(image!);
+        convert = Image.file(userImage!);
       }
     });
   }
@@ -67,9 +69,16 @@ class ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             const Padding(padding: EdgeInsets.symmetric(vertical: 3.0)),
-            CircleAvatar(
-              radius: 80,
-              backgroundImage: (image !=null ? AssetImage(image!) : const AssetImage('images/luffy.jpg')),
+            SizedBox(
+              width: 150,
+              height: 150,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(75),
+                child: Image(
+                  image: convert.image,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             Padding(
               padding:
