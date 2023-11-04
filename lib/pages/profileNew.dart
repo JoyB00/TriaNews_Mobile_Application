@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:news_pbp/View/camera/camera.dart';
@@ -7,6 +6,7 @@ import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/pages/updateProfile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:news_pbp/View/inputanberita.dart';
 
 class ProfilePage extends StatefulWidget {
   final String? imagePath;
@@ -25,6 +25,9 @@ class ProfilePageState extends State<ProfilePage> {
   String userNoTelp = '';
   String userPass = '';
   String userTglLahir = '';
+  String? image;
+  File? userImage;
+  Image convert = Image.asset('images/luffy.jpg');
 
   File? fileResult;
   @override
@@ -45,6 +48,11 @@ class ProfilePageState extends State<ProfilePage> {
       userNoTelp = user[0]['notelp'];
       userPass = user[0]['password'];
       userTglLahir = user[0]['dateofbirth'];
+      image = user[0]['image'];
+      if(image != null){
+        userImage = File(image!);
+        convert = Image.file(userImage!);
+      }
     });
   }
 
@@ -61,9 +69,16 @@ class ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             const Padding(padding: EdgeInsets.symmetric(vertical: 3.0)),
-            CircleAvatar(
-              radius: 80,
-              backgroundImage: FileImage(fileResult!),
+            SizedBox(
+              width: 150,
+              height: 150,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(75),
+                child: Image(
+                  image: convert.image,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             Padding(
               padding:
@@ -144,6 +159,10 @@ class ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+
+  Image viewImage(File image){
+    return Image.file(image);
+  }
 }
 
 _getFromGallery(File imageFile) async {
@@ -155,4 +174,6 @@ _getFromGallery(File imageFile) async {
   if (pickedFile != null) {
     imageFile = File(pickedFile.path);
   }
+
+  
 }
