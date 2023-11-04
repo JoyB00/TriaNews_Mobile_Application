@@ -55,6 +55,7 @@ class _InputanBerita extends State<InputanBerita> {
   String imgString = "";
 
   final SpeechToText _speechToText = SpeechToText();
+  String _wordSpoken = '';
 
   bool _speechEnabled = false;
 
@@ -81,7 +82,8 @@ class _InputanBerita extends State<InputanBerita> {
 
   void _onSpeechResult(result) {
     setState(() {
-      descriptionController.text = "${result.recognizedWords}";
+      _wordSpoken = "${result.recognizedWords}";
+      descriptionController.text = " $_wordSpoken";
     });
   }
 
@@ -92,7 +94,11 @@ class _InputanBerita extends State<InputanBerita> {
       authorController.text = widget.author!;
       dateController.text = widget.date!;
       kategoriController.text = widget.kategori!;
-      descriptionController.text = widget.deskripsi!;
+      if (_wordSpoken == '') {
+        descriptionController.text = widget.deskripsi!;
+      } else {
+        descriptionController.text = " $_wordSpoken";
+      }
     }
     return Scaffold(
         appBar: AppBar(
