@@ -3,7 +3,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:news_pbp/View/inputanberita.dart';
 import 'package:news_pbp/database/sql_news.dart';
 import 'package:news_pbp/pages/detailNews.dart';
-import 'package:news_pbp/qr_scan/generateQrPage.dart';
 import 'package:news_pbp/qr_scan/scan_qr_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -132,7 +131,7 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                             margin: const EdgeInsets.only(
                                 bottom: 8, top: 15, left: 5, right: 5),
                             width: 500,
-                            height: 230,
+                            height: 200,
                             decoration: BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
@@ -198,17 +197,6 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                                                             ['id'])));
                                       },
                                       child: const Text('Lihat Detail'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        loadNewsData(newsList[index]['id']);
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const GenerateQRPage()));
-                                      },
-                                      child: const Text('Lihat Qr Code'),
                                     ),
                                   ],
                                 ),

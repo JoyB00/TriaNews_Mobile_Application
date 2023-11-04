@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 import 'package:news_pbp/pages/detailNews.dart';
+import 'package:news_pbp/qr_scan/camera_scan_qr.dart';
 import 'package:news_pbp/qr_scan/scanner_error_widget.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -21,7 +22,7 @@ class _BarcodeScannerPageViewState extends State<BarcodeScannerPageView>
       backgroundColor: Colors.black,
       body: PageView(
         children: [
-          cameraView(),
+          QRScanView(),
           Container(),
         ],
       ),

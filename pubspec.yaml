@@ -20,6 +20,8 @@ dependencies:
   camera: ^0.10.5+2 # access to hardware
   mobile_scanner: ^3.2.0 # scan qr code
   qr_flutter: ^4.1.0
+  url_launcher: ^6.2.1
+  qr_code_scanner: ^1.0.1
 
 dev_dependencies:
   flutter_test:
