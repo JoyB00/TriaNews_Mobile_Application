@@ -22,6 +22,10 @@ class _QScanRVieState extends State<QRScanView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Scanning'),
+        backgroundColor: Colors.black,
+      ),
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
@@ -52,10 +56,14 @@ class _QScanRVieState extends State<QRScanView> {
                               }
                               setState(() {});
                             },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  const Color.fromRGBO(122, 149, 229, 1)),
+                            ),
                             child: FutureBuilder(
                               future: result != null
                                   ? Future.value('Open')
-                                  : controller?.getFlashStatus(),
+                                  : Future.value('Flash'),
                               builder: (context, snapshot) {
                                 return Text(snapshot.data.toString());
                               },
@@ -75,7 +83,7 @@ class _QScanRVieState extends State<QRScanView> {
   Future<void> launchScannedUrl(String url) async {
     if (url.isNotEmpty) {
       url.contains("http")
-          ? await launch(url)
+          ? await launchUrl(Uri.parse(url))
           : Navigator.push(
               context,
               MaterialPageRoute(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:news_pbp/View/profile.dart';
 import 'package:news_pbp/pages/newsPage.dart';
 import 'package:news_pbp/pages/profileNew.dart';
 
@@ -32,7 +31,6 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       // index 2
-      const ProfileView(),
       const ProfilePage(),
     ];
   }
@@ -45,28 +43,37 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.home,
-                color: Colors.blue,
+                color: Colors.white,
+              ),
+              activeIcon: Icon(
+                Icons.home,
+                color: Color.fromRGBO(249, 148, 23, 1),
               ),
               label: 'Home'),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.list,
-                color: Colors.blue,
+                color: Colors.white,
+              ),
+              activeIcon: Icon(
+                Icons.list,
+                color: Color.fromRGBO(249, 148, 23, 1),
               ),
               label: 'List'),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.group,
-                color: Colors.blue,
-              ),
-              label: 'Anggota'),
-          BottomNavigationBarItem(
-              icon: Icon(
                 Icons.person_2,
-                color: Colors.blue,
+                color: Colors.white,
+              ),
+              activeIcon: Icon(
+                Icons.person_2,
+                color: Color.fromRGBO(249, 148, 23, 1),
               ),
               label: 'Profile'),
         ],
+        backgroundColor: Colors.black,
+        fixedColor: const Color.fromRGBO(249, 148, 23, 100),
+        unselectedItemColor: Colors.white,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),

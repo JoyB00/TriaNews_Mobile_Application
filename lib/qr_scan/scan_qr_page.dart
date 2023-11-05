@@ -22,7 +22,7 @@ class _BarcodeScannerPageViewState extends State<BarcodeScannerPageView>
       backgroundColor: Colors.black,
       body: PageView(
         children: [
-          QRScanView(),
+          const QRScanView(),
           Container(),
         ],
       ),

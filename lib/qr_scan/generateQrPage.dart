@@ -46,8 +46,15 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
     loadNewsData();
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: const Text("QR Generate"),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 50),
+          child: Image.asset(
+            'images/Tria News.png',
+            width: 150,
+            height: 150,
+          ),
+        ),
+        backgroundColor: Colors.black,
       ),
       body: Center(
           child: Column(
@@ -58,7 +65,7 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.blue,
+              color: Colors.black,
             ),
           ),
           const Text(
@@ -66,15 +73,7 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,
-              color: Colors.blue,
-            ),
-          ),
-          Text(
-            newsId.toString(),
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue,
+              color: Colors.black,
             ),
           ),
           QrImageView(

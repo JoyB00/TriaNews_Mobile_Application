@@ -58,7 +58,12 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("TAMBAH BERITA"),
+          title: Image.asset(
+            'images/Tria News.png',
+            width: 150,
+            height: 150,
+          ),
+          backgroundColor: Colors.black,
           actions: [
             IconButton(
                 icon: const Icon(Icons.add),
@@ -88,7 +93,10 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                   MaterialPageRoute(
                       builder: (context) => const BarcodeScannerPageView()));
             },
-            child: const Text('Cari Berita Melalui Qr Code'),
+            child: const Text(
+              'Cari Berita Melalui Qr Code',
+              style: TextStyle(color: Color.fromRGBO(122, 149, 229, 1)),
+            ),
           ),
           Expanded(
               child: ListView.builder(
@@ -99,7 +107,7 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                       secondaryActions: [
                         IconSlideAction(
                           caption: 'Update',
-                          color: Colors.blue,
+                          color: const Color.fromRGBO(122, 149, 229, 1),
                           icon: Icons.update,
                           onTap: () async {
                             Navigator.push(
@@ -129,25 +137,21 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                       child: ListTile(
                         title: Container(
                             margin: const EdgeInsets.only(
-                                bottom: 8, top: 15, left: 5, right: 5),
+                                top: 15, left: 5, right: 5),
                             width: 500,
-                            height: 200,
+                            height: 180,
                             decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
-                                      blurRadius: 15,
-                                      offset: const Offset(2, 10))
-                                ],
                                 borderRadius: BorderRadius.circular(20.0),
                                 color: Colors.white),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                CircleAvatar(
-                                  radius: 50,
-                                  backgroundImage:
-                                      AssetImage(newsList[index]['image']),
+                                SizedBox(
+                                  width: 120,
+                                  height: 150,
+                                  child: Image.asset(
+                                    newsList[index]['image'],
+                                  ),
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,6 +159,11 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                                     const Padding(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 10.0, vertical: 10.0)),
+                                    Text(
+                                      "${newsList[index]['date']}",
+                                      style: const TextStyle(
+                                          fontSize: 10, color: Colors.grey),
+                                    ),
                                     SizedBox(
                                       width: 200,
                                       child: Text(
@@ -164,28 +173,16 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                         overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
+                                        maxLines: 3,
                                         softWrap: true,
                                       ),
                                     ),
                                     Text(
-                                        "Author : ${newsList[index]['author']}"),
-                                    SizedBox(
-                                      width: 200,
-                                      child: Text(
-                                        "Deskripsi : ${newsList[index]['deskripsi']}",
-                                        style: const TextStyle(fontSize: 12),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                        softWrap: true,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Tanggal Publish : ${newsList[index]['date']}",
+                                      "${newsList[index]['kategori']}",
                                       style: const TextStyle(
                                           fontSize: 10, color: Colors.grey),
                                     ),
-                                    ElevatedButton(
+                                    TextButton(
                                       onPressed: () {
                                         loadNewsData(newsList[index]['id']);
                                         Navigator.push(
@@ -196,7 +193,12 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                                                         index: newsList[index]
                                                             ['id'])));
                                       },
-                                      child: const Text('Lihat Detail'),
+                                      child: const Text(
+                                        'Lihat Detail',
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(
+                                                249, 148, 23, 1)),
+                                      ),
                                     ),
                                   ],
                                 ),

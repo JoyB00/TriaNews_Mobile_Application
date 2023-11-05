@@ -76,6 +76,6 @@ class SQLHelper {
   static Future<int> addImage(String image, int id) async {
     final db = await SQLHelper.db();
     final data = {'image': image};
-    return await db.update('user', data, where: 'id = $id');
+    return await db.update('user', data, where: 'id = ?', whereArgs: [id]);
   }
 }

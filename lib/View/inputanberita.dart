@@ -83,7 +83,7 @@ class _InputanBerita extends State<InputanBerita> {
   void _onSpeechResult(result) {
     setState(() {
       _wordSpoken = "${result.recognizedWords}";
-      descriptionController.text = " $_wordSpoken";
+      descriptionController.text = _wordSpoken;
     });
   }
 
@@ -97,12 +97,20 @@ class _InputanBerita extends State<InputanBerita> {
       if (_wordSpoken == '') {
         descriptionController.text = widget.deskripsi!;
       } else {
-        descriptionController.text = " $_wordSpoken";
+        descriptionController.text = _wordSpoken;
       }
     }
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Upload Berita'),
+          title: Padding(
+            padding: const EdgeInsets.only(left: 50),
+            child: Image.asset(
+              'images/Tria News.png',
+              width: 150,
+              height: 150,
+            ),
+          ),
+          backgroundColor: Colors.black,
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -110,27 +118,39 @@ class _InputanBerita extends State<InputanBerita> {
             child: Form(
                 key: _formKey,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 5.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const SizedBox(
-                        height: 10,
+                        child: Padding(
+                            padding: EdgeInsets.only(bottom: 20),
+                            child: Text(
+                              "INPUT BERITA",
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            )),
                       ),
                       //Input judul, author, date, desciption
-                      const Padding(padding: EdgeInsets.all(5.0)),
+                      const Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 5.0, vertical: 10.0)),
                       TextFormField(
                           controller: judulController,
                           decoration: const InputDecoration(
                             labelText: 'Judul Berita',
-                            prefixIcon: Icon(Icons.input),
+                            prefixIcon: Icon(Icons.input, color: Colors.black),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.black, width: 2),
+                            ),
+                            labelStyle: TextStyle(color: Colors.black),
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Judul Berita Tidak Boleh Kosong';
-                            } else if (value.length > 25) {
-                              return 'Judul Tidak Boleh lebih dari 25 Karakter';
                             }
                             return null;
                           }),
@@ -139,7 +159,12 @@ class _InputanBerita extends State<InputanBerita> {
                           controller: authorController,
                           decoration: const InputDecoration(
                             labelText: 'Author',
-                            prefixIcon: Icon(Icons.person),
+                            prefixIcon: Icon(Icons.person, color: Colors.black),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.black, width: 2),
+                            ),
+                            labelStyle: TextStyle(color: Colors.black),
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -155,7 +180,12 @@ class _InputanBerita extends State<InputanBerita> {
                           decoration: const InputDecoration(
                             labelText:
                                 'Kategori Berita (sport/politik/digital)',
-                            prefixIcon: Icon(Icons.input),
+                            prefixIcon: Icon(Icons.input, color: Colors.black),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.black, width: 2),
+                            ),
+                            labelStyle: TextStyle(color: Colors.black),
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -171,8 +201,16 @@ class _InputanBerita extends State<InputanBerita> {
                       TextFormField(
                           controller: dateController,
                           decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.calendar_today),
+                            prefixIcon: const Icon(
+                              Icons.calendar_today,
+                              color: Colors.black,
+                            ),
                             labelText: 'Tanggal Up berita',
+                            focusedBorder: const UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.black, width: 2),
+                            ),
+                            labelStyle: const TextStyle(color: Colors.black),
                             suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -181,7 +219,7 @@ class _InputanBerita extends State<InputanBerita> {
                                 },
                                 icon: const Icon(
                                   Icons.calendar_today,
-                                  color: Colors.grey,
+                                  color: Colors.black,
                                 )),
                           ),
                           validator: (value) {
@@ -195,7 +233,10 @@ class _InputanBerita extends State<InputanBerita> {
                           controller: descriptionController,
                           decoration: const InputDecoration(
                               border: OutlineInputBorder(),
-                              hintText: "Deskripsi"),
+                              hintText: "Deskripsi",
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 2, color: Colors.black))),
                           maxLines: 10,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -217,7 +258,7 @@ class _InputanBerita extends State<InputanBerita> {
                             ? _stopListening
                             : _startListening,
                         tooltip: 'Listen',
-                        backgroundColor: Colors.blue,
+                        backgroundColor: const Color.fromRGBO(122, 149, 229, 1),
                         child: Icon(
                           _speechToText.isNotListening
                               ? Icons.mic_off
@@ -229,20 +270,26 @@ class _InputanBerita extends State<InputanBerita> {
                       const SizedBox(
                         height: 10,
                       ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            if (widget.id == null) {
-                              await addNews(kategoriController.text);
-                            } else {
-                              await editNews(
-                                  widget.id!, kategoriController.text);
-                            }
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: const Text('Publish'),
-                      ),
+                      Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                if (widget.id == null) {
+                                  await addNews(kategoriController.text);
+                                } else {
+                                  await editNews(
+                                      widget.id!, kategoriController.text);
+                                }
+                                Navigator.pop(context);
+                              }
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  const Color.fromRGBO(122, 149, 229, 1)),
+                            ),
+                            child: const Text('Publish'),
+                          )),
                     ],
                   ),
                 )),

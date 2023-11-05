@@ -6,7 +6,6 @@ import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/pages/updateProfile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:news_pbp/View/inputanberita.dart';
 
 class ProfilePage extends StatefulWidget {
   final String? imagePath;
@@ -25,16 +24,15 @@ class ProfilePageState extends State<ProfilePage> {
   String userNoTelp = '';
   String userPass = '';
   String userTglLahir = '';
+  var id = 0;
   String? image;
   File? userImage;
   Image convert = Image.asset('images/luffy.jpg');
 
-  File? fileResult;
   @override
   void initState() {
     super.initState();
     loadUserData();
-    fileResult = File(widget.imagePath.toString());
   }
 
   Future<void> loadUserData() async {
@@ -43,13 +41,14 @@ class ProfilePageState extends State<ProfilePage> {
         await SQLHelper.getUser(prefs.getInt('userId') ?? 0);
 
     setState(() {
+      id = user[0]['id'];
       userEmail = user[0]['email'];
       userNama = user[0]['username'];
       userNoTelp = user[0]['notelp'];
       userPass = user[0]['password'];
       userTglLahir = user[0]['dateofbirth'];
       image = user[0]['image'];
-      if(image != null){
+      if (image != null) {
         userImage = File(image!);
         convert = Image.file(userImage!);
       }
@@ -62,7 +61,15 @@ class ProfilePageState extends State<ProfilePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profil'),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 50),
+          child: Image.asset(
+            'images/Tria News.png',
+            width: 150,
+            height: 150,
+          ),
+        ),
+        backgroundColor: Colors.black,
       ),
       body: Center(
         child: Column(
@@ -87,25 +94,19 @@ class ProfilePageState extends State<ProfilePage> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const CameraView()));
+                      camOrGallery(context, image!, id);
                     },
-                    child: const Text('Ganti Profile'),
+                    child: const Text(
+                      'Ganti Profile',
+                      style: TextStyle(color: Color.fromRGBO(249, 148, 23, 1)),
+                    ),
                   ),
-                  // ElevatedButton(
-                  //   onPressed: () {
-                  //     _getFromGallery(fileResult!);
-                  //   },
-                  //   child: Text("PICK FROM GALLERY"),
-                  // ),
                   const Text(
                     "Selamat Datang",
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blue),
+                        color: Color.fromRGBO(122, 149, 229, 1)),
                   ),
                   Text(
                     //show username from prof
@@ -113,7 +114,7 @@ class ProfilePageState extends State<ProfilePage> {
                     style: const TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blue),
+                        color: Color.fromRGBO(122, 149, 229, 1)),
                   ),
                   const Padding(padding: EdgeInsets.all(10.0)),
                   TextField(
@@ -145,14 +146,21 @@ class ProfilePageState extends State<ProfilePage> {
                 ],
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const UpdateProfilePage()));
-              },
-              child: const Text('Perbarui Profil'),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const UpdateProfilePage()));
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      const Color.fromRGBO(122, 149, 229, 1)),
+                ),
+                child: const Text('Perbarui Profil'),
+              ),
             ),
           ],
         ),
@@ -160,20 +168,60 @@ class ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Image viewImage(File image){
+  Image viewImage(File image) {
     return Image.file(image);
   }
 }
 
-_getFromGallery(File imageFile) async {
+_getFromGallery(String imageFile, var id) async {
+  // ignore: deprecated_member_use
   PickedFile? pickedFile = await ImagePicker().getImage(
     source: ImageSource.gallery,
     maxWidth: 1800,
     maxHeight: 1800,
   );
   if (pickedFile != null) {
-    imageFile = File(pickedFile.path);
-  }
+    imageFile = pickedFile.path;
+    // imageFile = File(pickedFile.path);
 
-  
+    editImage(id, imageFile);
+  }
+}
+
+Future<void> editImage(int id, String result) async {
+  await SQLHelper.addImage(result, id);
+}
+
+void camOrGallery(BuildContext context, String imageFile, var id) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Pilih Foto'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              TextButton(
+                child: const Text('Camera'),
+                onPressed: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const CameraView(),
+                    ),
+                  );
+                },
+              ),
+              TextButton(
+                child: const Text('Galery'),
+                onPressed: () async {
+                  await _getFromGallery(imageFile, id);
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }

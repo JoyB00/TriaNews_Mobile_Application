@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:io';
+// import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-// import 'package:modul_cam_qr_1095/utils/logging_utils.dart';
 import 'package:news_pbp/View/camera/display_picture.dart';
 import 'package:news_pbp/View/inputanberita.dart';
-//import 'package:news_pbp/View/profile.dart';
-import 'package:news_pbp/pages/profileNew.dart';
+import 'package:news_pbp/view/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:news_pbp/database/sql_helper.dart';
 
@@ -23,17 +21,18 @@ class _CameraViewState extends State<CameraView> {
   var count = 0;
   var id = 0;
   String nama = 'abc';
-  
+
   Future<void> loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
-    List<Map<String, dynamic>> user = await SQLHelper.getUser(prefs.getInt('userId') ?? 0);
+    List<Map<String, dynamic>> user =
+        await SQLHelper.getUser(prefs.getInt('userId') ?? 0);
     setState(() {
       id = user[0]['id'];
       nama = user[0]['username'];
     });
   }
 
-  String convertImagetoString(image){
+  String convertImagetoString(image) {
     String imgString = Utility.base64String(image.readAsBytesSync());
     return imgString;
   }
@@ -52,13 +51,11 @@ class _CameraViewState extends State<CameraView> {
     _initializeCameraFuture = _cameraController.initialize();
     if (mounted) {
       setState(() {});
-      // LoggingUtils.logEndFunction("success initialize camera".toUpperCase());
     }
   }
 
   @override
   void dispose() {
-    // LoggingUtils.logStartFunction("dispose CameraView".toUpperCase());
     _cameraController.dispose();
     super.dispose();
   }
@@ -73,8 +70,10 @@ class _CameraViewState extends State<CameraView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(nama),
+        title: const Text("Ambil Gambar"),
+        backgroundColor: Colors.black,
       ),
+      backgroundColor: Colors.black,
       body: FutureBuilder<void>(
         future: _initializeCameraFuture,
         builder: (context, snapshot) {
@@ -87,9 +86,21 @@ class _CameraViewState extends State<CameraView> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async => await previewImageResult(),
-        child: const Icon(Icons.camera_alt),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(right: 150, bottom: 20),
+        child: FloatingActionButton(
+            backgroundColor: const Color.fromRGBO(122, 149, 229, 1),
+            onPressed: () async => await previewImageResult(),
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.camera_alt),
+                Text(
+                  "Foto",
+                  style: TextStyle(fontSize: 10),
+                )
+              ],
+            )),
       ),
     );
   }
@@ -100,21 +111,15 @@ class _CameraViewState extends State<CameraView> {
       await _initializeCameraFuture;
       final image = await _cameraController.takePicture();
       if (!mounted) return null;
-      
-          String result = image.path;
-          editImage(id, result);
+      String result = image.path;
+      editImage(id, result);
       Navigator.of(context).pop(
         MaterialPageRoute(builder: (context) {
           _cameraController.pausePreview();
-          // LoggingUtils.logDebugValue(
-          //     "get image on previewImageResult".toUpperCase(),
-          //     "image.path : ${image.path}");
-          return ProfilePage(
-              imagePath: image.path, cameraController: _cameraController);
+          return const HomePage();
         }),
       );
     } catch (e) {
-      // LoggingUtils.logError(activity, e.toString());
       return null;
     }
     return null;
@@ -124,4 +129,3 @@ class _CameraViewState extends State<CameraView> {
     await SQLHelper.addImage(result, id);
   }
 }
-
