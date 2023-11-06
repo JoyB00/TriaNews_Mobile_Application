@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:news_pbp/View/camera/display_picture.dart';
-import 'package:news_pbp/View/inputanberita.dart';
 import 'package:news_pbp/view/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:news_pbp/database/sql_helper.dart';
@@ -30,11 +29,6 @@ class _CameraViewState extends State<CameraView> {
       id = user[0]['id'];
       nama = user[0]['username'];
     });
-  }
-
-  String convertImagetoString(image) {
-    String imgString = Utility.base64String(image.readAsBytesSync());
-    return imgString;
   }
 
   @override
