@@ -84,7 +84,7 @@ class _InputanBerita extends State<InputanBerita> {
 
   void _onSpeechResult(result) {
     setState(() {
-      _wordSpoken = "$text${result.recognizedWords}";
+      _wordSpoken = "$text ${result.recognizedWords}";
       descriptionController.text = _wordSpoken;
     });
   }
