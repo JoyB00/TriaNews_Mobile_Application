@@ -94,7 +94,7 @@ class ProfilePageState extends State<ProfilePage> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      camOrGallery(context, image!, id);
+                      camOrGallery(context, id);
                     },
                     child: const Text(
                       'Ganti Profile',
@@ -173,8 +173,9 @@ class ProfilePageState extends State<ProfilePage> {
   }
 }
 
-_getFromGallery(String imageFile, var id) async {
+_getFromGallery(var id) async {
   // ignore: deprecated_member_use
+  String? imageFile;
   PickedFile? pickedFile = await ImagePicker().getImage(
     source: ImageSource.gallery,
     maxWidth: 1800,
@@ -192,7 +193,7 @@ Future<void> editImage(int id, String result) async {
   await SQLHelper.addImage(result, id);
 }
 
-void camOrGallery(BuildContext context, String imageFile, var id) {
+void camOrGallery(BuildContext context, var id) {
   showDialog(
     context: context,
     builder: (context) {
@@ -204,6 +205,7 @@ void camOrGallery(BuildContext context, String imageFile, var id) {
               TextButton(
                 child: const Text('Camera'),
                 onPressed: () async {
+                  Navigator.of(context).pop();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -215,7 +217,8 @@ void camOrGallery(BuildContext context, String imageFile, var id) {
               TextButton(
                 child: const Text('Galery'),
                 onPressed: () async {
-                  await _getFromGallery(imageFile, id);
+                  Navigator.of(context).pop();
+                  await _getFromGallery(id);
                 },
               ),
             ],
