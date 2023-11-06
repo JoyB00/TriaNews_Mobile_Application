@@ -53,6 +53,7 @@ class _InputanBerita extends State<InputanBerita> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController kategoriController = TextEditingController();
   String imgString = "";
+  String text = "";
 
   final SpeechToText _speechToText = SpeechToText();
   String _wordSpoken = '';
@@ -71,6 +72,7 @@ class _InputanBerita extends State<InputanBerita> {
   }
 
   void _startListening() async {
+    text = descriptionController.text;
     await _speechToText.listen(onResult: _onSpeechResult);
     setState(() {});
   }
@@ -82,7 +84,7 @@ class _InputanBerita extends State<InputanBerita> {
 
   void _onSpeechResult(result) {
     setState(() {
-      _wordSpoken = "${result.recognizedWords}";
+      _wordSpoken = "$text${result.recognizedWords}";
       descriptionController.text = _wordSpoken;
     });
   }
@@ -122,15 +124,36 @@ class _InputanBerita extends State<InputanBerita> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(
+                      SizedBox(
                         child: Padding(
-                            padding: EdgeInsets.only(bottom: 20),
-                            child: Text(
-                              "INPUT BERITA",
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Container(
+                              height: 100,
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: const Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(right: 10)),
+                                      Icon(
+                                        Icons.newspaper,
+                                        color: Colors.white,
+                                      ),
+                                      Padding(
+                                          padding: EdgeInsets.only(right: 10)),
+                                      Text(
+                                        "TULIS BERITA",
+                                        style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  )),
                             )),
                       ),
                       //Input judul, author, date, desciption
@@ -154,7 +177,9 @@ class _InputanBerita extends State<InputanBerita> {
                             }
                             return null;
                           }),
-                      const Padding(padding: EdgeInsets.all(5.0)),
+                      const Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 10)),
                       TextFormField(
                           controller: authorController,
                           decoration: const InputDecoration(
@@ -174,7 +199,9 @@ class _InputanBerita extends State<InputanBerita> {
                             }
                             return null;
                           }),
-                      const Padding(padding: EdgeInsets.all(5.0)),
+                      const Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 10)),
                       TextFormField(
                           controller: kategoriController,
                           decoration: const InputDecoration(
@@ -197,7 +224,9 @@ class _InputanBerita extends State<InputanBerita> {
                             }
                             return null;
                           }),
-                      const Padding(padding: EdgeInsets.all(5.0)),
+                      const Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 10)),
                       TextFormField(
                           controller: dateController,
                           decoration: InputDecoration(
@@ -228,7 +257,9 @@ class _InputanBerita extends State<InputanBerita> {
                             }
                             return null;
                           }),
-                      const Padding(padding: EdgeInsets.all(5.0)),
+                      const Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 10)),
                       TextFormField(
                           controller: descriptionController,
                           decoration: const InputDecoration(

@@ -12,10 +12,11 @@
 
 Membuat aplikasi berbentuk berita yang dapat dibaca oleh seluruh masyarakat.
 
-# UGD DATA
+# UGD HARDWARE
 
-- Register Page & Inputan Register : Joel dan Dendy
-- Login Page, SQLHELPER (user) & SQL NEWS : Jeanny
-- Profile View & Update Profile : Dendy, Jeanny, Josh
-- Shared Preference : Jeanny
-- Home View & CRUD : Dendy, Joel, William
+- Camera Profile : William
+- Update Database User : Jeanny
+- Scanner QR Code & Qr Code : Joel dan Dendy
+- 2 Sensor Tambahan :
+  - Speech To Text : Dendy dan Jeanny
+  - Text To Speech : Dendy
