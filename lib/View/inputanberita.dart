@@ -53,6 +53,7 @@ class _InputanBerita extends State<InputanBerita> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController kategoriController = TextEditingController();
   String imgString = "";
+  String text = "";
 
   final SpeechToText _speechToText = SpeechToText();
   String _wordSpoken = '';
@@ -71,6 +72,7 @@ class _InputanBerita extends State<InputanBerita> {
   }
 
   void _startListening() async {
+    text = descriptionController.text;
     await _speechToText.listen(onResult: _onSpeechResult);
     setState(() {});
   }
@@ -82,7 +84,7 @@ class _InputanBerita extends State<InputanBerita> {
 
   void _onSpeechResult(result) {
     setState(() {
-      _wordSpoken = "${result.recognizedWords}";
+      _wordSpoken = "$text${result.recognizedWords}";
       descriptionController.text = _wordSpoken;
     });
   }
