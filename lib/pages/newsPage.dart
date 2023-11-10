@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:news_pbp/View/inputanberita.dart';
@@ -5,6 +7,7 @@ import 'package:news_pbp/database/sql_news.dart';
 import 'package:news_pbp/pages/detailNews.dart';
 import 'package:news_pbp/qr_scan/scan_qr_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class NewsPage extends StatefulWidget {
   const NewsPage({super.key});
@@ -32,6 +35,10 @@ class ElevatedCardExample extends StatefulWidget {
 }
 
 class _ElevatedCardExampleState extends State<ElevatedCardExample> {
+  Image convert = Image.asset('images/luffy.jpg');
+  String? image;
+  File? userImage;
+
   List<Map<String, dynamic>> newsList = [];
   void refresh() async {
     final data = await SQLNews.getNews();
@@ -40,7 +47,7 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
     });
   }
 
-  Future<void> loadNewsData(int id) async {
+  Future<void> loadDetailNews(int id) async {
     final prefs = await SharedPreferences.getInstance();
     List<Map<String, dynamic>> news = await SQLNews.getSpesificNews(id);
     setState(() {
@@ -60,8 +67,8 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
         appBar: AppBar(
           title: Image.asset(
             'images/Tria News.png',
-            width: 150,
-            height: 150,
+            width: 20.h,
+            height: 20.w,
           ),
           backgroundColor: Colors.black,
           actions: [
@@ -136,55 +143,55 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                       ],
                       child: ListTile(
                         title: Container(
-                            margin: const EdgeInsets.only(
-                                top: 15, left: 5, right: 5),
-                            width: 500,
-                            height: 180,
+                            margin: EdgeInsets.only(
+                                top: 0.5.h, left: 3.w, right: 3.w),
+                            width: 100.w,
+                            height: 27.h,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20.0),
+                                borderRadius: BorderRadius.circular(5.0),
                                 color: Colors.white),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 SizedBox(
-                                  width: 120,
-                                  height: 150,
-                                  child: Image.asset(
-                                    newsList[index]['image'],
+                                  width: 20.w,
+                                  height: 90.h,
+                                  child: Image.file(
+                                    File(newsList[index]['image']),
                                   ),
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Padding(
+                                    Padding(
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: 10.0, vertical: 10.0)),
+                                            horizontal: 2.h, vertical: 2.w)),
                                     Text(
                                       "${newsList[index]['date']}",
-                                      style: const TextStyle(
-                                          fontSize: 10, color: Colors.grey),
+                                      style: TextStyle(
+                                          fontSize: 13.sp, color: Colors.grey),
                                     ),
                                     SizedBox(
-                                      width: 200,
+                                      width: 50.w,
                                       child: Text(
                                         newsList[index]['judul'],
-                                        style: const TextStyle(
-                                          fontSize: 20,
+                                        style: TextStyle(
+                                          fontSize: 20.sp,
                                           fontWeight: FontWeight.bold,
                                         ),
                                         overflow: TextOverflow.ellipsis,
-                                        maxLines: 3,
+                                        maxLines: 4,
                                         softWrap: true,
                                       ),
                                     ),
                                     Text(
                                       "${newsList[index]['kategori']}",
-                                      style: const TextStyle(
-                                          fontSize: 10, color: Colors.grey),
+                                      style: TextStyle(
+                                          fontSize: 15.sp, color: Colors.grey),
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        loadNewsData(newsList[index]['id']);
+                                        loadDetailNews(newsList[index]['id']);
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(

@@ -28,12 +28,12 @@ Membuat aplikasi berbentuk berita yang dapat dibaca oleh seluruh masyarakat.
 
 Membuat aplikasi berbentuk berita yang dapat dibaca oleh seluruh masyarakat.
 
-# UGD HARDWARE
+# UGD LIBRARY
 
-- Camera Profile : William
-- Update Database User : Jeanny
-- Konsep Scanner QR Berita : Joseph
-- Scanner QR Code & Qr Code : Joel dan Dendy
-- 2 Sensor Tambahan :
-  - Speech To Text : Dendy dan Jeanny
-  - Text To Speech : Dendy
+- PDF PREVIEW & PRINTING : DENDY
+- 5 SENSOR TAMBAHAN :
+  - INTL : JOEL
+  - IMAGE PICKER : JEANNY
+  - BARCODE : JOSEPH
+  - UUID : WILJU
+  - RESPONSIVE SIZER : SEMUA

@@ -4,6 +4,7 @@ import 'package:news_pbp/View/register.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:news_pbp/main.dart';
 import 'package:news_pbp/database/sql_helper.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginView extends StatefulWidget {
@@ -52,7 +53,7 @@ class _LoginViewState extends State<LoginView> {
               child: const Icon(Icons.lightbulb),
             ),
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(2.0.h),
               child: TextField(
                 controller: userController,
                 decoration: InputDecoration(
@@ -60,13 +61,13 @@ class _LoginViewState extends State<LoginView> {
                   helperText: 'Masukkan username',
                   prefixIcon: const Icon(Icons.person),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(2.h),
                   ),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(2.0.h),
               child: TextField(
                 controller: passController,
                 obscureText: visible,
@@ -88,7 +89,7 @@ class _LoginViewState extends State<LoginView> {
                     },
                   ),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(2.h),
                   ),
                 ),
               ),
