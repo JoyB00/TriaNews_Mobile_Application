@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/View/login.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -28,19 +29,18 @@ class _RegisterState extends State<Register> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 50.0),
+          padding: EdgeInsets.only(top: 5.h),
           child: Form(
             key: _formKey,
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+              padding: EdgeInsets.symmetric(horizontal: 5.0.w, vertical: 2.0.h),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     "Selamat Datang",
                     style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 25.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.blue),
                   ),
@@ -50,7 +50,7 @@ class _RegisterState extends State<Register> {
                         color: Color.fromARGB(255, 133, 133, 133),
                         fontStyle: FontStyle.italic),
                   ),
-                  const Padding(padding: EdgeInsets.all(5.0)),
+                  Padding(padding: EdgeInsets.all(5.0.w)),
                   TextFormField(
                       controller: usernameController,
                       decoration: const InputDecoration(
@@ -65,7 +65,7 @@ class _RegisterState extends State<Register> {
                         }
                         return null;
                       }),
-                  const Padding(padding: EdgeInsets.all(5.0)),
+                  Padding(padding: EdgeInsets.all(1.h)),
                   TextFormField(
                       controller: emailController,
                       decoration: const InputDecoration(
@@ -80,7 +80,7 @@ class _RegisterState extends State<Register> {
                         }
                         return null;
                       }),
-                  const Padding(padding: EdgeInsets.all(5.0)),
+                  Padding(padding: EdgeInsets.all(1.h)),
                   TextFormField(
                       controller: passwordController,
                       decoration: InputDecoration(
@@ -109,9 +109,9 @@ class _RegisterState extends State<Register> {
                         }
                         return null;
                       }),
-                  const Padding(
+                  Padding(
                       padding: EdgeInsets.symmetric(
-                          vertical: 5.0, horizontal: 16.0)),
+                          vertical: 1.0.w, horizontal: 10.0.h)),
                   TextFormField(
                       controller: notelpController,
                       decoration: const InputDecoration(
@@ -128,7 +128,7 @@ class _RegisterState extends State<Register> {
                         }
                         return null;
                       }),
-                  const Padding(padding: EdgeInsets.all(5.0)),
+                  Padding(padding: EdgeInsets.all(1.h)),
                   TextFormField(
                       controller: _dateController,
                       decoration: InputDecoration(
@@ -152,7 +152,7 @@ class _RegisterState extends State<Register> {
                         }
                         return null;
                       }),
-                  const Padding(padding: EdgeInsets.all(5.0)),
+                  Padding(padding: EdgeInsets.all(1.h)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:news_pbp/View/camera/camera.dart';
 import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/pages/updateProfile.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -60,112 +61,117 @@ class ProfilePageState extends State<ProfilePage> {
     loadUserData();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(left: 50),
-          child: Image.asset(
-            'images/Tria News.png',
-            width: 150,
-            height: 150,
-          ),
-        ),
-        backgroundColor: Colors.black,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            const Padding(padding: EdgeInsets.symmetric(vertical: 3.0)),
-            SizedBox(
-              width: 150,
-              height: 150,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(75),
-                child: Image(
-                  image: convert.image,
-                  fit: BoxFit.cover,
-                ),
-              ),
+        appBar: AppBar(
+          title: Padding(
+            padding: EdgeInsets.only(left: 6.h),
+            child: Image.asset(
+              'images/Tria News.png',
+              width: 20.h,
+              height: 20.w,
             ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 50.0, vertical: 0.0),
-              child: Column(
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      camOrGallery(context, image!, id);
-                    },
-                    child: const Text(
-                      'Ganti Profile',
-                      style: TextStyle(color: Color.fromRGBO(249, 148, 23, 1)),
+          ),
+          backgroundColor: Colors.black,
+        ),
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Padding(padding: EdgeInsets.symmetric(vertical: 3.0.h)),
+                SizedBox(
+                  width: 25.h,
+                  height: 50.w,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(80.h),
+                    child: Image(
+                      image: convert.image,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  const Text(
-                    "Selamat Datang",
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(122, 149, 229, 1)),
-                  ),
-                  Text(
-                    //show username from prof
-                    userNama,
-                    style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(122, 149, 229, 1)),
-                  ),
-                  const Padding(padding: EdgeInsets.all(10.0)),
-                  TextField(
-                    enabled: false,
-                    decoration: InputDecoration(
-                        border: const UnderlineInputBorder(),
-                        labelText: "Email : $userEmail",
-                        labelStyle: const TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.bold)),
-                  ),
-                  const Padding(padding: EdgeInsets.all(10.0)),
-                  TextField(
-                    enabled: false,
-                    decoration: InputDecoration(
-                        border: const UnderlineInputBorder(),
-                        labelText: "No Telepon : $userNoTelp",
-                        labelStyle: const TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.bold)),
-                  ),
-                  const Padding(padding: EdgeInsets.all(10.0)),
-                  TextField(
-                    enabled: false,
-                    decoration: InputDecoration(
-                        border: const UnderlineInputBorder(),
-                        labelText: 'Tanggal Lahir : $userTglLahir',
-                        labelStyle: const TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.bold)),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const UpdateProfilePage()));
-                },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      const Color.fromRGBO(122, 149, 229, 1)),
                 ),
-                child: const Text('Perbarui Profil'),
-              ),
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 5.0.h, vertical: 2.0.w),
+                  child: Column(
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          camOrGallery(context, id);
+                        },
+                        child: const Text(
+                          'Ganti Profile',
+                          style:
+                              TextStyle(color: Color.fromRGBO(249, 148, 23, 1)),
+                        ),
+                      ),
+                      Text(
+                        "Selamat Datang",
+                        style: TextStyle(
+                            fontSize: 23.sp,
+                            fontWeight: FontWeight.bold,
+                            color: const Color.fromRGBO(122, 149, 229, 1)),
+                      ),
+                      Text(
+                        //show username from prof
+                        userNama,
+                        style: TextStyle(
+                            fontSize: 23.sp,
+                            fontWeight: FontWeight.bold,
+                            color: const Color.fromRGBO(122, 149, 229, 1)),
+                      ),
+                      Padding(padding: EdgeInsets.all(1.0.h)),
+                      TextField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                            border: const UnderlineInputBorder(),
+                            labelText: "Email : $userEmail",
+                            labelStyle: const TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      Padding(padding: EdgeInsets.all(1.h)),
+                      TextField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                            border: const UnderlineInputBorder(),
+                            labelText: "No Telepon : $userNoTelp",
+                            labelStyle: const TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      Padding(padding: EdgeInsets.all(1.h)),
+                      TextField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                            border: const UnderlineInputBorder(),
+                            labelText: 'Tanggal Lahir : $userTglLahir',
+                            labelStyle: const TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(2.h),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UpdateProfilePage()));
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          const Color.fromRGBO(122, 149, 229, 1)),
+                    ),
+                    child: const Text('Perbarui Profil'),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 
   Image viewImage(File image) {
@@ -173,8 +179,9 @@ class ProfilePageState extends State<ProfilePage> {
   }
 }
 
-_getFromGallery(String imageFile, var id) async {
+_getFromGallery(var id) async {
   // ignore: deprecated_member_use
+  String? imageFile;
   PickedFile? pickedFile = await ImagePicker().getImage(
     source: ImageSource.gallery,
     maxWidth: 1800,
@@ -183,7 +190,6 @@ _getFromGallery(String imageFile, var id) async {
   if (pickedFile != null) {
     imageFile = pickedFile.path;
     // imageFile = File(pickedFile.path);
-
     editImage(id, imageFile);
   }
 }
@@ -192,7 +198,7 @@ Future<void> editImage(int id, String result) async {
   await SQLHelper.addImage(result, id);
 }
 
-void camOrGallery(BuildContext context, String imageFile, var id) {
+void camOrGallery(BuildContext context, var id) {
   showDialog(
     context: context,
     builder: (context) {
@@ -204,6 +210,7 @@ void camOrGallery(BuildContext context, String imageFile, var id) {
               TextButton(
                 child: const Text('Camera'),
                 onPressed: () async {
+                  Navigator.of(context).pop();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -215,7 +222,8 @@ void camOrGallery(BuildContext context, String imageFile, var id) {
               TextButton(
                 child: const Text('Galery'),
                 onPressed: () async {
-                  await _getFromGallery(imageFile, id);
+                  Navigator.of(context).pop();
+                  await _getFromGallery(id);
                 },
               ),
             ],

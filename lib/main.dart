@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_pbp/View/login.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,17 +12,38 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AdaptiveTheme(
-      light: ThemeData.light(),
-      dark: ThemeData.dark(),
-      debugShowFloatingThemeButton: true, // <------ add this line
-      initial: AdaptiveThemeMode.light,
-      builder: (theme, darkTheme) => MaterialApp(
-        theme: theme,
-        darkTheme: darkTheme,
-        home: const LoginView(),
-      ),
-    );
+    return ResponsiveSizer(builder: (context, orientation, screenType) {
+      Device.orientation == Orientation.portrait
+          ? Container(
+            width: 100.w,
+            height: 20.5.h,
+          )
+          : Container(
+            width: 100.w,
+            height: 12.5.h,
+          );
+
+      Device.screenType == ScreenType.tablet
+          ? Container(
+            width: 100.w,
+            height: 20.5.h,
+          )
+          : Container(
+            width: 100.w,
+            height: 12.5.h,
+          );
+      return AdaptiveTheme(
+        light: ThemeData.light(),
+        dark: ThemeData.dark(),
+        debugShowFloatingThemeButton: true, // <------ add this line
+        initial: AdaptiveThemeMode.light,
+        builder: (theme, darkTheme) => MaterialApp(
+          theme: theme,
+          darkTheme: darkTheme,
+          home: const LoginView(),
+        ),
+      );
+    });
   }
 }
 

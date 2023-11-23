@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:news_pbp/View/camera/camera.dart';
 import 'package:news_pbp/database/sql_helper.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UpdateProfilePage extends StatefulWidget {
@@ -40,19 +41,18 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 50.0),
+          padding: EdgeInsets.only(top: 5.h),
           child: Form(
             key: _formKey,
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+              padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 5.w),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     "Selamat Datang",
                     style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.blue),
                   ),
@@ -62,7 +62,7 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
                         color: Color.fromARGB(255, 133, 133, 133),
                         fontStyle: FontStyle.italic),
                   ),
-                  const Padding(padding: EdgeInsets.all(5.0)),
+                  Padding(padding: EdgeInsets.all(3.h)),
                   TextFormField(
                       controller: usernameController,
                       decoration: const InputDecoration(
@@ -77,7 +77,7 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
                         }
                         return null;
                       }),
-                  const Padding(padding: EdgeInsets.all(5.0)),
+                  Padding(padding: EdgeInsets.all(3.h)),
                   TextFormField(
                       controller: emailController,
                       decoration: const InputDecoration(
@@ -92,7 +92,7 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
                         }
                         return null;
                       }),
-                  const Padding(padding: EdgeInsets.all(5.0)),
+                  Padding(padding: EdgeInsets.all(3.h)),
                   TextFormField(
                       controller: passwordController,
                       decoration: InputDecoration(
@@ -140,7 +140,7 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
                         }
                         return null;
                       }),
-                  const Padding(padding: EdgeInsets.all(30.0)),
+                  Padding(padding: EdgeInsets.all(15.h)),
                   ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {

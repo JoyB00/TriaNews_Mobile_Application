@@ -1,8 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:news_pbp/database/sql_news.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 class InputanBerita extends StatefulWidget {
@@ -44,7 +48,7 @@ class Utility {
 
 class _InputanBerita extends State<InputanBerita> {
   Future<File> imageFile = Future<File>.value(File(""));
-  var image = Image.asset("");
+  String? image;
   final _formKey = GlobalKey<FormState>();
   //controller
   TextEditingController judulController = TextEditingController();
@@ -64,6 +68,9 @@ class _InputanBerita extends State<InputanBerita> {
   void initState() {
     super.initState();
     initSpeech();
+    if (widget.image != null) {
+      image = widget.image;
+    }
   }
 
   void initSpeech() async {
@@ -84,7 +91,7 @@ class _InputanBerita extends State<InputanBerita> {
 
   void _onSpeechResult(result) {
     setState(() {
-      _wordSpoken = "$text${result.recognizedWords}";
+      _wordSpoken = "$text ${result.recognizedWords}";
       descriptionController.text = _wordSpoken;
     });
   }
@@ -105,71 +112,112 @@ class _InputanBerita extends State<InputanBerita> {
     return Scaffold(
         appBar: AppBar(
           title: Padding(
-            padding: const EdgeInsets.only(left: 50),
+            padding: EdgeInsets.only(left: 6.h),
             child: Image.asset(
               'images/Tria News.png',
-              width: 150,
-              height: 150,
+              width: 20.h,
+              height: 20.w,
             ),
           ),
           backgroundColor: Colors.black,
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(top: 50.0),
+            padding: EdgeInsets.only(top: 5.0.h),
             child: Form(
                 key: _formKey,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: EdgeInsets.symmetric(horizontal: 2.0.w),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
                         child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
+                            padding: EdgeInsets.only(bottom: 2.w),
                             child: Container(
-                              height: 100,
+                              height: 15.h,
                               decoration: BoxDecoration(
                                 color: Colors.black,
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(2.h),
                               ),
-                              child: const Align(
+                              child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Row(
                                     children: [
                                       Padding(
-                                          padding: EdgeInsets.only(right: 10)),
+                                          padding: EdgeInsets.only(left: 5.w)),
                                       Icon(
                                         Icons.newspaper,
                                         color: Colors.white,
+                                        size: 25.sp,
                                       ),
                                       Padding(
-                                          padding: EdgeInsets.only(right: 10)),
+                                          padding: EdgeInsets.only(right: 5.w)),
                                       Text(
                                         "TULIS BERITA",
                                         style: TextStyle(
-                                            fontSize: 30,
+                                            fontSize: 25.sp,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white),
+                                        textAlign: TextAlign.center,
                                       ),
                                     ],
                                   )),
                             )),
                       ),
                       //Input judul, author, date, desciption
-                      const Padding(
+                      Padding(padding: EdgeInsets.symmetric(vertical: 1.w)),
+                      ElevatedButton(
+                        onPressed: () {
+                          camOrGallery(context);
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              const Color.fromRGBO(249, 148, 23, 1)),
+                        ),
+                        child: const Text(
+                          'Tambahkan Gambar',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+
+                      if (image != null)
+                        Column(
+                          children: [
+                            kIsWeb
+                                ? Image.network(image!)
+                                : Image.file(File(image!)),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 2.w),
+                              child: IconButton(
+                                color: Colors.red,
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  setState(() {
+                                    image = null;
+                                  });
+                                },
+                              ),
+                            )
+                          ],
+                        )
+                      else
+                        const Text("No image selected"),
+
+                      Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 5.0, vertical: 10.0)),
+                              horizontal: 2.w, vertical: 2.h)),
                       TextFormField(
                           controller: judulController,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: 'Judul Berita',
-                            prefixIcon: Icon(Icons.input, color: Colors.black),
+                            prefixIcon:
+                                const Icon(Icons.input, color: Colors.black),
                             focusedBorder: UnderlineInputBorder(
                               borderSide:
-                                  BorderSide(color: Colors.black, width: 2),
+                                  BorderSide(color: Colors.black, width: 0.2.h),
                             ),
-                            labelStyle: TextStyle(color: Colors.black),
+                            labelStyle: const TextStyle(color: Colors.black),
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -177,19 +225,20 @@ class _InputanBerita extends State<InputanBerita> {
                             }
                             return null;
                           }),
-                      const Padding(
+                      Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 10)),
+                              horizontal: 5.h, vertical: 1.h)),
                       TextFormField(
                           controller: authorController,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: 'Author',
-                            prefixIcon: Icon(Icons.person, color: Colors.black),
+                            prefixIcon:
+                                const Icon(Icons.person, color: Colors.black),
                             focusedBorder: UnderlineInputBorder(
                               borderSide:
-                                  BorderSide(color: Colors.black, width: 2),
+                                  BorderSide(color: Colors.black, width: 0.2.h),
                             ),
-                            labelStyle: TextStyle(color: Colors.black),
+                            labelStyle: const TextStyle(color: Colors.black),
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -199,20 +248,21 @@ class _InputanBerita extends State<InputanBerita> {
                             }
                             return null;
                           }),
-                      const Padding(
+                      Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 10)),
+                              horizontal: 5.h, vertical: 2.w)),
                       TextFormField(
                           controller: kategoriController,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText:
                                 'Kategori Berita (sport/politik/digital)',
-                            prefixIcon: Icon(Icons.input, color: Colors.black),
+                            prefixIcon:
+                                const Icon(Icons.input, color: Colors.black),
                             focusedBorder: UnderlineInputBorder(
                               borderSide:
-                                  BorderSide(color: Colors.black, width: 2),
+                                  BorderSide(color: Colors.black, width: 0.2.h),
                             ),
-                            labelStyle: TextStyle(color: Colors.black),
+                            labelStyle: const TextStyle(color: Colors.black),
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -224,9 +274,9 @@ class _InputanBerita extends State<InputanBerita> {
                             }
                             return null;
                           }),
-                      const Padding(
+                      Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 10)),
+                              horizontal: 5.h, vertical: 2.w)),
                       TextFormField(
                           controller: dateController,
                           decoration: InputDecoration(
@@ -235,9 +285,9 @@ class _InputanBerita extends State<InputanBerita> {
                               color: Colors.black,
                             ),
                             labelText: 'Tanggal Up berita',
-                            focusedBorder: const UnderlineInputBorder(
+                            focusedBorder: UnderlineInputBorder(
                               borderSide:
-                                  BorderSide(color: Colors.black, width: 2),
+                                  BorderSide(color: Colors.black, width: 0.2.h),
                             ),
                             labelStyle: const TextStyle(color: Colors.black),
                             suffixIcon: IconButton(
@@ -257,17 +307,17 @@ class _InputanBerita extends State<InputanBerita> {
                             }
                             return null;
                           }),
-                      const Padding(
+                      Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 10)),
+                              horizontal: 5.h, vertical: 2.h)),
                       TextFormField(
                           controller: descriptionController,
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
                               hintText: "Deskripsi",
                               focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      width: 2, color: Colors.black))),
+                                      width: 0.2.h, color: Colors.black))),
                           maxLines: 10,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -275,8 +325,7 @@ class _InputanBerita extends State<InputanBerita> {
                             }
                             return null;
                           }),
-                      const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.0)),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 2.h)),
                       Text(
                         _speechToText.isListening
                             ? "Mendengarkan"
@@ -298,11 +347,11 @@ class _InputanBerita extends State<InputanBerita> {
                         ),
                       ),
 
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: 2.h,
                       ),
                       Padding(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          padding: EdgeInsets.only(top: 2.h, bottom: 2.h),
                           child: ElevatedButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
@@ -343,62 +392,79 @@ class _InputanBerita extends State<InputanBerita> {
     }
   }
 
-  Future<void> addNews(String kategori) async {
-    if (kategori.compareTo('sport') == 0) {
-      await SQLNews.addNews(
-          'images/sport.jpg',
-          judulController.text,
-          descriptionController.text,
-          authorController.text,
-          kategoriController.text,
-          dateController.text);
-    } else if (kategori.compareTo('digital') == 0) {
-      await SQLNews.addNews(
-          'images/digital.jpg',
-          judulController.text,
-          descriptionController.text,
-          authorController.text,
-          kategoriController.text,
-          dateController.text);
-    } else {
-      await SQLNews.addNews(
-          'images/politik.jpg',
-          judulController.text,
-          descriptionController.text,
-          authorController.text,
-          kategoriController.text,
-          dateController.text);
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+      if (image == null) return;
+
+      setState(() => this.image = image.path);
+    } on PlatformException catch (e) {
+      debugPrint('Failed to pick image: $e');
     }
   }
 
-  Future<void> editNews(int id, String kategori) async {
-    if (kategori.compareTo('sport') == 0) {
-      await SQLNews.editNews(
-          id,
-          'images/sport.jpg',
-          judulController.text,
-          descriptionController.text,
-          authorController.text,
-          kategoriController.text,
-          dateController.text);
-    } else if (kategori.compareTo('digital') == 0) {
-      await SQLNews.editNews(
-          id,
-          'images/digital.jpg',
-          judulController.text,
-          descriptionController.text,
-          authorController.text,
-          kategoriController.text,
-          dateController.text);
-    } else {
-      await SQLNews.editNews(
-          id,
-          'images/politik.jpg',
-          judulController.text,
-          descriptionController.text,
-          authorController.text,
-          kategoriController.text,
-          dateController.text);
+  Future pickImageC() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+
+      if (image == null) return;
+
+      setState(() => this.image = image.path);
+    } on PlatformException catch (e) {
+      debugPrint('Failed to pick image: $e');
     }
+  }
+
+  void camOrGallery(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Pilih Foto'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                TextButton(
+                  child: const Text('Camera'),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    pickImageC();
+                  },
+                ),
+                TextButton(
+                  child: const Text('Galery'),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    await pickImage();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> addNews(String kategori) async {
+    await SQLNews.addNews(
+        image!,
+        judulController.text,
+        descriptionController.text,
+        authorController.text,
+        kategoriController.text,
+        dateController.text);
+  }
+
+  Future<void> editNews(int id, String kategori) async {
+    await SQLNews.editNews(
+        id,
+        image!,
+        judulController.text,
+        descriptionController.text,
+        authorController.text,
+        kategoriController.text,
+        dateController.text);
   }
 }
