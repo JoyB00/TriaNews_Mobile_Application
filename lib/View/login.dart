@@ -107,9 +107,23 @@ class _LoginViewState extends State<LoginView> {
                         username: userController.text,
                         password: passController.text,
                       );
-                      user = await UserClient.login(user);
-                      if (user == null) {
-                        // ignore: use_build_context_synchronously
+                      try {
+                        user = await UserClient.login(user);
+                        if (user != null) {
+                          // ignore: use_build_context_synchronously
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text('Login Sukses'),
+                          ));
+                          // loadUserData(user.id ?? 0);
+                          // ignore: use_build_context_synchronously
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => HomePage(id: user.id)),
+                          );
+                        }
+                      } catch (e) {
                         showDialog(
                             context: context,
                             builder: (_) => AlertDialog(
@@ -132,20 +146,23 @@ class _LoginViewState extends State<LoginView> {
                                     ),
                                   ],
                                 ));
-                      } else {
-                        // ignore: use_build_context_synchronously
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content: Text('Login Sukses'),
-                        ));
-                        // loadUserData(user.id ?? 0);
-                        // ignore: use_build_context_synchronously
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => HomePage(id: user.id)),
-                        );
                       }
+
+                      // ignore: use_build_context_synchronously
+                      // } else {
+                      //   // ignore: use_build_context_synchronously
+                      //   ScaffoldMessenger.of(context)
+                      //       .showSnackBar(const SnackBar(
+                      //     content: Text('Login Sukses'),
+                      //   ));
+                      //   // loadUserData(user.id ?? 0);
+                      //   // ignore: use_build_context_synchronously
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (_) => HomePage(id: user.id)),
+                      //   );
+                      // }
                     }
                   },
                   child: const Text('Login'),
