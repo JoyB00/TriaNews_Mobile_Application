@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:news_pbp/View/home.dart';
 import 'package:news_pbp/View/register.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:news_pbp/client/UserClient.dart';
+import 'package:news_pbp/entity/user.dart';
 import 'package:news_pbp/main.dart';
 import 'package:news_pbp/database/sql_helper.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -26,13 +28,13 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  Future<void> loadUserData(int id) async {
-    final prefs = await SharedPreferences.getInstance();
-    List<Map<String, dynamic>> user = await SQLHelper.getUser(id);
-    setState(() {
-      prefs.setInt('userId', user[0]['id']);
-    });
-  }
+  // Future<void> loadUserData(int id) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   List<Map<String, dynamic>> user = await SQLHelper.getUser(id);
+  //   setState(() {
+  //     prefs.setInt('userId', user[0]['id']);
+  //   });
+  // }
 
   TextEditingController userController = TextEditingController();
   TextEditingController passController = TextEditingController();
@@ -101,9 +103,12 @@ class _LoginViewState extends State<LoginView> {
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      var user = await SQLHelper.loginUser(
-                          userController.text, passController.text);
-                      if (user.isEmpty) {
+                      User user = User(
+                        username: userController.text,
+                        password: passController.text,
+                      );
+                      user = await UserClient.login(user);
+                      if (user == null) {
                         // ignore: use_build_context_synchronously
                         showDialog(
                             context: context,
@@ -133,13 +138,12 @@ class _LoginViewState extends State<LoginView> {
                             .showSnackBar(const SnackBar(
                           content: Text('Login Sukses'),
                         ));
-                        loadUserData(user[0]['id']);
+                        // loadUserData(user.id ?? 0);
                         // ignore: use_build_context_synchronously
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const HomePage(),
-                          ),
+                              builder: (_) => HomePage(id: user.id)),
                         );
                       }
                     }

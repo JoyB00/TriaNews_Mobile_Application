@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:news_pbp/client/UserClient.dart';
 // import 'package:news_pbp/View/camera/camera.dart';
 import 'package:news_pbp/database/sql_helper.dart';
+import 'package:news_pbp/entity/user.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UpdateProfilePage extends StatefulWidget {
-  const UpdateProfilePage({super.key});
+  const UpdateProfilePage({super.key, this.id});
+  final int? id;
 
   @override
   UpdateProfilePageState createState() => UpdateProfilePageState();
@@ -22,14 +25,11 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
   bool showPassword = false;
 
   Future<void> loadUserData() async {
-    final prefs = await SharedPreferences.getInstance();
-    List<Map<String, dynamic>> user =
-        await SQLHelper.getUser(prefs.getInt('userId') ?? 0);
-
-    usernameController.text = user[0]['username'];
-    emailController.text = user[0]['email'];
-    passwordController.text = user[0]['password'];
-    notelpController.text = user[0]['notelp'];
+    User user = await UserClient.find(widget.id);
+    usernameController.text = user.username!;
+    emailController.text = user.email!;
+    passwordController.text = user.password!;
+    notelpController.text = user.notelp!;
   }
 
   @override
@@ -41,18 +41,18 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(top: 5.h),
+          padding: EdgeInsets.only(top: 2.h),
           child: Form(
             key: _formKey,
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 5.w),
+              padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 5.w),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Selamat Datang",
                     style: TextStyle(
-                        fontSize: 20.sp,
+                        fontSize: 25.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.blue),
                   ),
@@ -62,7 +62,7 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
                         color: Color.fromARGB(255, 133, 133, 133),
                         fontStyle: FontStyle.italic),
                   ),
-                  Padding(padding: EdgeInsets.all(3.h)),
+                  Padding(padding: EdgeInsets.all(2.h)),
                   TextFormField(
                       controller: usernameController,
                       decoration: const InputDecoration(
@@ -77,7 +77,7 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
                         }
                         return null;
                       }),
-                  Padding(padding: EdgeInsets.all(3.h)),
+                  Padding(padding: EdgeInsets.all(1.h)),
                   TextFormField(
                       controller: emailController,
                       decoration: const InputDecoration(
@@ -92,7 +92,7 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
                         }
                         return null;
                       }),
-                  Padding(padding: EdgeInsets.all(3.h)),
+                  Padding(padding: EdgeInsets.all(1.h)),
                   TextFormField(
                       controller: passwordController,
                       decoration: InputDecoration(
@@ -121,9 +121,7 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
                         }
                         return null;
                       }),
-                  const Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 5.0, horizontal: 16.0)),
+                  Padding(padding: EdgeInsets.all(1.h)),
                   TextFormField(
                       controller: notelpController,
                       decoration: const InputDecoration(
@@ -145,9 +143,7 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         try {
-                          final prefs = await SharedPreferences.getInstance();
-                          int id = prefs.getInt('userId') ?? 0;
-                          await editUser(id);
+                          await editUser();
                           // ignore: use_build_context_synchronously
                           Navigator.pop(context);
                         } catch (e) {
@@ -170,8 +166,19 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
     );
   }
 
-  Future<void> editUser(int id) async {
-    await SQLHelper.editUser(id, emailController.text, notelpController.text,
-        usernameController.text, passwordController.text);
+  Future<void> editUser() async {
+    User user = User(
+      id: widget.id ?? 0,
+      email: emailController.text,
+      notelp: notelpController.text,
+      username: usernameController.text,
+      password: passwordController.text,
+    );
+
+    await UserClient.update(user);
   }
+
+  //   await SQLHelper.editUser(id, emailController.text, notelpController.text,
+  //       usernameController.text, passwordController.text);
+  // }
 }

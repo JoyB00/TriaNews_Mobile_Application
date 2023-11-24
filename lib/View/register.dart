@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:news_pbp/database/sql_helper.dart';
+import 'package:news_pbp/client/UserClient.dart';
+// import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/View/login.dart';
+import 'package:news_pbp/entity/user.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class Register extends StatefulWidget {
@@ -265,9 +267,20 @@ class _RegisterState extends State<Register> {
   }
 
   Future<void> addUser() async {
-    await SQLHelper.addUser(emailController.text, notelpController.text,
-        usernameController.text, passwordController.text, _dateController.text);
+    User input = User(
+      email: emailController.text,
+      notelp: notelpController.text,
+      username: usernameController.text,
+      password: passwordController.text,
+      dateofbirth: _dateController.text,
+    );
+    await UserClient.create(input);
   }
+
+  // Future<void> addUser() async {
+  //   await SQLHelper.addUser(emailController.text, notelpController.text,
+  //       usernameController.text, passwordController.text, _dateController.text);
+  // }
 
   void _handleRegistration() {
     if (_formKey.currentState!.validate()) {

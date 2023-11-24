@@ -2,17 +2,20 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:news_pbp/View/camera/camera.dart';
+import 'package:news_pbp/client/UserClient.dart';
 import 'package:news_pbp/database/sql_helper.dart';
+import 'package:news_pbp/entity/user.dart';
 import 'package:news_pbp/pages/updateProfile.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
   final String? imagePath;
   final CameraController? cameraController;
+  final int? id;
 
-  const ProfilePage({Key? key, this.imagePath, this.cameraController})
+  const ProfilePage({Key? key, this.imagePath, this.cameraController, this.id})
       : super(key: key);
 
   @override
@@ -30,25 +33,17 @@ class ProfilePageState extends State<ProfilePage> {
   File? userImage;
   Image convert = Image.asset('images/luffy.jpg');
 
-  @override
-  void initState() {
-    super.initState();
-    loadUserData();
-  }
-
   Future<void> loadUserData() async {
-    final prefs = await SharedPreferences.getInstance();
-    List<Map<String, dynamic>> user =
-        await SQLHelper.getUser(prefs.getInt('userId') ?? 0);
+    User user = await UserClient.find(widget.id);
 
     setState(() {
-      id = user[0]['id'];
-      userEmail = user[0]['email'];
-      userNama = user[0]['username'];
-      userNoTelp = user[0]['notelp'];
-      userPass = user[0]['password'];
-      userTglLahir = user[0]['dateofbirth'];
-      image = user[0]['image'];
+      id = user.id!;
+      userEmail = user.email!;
+      userNama = user.username!;
+      userNoTelp = user.notelp!;
+      userPass = user.password!;
+      userTglLahir = user.dateofbirth!;
+      image = user.image;
       if (image != null) {
         userImage = File(image!);
         convert = Image.file(userImage!);
@@ -57,9 +52,13 @@ class ProfilePageState extends State<ProfilePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     loadUserData();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Padding(
@@ -113,7 +112,7 @@ class ProfilePageState extends State<ProfilePage> {
                       ),
                       Text(
                         //show username from prof
-                        userNama,
+                        widget.id.toString(),
                         style: TextStyle(
                             fontSize: 23.sp,
                             fontWeight: FontWeight.bold,
@@ -159,7 +158,8 @@ class ProfilePageState extends State<ProfilePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const UpdateProfilePage()));
+                              builder: (context) =>
+                                  UpdateProfilePage(id: widget.id)));
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(

@@ -3,7 +3,8 @@ import 'package:news_pbp/pages/newsPage.dart';
 import 'package:news_pbp/pages/profileNew.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final int? id;
+  const HomePage({Key? key, this.id}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -23,7 +24,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _widgetOptions = [
-      const NewsPage(),
+      NewsPage(
+        id: widget.id,
+      ),
       // index 1
       const Center(
         child: Text(
@@ -31,7 +34,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       // index 2
-      const ProfilePage(),
+      ProfilePage(id: widget.id),
     ];
   }
 

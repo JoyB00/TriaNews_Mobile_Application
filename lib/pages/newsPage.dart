@@ -10,7 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class NewsPage extends StatefulWidget {
-  const NewsPage({super.key});
+  const NewsPage({super.key, this.id});
+  final int? id;
 
   @override
   State<NewsPage> createState() => _NewsPageState();
