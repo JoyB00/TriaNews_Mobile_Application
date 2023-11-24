@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       // index 2
-      ProfilePage(id: widget.id),
+      ProfilePage(),
     ];
   }
 

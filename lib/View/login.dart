@@ -6,6 +6,7 @@ import 'package:news_pbp/client/UserClient.dart';
 import 'package:news_pbp/entity/user.dart';
 import 'package:news_pbp/main.dart';
 import 'package:news_pbp/database/sql_helper.dart';
+import 'package:news_pbp/view/forgotpass.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,13 +29,21 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  // Future<void> loadUserData(int id) async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   List<Map<String, dynamic>> user = await SQLHelper.getUser(id);
-  //   setState(() {
-  //     prefs.setInt('userId', user[0]['id']);
-  //   });
-  // }
+  void pushForgotPassword(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ForgotPassword(),
+      ),
+    );
+  }
+
+  Future<void> loadUserData(user) async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setInt('userId', user.id);
+    });
+  }
 
   TextEditingController userController = TextEditingController();
   TextEditingController passController = TextEditingController();
@@ -97,6 +106,13 @@ class _LoginViewState extends State<LoginView> {
               ),
             ),
 
+            TextButton(
+              onPressed: () {
+                pushForgotPassword(context);
+              },
+              child: Text('Forgot Password?'),
+            ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -115,7 +131,7 @@ class _LoginViewState extends State<LoginView> {
                               .showSnackBar(const SnackBar(
                             content: Text('Login Sukses'),
                           ));
-                          // loadUserData(user.id ?? 0);
+                          loadUserData(user);
                           // ignore: use_build_context_synchronously
                           Navigator.push(
                             context,

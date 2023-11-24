@@ -28,12 +28,11 @@ Membuat aplikasi berbentuk berita yang dapat dibaca oleh seluruh masyarakat.
 
 Membuat aplikasi berbentuk berita yang dapat dibaca oleh seluruh masyarakat.
 
-# UGD LIBRARY
+# UGD API
 
-- PDF PREVIEW & PRINTING : DENDY
-- 5 SENSOR TAMBAHAN :
-  - INTL : JOEL
-  - IMAGE PICKER : JEANNY
-  - BARCODE : JOSEPH
-  - UUID : WILJU
-  - RESPONSIVE SIZER : SEMUA
+- LARAVEL API : JEANNY
+- LOGIN & REGISTER : DENDY
+- FORGOT PASSWORD : JOEL DAN JOSEPH
+- SHOW PROFILE : WILLIAM
+- UPDATE PROFILE : DENDY & JEANNY
+- CRUDS NEWS : SEMUA (ON GOING)

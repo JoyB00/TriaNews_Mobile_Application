@@ -7,15 +7,15 @@ import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/entity/user.dart';
 import 'package:news_pbp/pages/updateProfile.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
   final String? imagePath;
   final CameraController? cameraController;
-  final int? id;
+  //final int? id;
 
-  const ProfilePage({Key? key, this.imagePath, this.cameraController, this.id})
+  const ProfilePage({Key? key, this.imagePath, this.cameraController})
       : super(key: key);
 
   @override
@@ -34,7 +34,9 @@ class ProfilePageState extends State<ProfilePage> {
   Image convert = Image.asset('images/luffy.jpg');
 
   Future<void> loadUserData() async {
-    User user = await UserClient.find(widget.id);
+    final prefs = await SharedPreferences.getInstance();
+    User user = await UserClient.find(prefs.getInt('userId'));
+    print(user.password);
 
     setState(() {
       id = user.id!;
@@ -59,6 +61,7 @@ class ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    loadUserData();
     return Scaffold(
         appBar: AppBar(
           title: Padding(
@@ -112,7 +115,7 @@ class ProfilePageState extends State<ProfilePage> {
                       ),
                       Text(
                         //show username from prof
-                        widget.id.toString(),
+                        userNama,
                         style: TextStyle(
                             fontSize: 23.sp,
                             fontWeight: FontWeight.bold,
@@ -158,8 +161,7 @@ class ProfilePageState extends State<ProfilePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  UpdateProfilePage(id: widget.id)));
+                              builder: (context) => UpdateProfilePage(id: id)));
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(

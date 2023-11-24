@@ -7,6 +7,7 @@ class UserClient {
   static final String url = '10.0.2.2:8000';
   static final String endpoint = '/api/user';
   static final String endpointLogin = '/api/login';
+  static final String endpointForgotPass = '/api/forgotpass';
 
   // mengambil data user dari API sesuai id
   static Future<User> find(id) async {
@@ -56,10 +57,28 @@ class UserClient {
       var response = await put(Uri.http(url, '$endpoint/${user.id}'),
           headers: {"Content-Type": "application/json"},
           body: user.toRawJson());
-
-      if (response.statusCode != 200) throw Exception(response.reasonPhrase);
+      print(response.body);
+      if (response.statusCode != 200) {
+        throw Exception(response.reasonPhrase);
+      }
 
       return response;
+    } catch (e) {
+      return Future.error(e.toString());
+    }
+  }
+
+  // forgot password by email
+  static Future<User> forgotPassword(User user) async {
+    try {
+      var response = await post(Uri.http(url, endpointForgotPass),
+          headers: {"Content-Type": "application/json"},
+          body: user.toRawJson());
+
+      if (response.statusCode != 200) {
+        throw Exception(response.reasonPhrase);
+      }
+      return User.fromJson(json.decode(response.body)['data']);
     } catch (e) {
       return Future.error(e.toString());
     }

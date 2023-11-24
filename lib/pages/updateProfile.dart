@@ -21,15 +21,18 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController notelpController = TextEditingController();
+  int? id;
 
   bool showPassword = false;
 
   Future<void> loadUserData() async {
-    User user = await UserClient.find(widget.id);
+    final prefs = await SharedPreferences.getInstance();
+    User user = await UserClient.find(prefs.getInt('userId'));
     usernameController.text = user.username!;
     emailController.text = user.email!;
     passwordController.text = user.password!;
     notelpController.text = user.notelp!;
+    // id = user.id;
   }
 
   @override
@@ -143,14 +146,12 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         try {
-                          await editUser();
+                          await editUser(widget.id!);
                           // ignore: use_build_context_synchronously
                           Navigator.pop(context);
                         } catch (e) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content:
-                                Text('Email yang digunakan sudah terdaftar'),
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(e.toString()),
                           ));
                         }
                       }
@@ -166,19 +167,15 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
     );
   }
 
-  Future<void> editUser() async {
-    User user = User(
-      id: widget.id ?? 0,
-      email: emailController.text,
-      notelp: notelpController.text,
-      username: usernameController.text,
-      password: passwordController.text,
-    );
+  Future<void> editUser(int id) async {
+    User temp = await UserClient.find(id);
+
+    User user = temp;
+    user.email = emailController.text;
+    user.notelp = notelpController.text;
+    user.username = usernameController.text;
+    user.password = passwordController.text;
 
     await UserClient.update(user);
   }
-
-  //   await SQLHelper.editUser(id, emailController.text, notelpController.text,
-  //       usernameController.text, passwordController.text);
-  // }
 }
