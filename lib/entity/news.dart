@@ -2,15 +2,16 @@ import 'dart:convert';
 
 class News {
   final int? id;
-  final String? image, judul, author, deskripsi, tanggal;
+  final String? image, judul, author, kategori, deskripsi, date;
 
   News(
       {this.id,
       this.image,
       this.judul,
       this.author,
+      this.kategori,
       this.deskripsi,
-      this.tanggal});
+      this.date});
 
   Map<String, dynamic> toMap() {
     return {
@@ -18,8 +19,9 @@ class News {
       'image': image,
       'judul': judul,
       'author': author,
+      'kategori': kategori,
       'deskripsi': deskripsi,
-      'tanggal': tanggal,
+      'date': date,
     };
   }
 
@@ -28,8 +30,9 @@ class News {
         image = map['image'],
         judul = map['judul'],
         author = map['author'],
+        kategori = map['kategori'],
         deskripsi = map['deskripsi'],
-        tanggal = map['tanggal'];
+        date = map['date'];
 
   factory News.fromRawJson(String str) => News.fromJson(json.decode(str));
 
@@ -38,8 +41,9 @@ class News {
         image: json['image'],
         judul: json['judul'],
         author: json['author'],
+        kategori: json['kategori'],
         deskripsi: json['deskripsi'],
-        tanggal: json['tanggal'],
+        date: json['date'],
       );
 
   // untuk membuat data json dari objek User yang dikirim ke API
@@ -49,7 +53,8 @@ class News {
         "image": image,
         "judul": judul,
         "author": author,
+        "kategori": kategori,
         "deskripsi": deskripsi,
-        "tanggal": tanggal,
+        "date": date,
       };
 }

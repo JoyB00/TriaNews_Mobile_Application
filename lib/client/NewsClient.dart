@@ -4,8 +4,10 @@ import 'dart:convert';
 import 'package:http/http.dart';
 
 class NewsClient {
-  static final String url = '10.0.2.2:8000';
-  static final String endpoint = '/api/news';
+  // static final String url = '10.0.2.2:8000';
+  // static final String endpoint = '/api/news';
+  static final String url = '192.168.18.39';
+  static final String endpoint = 'API_News/public/api/news';
 
   // mengambil semua data news dari API
   static Future<List<News>> fetchAll() async {
@@ -42,6 +44,7 @@ class NewsClient {
       var response = await post(Uri.http(url, endpoint),
           headers: {"Content-Type": "application/json"},
           body: news.toRawJson());
+      print(response.body);
 
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:news_pbp/client/UserClient.dart';
-// import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/View/login.dart';
 import 'package:news_pbp/entity/user.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';

@@ -5,7 +5,6 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:news_pbp/client/UserClient.dart';
 import 'package:news_pbp/entity/user.dart';
 import 'package:news_pbp/main.dart';
-import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/view/forgotpass.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -125,20 +124,18 @@ class _LoginViewState extends State<LoginView> {
                       );
                       try {
                         user = await UserClient.login(user);
-                        if (user != null) {
-                          // ignore: use_build_context_synchronously
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text('Login Sukses'),
-                          ));
-                          loadUserData(user);
-                          // ignore: use_build_context_synchronously
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => HomePage(id: user.id)),
-                          );
-                        }
+                        // ignore: use_build_context_synchronously
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text('Login Sukses'),
+                        ));
+                        loadUserData(user);
+                        // ignore: use_build_context_synchronously
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => HomePage(id: user.id)),
+                        );
                       } catch (e) {
                         showDialog(
                             context: context,

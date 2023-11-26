@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // debugShowCheckedModeBanner: false,
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(

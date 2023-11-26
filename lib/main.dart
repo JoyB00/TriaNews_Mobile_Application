@@ -15,29 +15,31 @@ class MainApp extends StatelessWidget {
     return ResponsiveSizer(builder: (context, orientation, screenType) {
       Device.orientation == Orientation.portrait
           ? Container(
-            width: 100.w,
-            height: 20.5.h,
-          )
+              width: 100.w,
+              height: 20.5.h,
+            )
           : Container(
-            width: 100.w,
-            height: 12.5.h,
-          );
+              width: 100.w,
+              height: 12.5.h,
+            );
 
       Device.screenType == ScreenType.tablet
           ? Container(
-            width: 100.w,
-            height: 20.5.h,
-          )
+              width: 100.w,
+              height: 20.5.h,
+            )
           : Container(
-            width: 100.w,
-            height: 12.5.h,
-          );
+              width: 100.w,
+              height: 12.5.h,
+            );
+
       return AdaptiveTheme(
         light: ThemeData.light(),
         dark: ThemeData.dark(),
         debugShowFloatingThemeButton: true, // <------ add this line
         initial: AdaptiveThemeMode.light,
         builder: (theme, darkTheme) => MaterialApp(
+          debugShowCheckedModeBanner: false,
           theme: theme,
           darkTheme: darkTheme,
           home: const LoginView(),

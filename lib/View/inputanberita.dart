@@ -5,7 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:news_pbp/database/sql_news.dart';
+import 'package:news_pbp/client/NewsClient.dart';
+import 'package:news_pbp/entity/news.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -358,8 +359,7 @@ class _InputanBerita extends State<InputanBerita> {
                                 if (widget.id == null) {
                                   await addNews(kategoriController.text);
                                 } else {
-                                  await editNews(
-                                      widget.id!, kategoriController.text);
+                                  await editNews(widget.id!);
                                 }
                                 Navigator.pop(context);
                               }
@@ -448,23 +448,28 @@ class _InputanBerita extends State<InputanBerita> {
   }
 
   Future<void> addNews(String kategori) async {
-    await SQLNews.addNews(
-        image!,
-        judulController.text,
-        descriptionController.text,
-        authorController.text,
-        kategoriController.text,
-        dateController.text);
+    News news = News(
+      image: image,
+      judul: judulController.text,
+      deskripsi: descriptionController.text,
+      author: authorController.text,
+      kategori: kategoriController.text,
+      date: dateController.text,
+    );
+
+    await NewsClient.create(news);
   }
 
-  Future<void> editNews(int id, String kategori) async {
-    await SQLNews.editNews(
-        id,
-        image!,
-        judulController.text,
-        descriptionController.text,
-        authorController.text,
-        kategoriController.text,
-        dateController.text);
+  Future<void> editNews(int id) async {
+    News news = News(
+      id: id,
+      image: image,
+      judul: judulController.text,
+      deskripsi: descriptionController.text,
+      author: authorController.text,
+      kategori: kategoriController.text,
+      date: dateController.text,
+    );
+    await NewsClient.update(news);
   }
 }

@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:news_pbp/database/sql_news.dart';
+import 'package:news_pbp/client/NewsClient.dart';
+// import 'package:news_pbp/database/sql_news.dart';
+import 'package:news_pbp/entity/news.dart';
 import 'package:news_pbp/pages/pdf_berita_view.dart';
 import 'package:news_pbp/qr_scan/generateQrPage.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -42,14 +44,14 @@ class DetailNewsState extends State<DetailNews> {
   }
 
   Future<void> loadNewsData(int id) async {
-    final news = await SQLNews.getSpesificNews(widget.index!);
+    News news = await NewsClient.find(id);
     setState(() {
-      image = news[0]['image'];
-      judul = news[0]['judul'];
-      deskripsi = news[0]['deskripsi'];
-      author = news[0]['author'];
-      kategori = news[0]['kategori'];
-      tanggalPublish = news[0]['date'];
+      image = news.image!;
+      judul = news.judul!;
+      deskripsi = news.deskripsi!;
+      author = news.author!;
+      kategori = news.kategori!;
+      tanggalPublish = news.date!;
     });
   }
 
@@ -113,7 +115,7 @@ class DetailNewsState extends State<DetailNews> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const GenerateQRPage()));
+                                      GenerateQRPage(index: widget.index)));
                         },
                         child: const Text(
                           'Lihat Qr Code Berita',

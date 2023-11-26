@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:news_pbp/database/sql_news.dart';
+// import 'package:news_pbp/client/NewsClient.dart';
+// import 'package:news_pbp/entity/news.dart';
+// import 'package:news_pbp/database/sql_news.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 class GenerateQRPage extends StatefulWidget {
-  const GenerateQRPage({super.key});
+  final int? index;
+  const GenerateQRPage({super.key, this.index});
 
   @override
   State<GenerateQRPage> createState() => _GenerateQRPageState();
@@ -22,28 +25,21 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
   @override
   void initState() {
     super.initState();
-    loadNewsData();
+    // loadNewsData();
+    print(widget.index);
   }
 
-  Future<void> loadNewsData() async {
-    final prefs = await SharedPreferences.getInstance();
-    List<Map<String, dynamic>> news =
-        await SQLNews.getSpesificNews(prefs.getInt('newsId') ?? 0);
-
-    setState(() {
-      image = news[0]['image'];
-      judul = news[0]['judul'];
-      deskripsi = news[0]['deskripsi'];
-      author = news[0]['author'];
-      kategori = news[0]['kategori'];
-      tanggalPublish = news[0]['date'];
-      newsId = news[0]['id'];
-    });
-  }
+  // Future<void> loadNewsData() async {
+  //   // final prefs = await SharedPreferences.getInstance();
+  //   News news = NewsClient.find(widget.index) as News;
+  //   setState(() {
+  //     newsId = news.id!;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    loadNewsData();
+    // loadNewsData();
     return Scaffold(
       appBar: AppBar(
         title: Padding(
@@ -77,7 +73,7 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
             ),
           ),
           QrImageView(
-            data: newsId.toString(),
+            data: widget.index.toString(),
             version: 6,
             padding: const EdgeInsets.all(50),
           ),

@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:news_pbp/View/camera/display_picture.dart';
+import 'package:news_pbp/client/UserClient.dart';
+import 'package:news_pbp/entity/user.dart';
 import 'package:news_pbp/view/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:news_pbp/database/sql_helper.dart';
 
 class CameraView extends StatefulWidget {
   const CameraView({super.key});
@@ -23,11 +24,10 @@ class _CameraViewState extends State<CameraView> {
 
   Future<void> loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
-    List<Map<String, dynamic>> user =
-        await SQLHelper.getUser(prefs.getInt('userId') ?? 0);
+    User user = await UserClient.find(prefs.getInt('userId'));
     setState(() {
-      id = user[0]['id'];
-      nama = user[0]['username'];
+      id = user.id!;
+      nama = user.username!;
     });
   }
 
@@ -120,6 +120,11 @@ class _CameraViewState extends State<CameraView> {
   }
 
   Future<void> editImage(int id, String result) async {
-    await SQLHelper.addImage(result, id);
+    User temp = await UserClient.find(id);
+
+    User user = temp;
+    user.image = result;
+
+    await UserClient.update(user);
   }
 }

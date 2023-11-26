@@ -19,36 +19,36 @@ class _ConfirmPasswordState extends State<ConfirmPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Confirm Password'),
+        title: const Text('Confirm Password'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Enter your new password',
               style: TextStyle(fontSize: 18.0),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             TextField(
               obscureText: true,
               controller: passwordController,
               decoration: InputDecoration(
                 hintText: 'New Password',
-                prefixIcon: Icon(Icons.lock),
+                prefixIcon: const Icon(Icons.lock),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             TextField(
               obscureText: true,
               controller: passwordConfirmController,
               decoration: InputDecoration(
                 hintText: 'Confirm New Password',
-                prefixIcon: Icon(Icons.lock),
+                prefixIcon: const Icon(Icons.lock),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
@@ -69,7 +69,7 @@ class _ConfirmPasswordState extends State<ConfirmPassword> {
                   print(e.toString());
                 }
               },
-              child: Text('Confirm Password'),
+              child: const Text('Confirm Password'),
             ),
           ],
         ),

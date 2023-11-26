@@ -3,7 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:news_pbp/View/camera/camera.dart';
 import 'package:news_pbp/client/UserClient.dart';
-import 'package:news_pbp/database/sql_helper.dart';
+// import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/entity/user.dart';
 import 'package:news_pbp/pages/updateProfile.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -36,7 +36,6 @@ class ProfilePageState extends State<ProfilePage> {
   Future<void> loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
     User user = await UserClient.find(prefs.getInt('userId'));
-    print(user.password);
 
     setState(() {
       id = user.id!;
@@ -197,7 +196,12 @@ _getFromGallery(var id) async {
 }
 
 Future<void> editImage(int id, String result) async {
-  await SQLHelper.addImage(result, id);
+  User temp = await UserClient.find(id);
+
+  User user = temp;
+  user.image = result;
+
+  await UserClient.update(user);
 }
 
 void camOrGallery(BuildContext context, var id) {
