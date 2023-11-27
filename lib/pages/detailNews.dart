@@ -57,7 +57,6 @@ class DetailNewsState extends State<DetailNews> {
 
   @override
   Widget build(BuildContext context) {
-    loadNewsData(widget.index!);
     return Scaffold(
         appBar: AppBar(
           title: Padding(

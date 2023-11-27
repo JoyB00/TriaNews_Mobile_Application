@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:news_pbp/View/home.dart';
 import 'package:news_pbp/client/UserClient.dart';
 // import 'package:news_pbp/View/camera/camera.dart';
-import 'package:news_pbp/database/sql_helper.dart';
+// import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/entity/user.dart';
+import 'package:news_pbp/pages/profileNew.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class UpdateProfilePage extends StatefulWidget {
   const UpdateProfilePage({super.key, this.id});
@@ -21,7 +24,6 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController notelpController = TextEditingController();
-  int? id;
 
   bool showPassword = false;
 
@@ -32,7 +34,7 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
     emailController.text = user.email!;
     passwordController.text = user.password!;
     notelpController.text = user.notelp!;
-    // id = user.id;
+    print(user.id);
   }
 
   @override
@@ -168,9 +170,8 @@ class UpdateProfilePageState extends State<UpdateProfilePage> {
   }
 
   Future<void> editUser(int id) async {
-    User temp = await UserClient.find(id);
-
-    User user = temp;
+    User user = await UserClient.find(id);
+    //User user = temp;
     user.email = emailController.text;
     user.notelp = notelpController.text;
     user.username = usernameController.text;

@@ -36,8 +36,9 @@ class ProfilePageState extends State<ProfilePage> {
   Future<void> loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
     User user = await UserClient.find(prefs.getInt('userId'));
-
     setState(() {
+      print(user.id);
+      print(user.email);
       id = user.id!;
       userEmail = user.email!;
       userNama = user.username!;
@@ -54,13 +55,12 @@ class ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    super.initState();
     loadUserData();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    loadUserData();
     return Scaffold(
         appBar: AppBar(
           title: Padding(
@@ -159,8 +159,12 @@ class ProfilePageState extends State<ProfilePage> {
                     onPressed: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => UpdateProfilePage(id: id)));
+                            MaterialPageRoute(
+                              builder: (context) => UpdateProfilePage(
+                                id: id,
+                              ),
+                            ),
+                          ).then((_) => loadUserData());
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
