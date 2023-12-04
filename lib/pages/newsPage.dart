@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -10,6 +11,7 @@ import 'package:news_pbp/pages/detailNews.dart';
 import 'package:news_pbp/qr_scan/scan_qr_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:news_pbp/image/image_setup.dart';
 
 class NewsPage extends StatefulWidget {
   const NewsPage({super.key, this.id});
@@ -39,7 +41,7 @@ class ElevatedCardExample extends StatefulWidget {
 
 class _ElevatedCardExampleState extends State<ElevatedCardExample> {
   Image convert = Image.asset('images/luffy.jpg');
-  String? image;
+  Image? image;
   File? userImage;
 
   List<News> newsList = [];
@@ -159,9 +161,7 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                                 SizedBox(
                                   width: 30.w,
                                   height: 90.h,
-                                  child: Image.file(
-                                    File(newsList[index].image!),
-                                  ),
+                                  child: decode(newsList[index].image!),
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,5 +224,9 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
   Future<void> deleteNews(int id) async {
     await NewsClient.destroy(id);
     refresh();
+  }
+
+  Image decode(image)  {
+    return Utility.imageFromBase64String(image);
   }
 }
