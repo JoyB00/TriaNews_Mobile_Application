@@ -20,7 +20,7 @@ class _RegisterState extends State<Register> {
   TextEditingController notelpController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   bool showPassword = false;
-  bool _isTermsChecked = false;
+  bool _isTermsChecked = true;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class _RegisterState extends State<Register> {
                   ),
                   Padding(padding: EdgeInsets.all(5.0.w)),
                   TextFormField(
-                      key: const ValueKey('username'),
+                      key: const Key('username'),
                       controller: usernameController,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.person),
@@ -69,7 +69,8 @@ class _RegisterState extends State<Register> {
                       }),
                   Padding(padding: EdgeInsets.all(1.h)),
                   TextFormField(
-                      key: const ValueKey('email'),
+                      key: const Key('email'),
+                      controller: emailController,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.email),
                         labelText: 'Email',
@@ -84,7 +85,7 @@ class _RegisterState extends State<Register> {
                       }),
                   Padding(padding: EdgeInsets.all(1.h)),
                   TextFormField(
-                      key: const ValueKey('password'),
+                      key: const Key('password'),
                       controller: passwordController,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock),
@@ -116,7 +117,7 @@ class _RegisterState extends State<Register> {
                       padding: EdgeInsets.symmetric(
                           vertical: 1.0.w, horizontal: 10.0.h)),
                   TextFormField(
-                      key: const ValueKey('notelp'),
+                      key: const Key('notelp'),
                       controller: notelpController,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.phone),
@@ -134,7 +135,7 @@ class _RegisterState extends State<Register> {
                       }),
                   Padding(padding: EdgeInsets.all(1.h)),
                   TextFormField(
-                      key: const ValueKey('dateofbirth'),
+                      key: const Key('dateofbirth'),
                       controller: _dateController,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.calendar_today),
@@ -158,22 +159,20 @@ class _RegisterState extends State<Register> {
                         return null;
                       }),
                   Padding(padding: EdgeInsets.all(1.h)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Checkbox(
-                        value: _isTermsChecked,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _isTermsChecked = value!;
-                          });
-                        },
-                      ),
-                      const Text('Saya setuju dengan Terms of Service'),
-                    ],
-                  ),
+                  
+                      // Checkbox(
+                      //   key: const Key('terms'),
+                      //   value: _isTermsChecked,
+                      //   onChanged: (bool? value) {
+                      //     setState(() {
+                      //       _isTermsChecked = value!;
+                      //     });
+                      //   },
+                      // ),
+                      // const Text('Saya setuju dengan Terms of Service'),
+                    
                   ElevatedButton(
-                    key: const ValueKey('register'),
+                    key: const Key('register'),
                     onPressed: () {
                       if (_isTermsChecked) {
                         _handleRegistration();
@@ -243,6 +242,7 @@ class _RegisterState extends State<Register> {
               },
             ),
             TextButton(
+              key: const Key('daftar'),
               child: const Text('Daftar'),
               onPressed: () async {
                 try {

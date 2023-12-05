@@ -7,6 +7,7 @@ import 'package:news_pbp/client/UserClient.dart';
 import 'package:news_pbp/entity/bookmark.dart';
 import 'package:news_pbp/entity/news.dart';
 import 'package:news_pbp/entity/user.dart';
+import 'package:news_pbp/image/image_setup.dart';
 import 'package:news_pbp/pages/pdf_berita_view.dart';
 import 'package:news_pbp/qr_scan/generateQrPage.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -176,7 +177,7 @@ class DetailNewsState extends State<DetailNews> {
                             ),
                           )),
 
-                      Center(child: Image.file(File(image))),
+                      Center(child: decode(image)),
                       Container(
                           margin: EdgeInsets.only(left: 4.5.w, top: 3.0.h),
                           child: Text(
@@ -273,4 +274,9 @@ class DetailNewsState extends State<DetailNews> {
                     ),
                   ));
   }
+
+  Image decode(image){
+    return Utility.imageFromBase64String(image);
+  }
 }
+

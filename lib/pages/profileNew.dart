@@ -200,8 +200,9 @@ _getFromGallery(var id) async {
 }
 
 Future<void> editImage(int id, String result) async {
-  User temp = await UserClient.find(id);
-  User user = temp;
+  User user = await UserClient.find(id);
+
+  //User user = temp;
   user.image = result;
   await UserClient.update(user);
 }

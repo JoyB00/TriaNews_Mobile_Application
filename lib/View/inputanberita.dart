@@ -1,6 +1,6 @@
-import 'dart:convert';
+// import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
+// import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +9,7 @@ import 'package:news_pbp/client/NewsClient.dart';
 import 'package:news_pbp/entity/news.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:news_pbp/image/image_setup.dart';
 
 class InputanBerita extends StatefulWidget {
   // const InputanBerita({Key? key}) : super(key: key);
@@ -28,23 +29,6 @@ class InputanBerita extends StatefulWidget {
 
   @override
   State<InputanBerita> createState() => _InputanBerita();
-}
-
-class Utility {
-  static Image imageFromBase64String(String base64String) {
-    return Image.memory(
-      base64Decode(base64String),
-      fit: BoxFit.fill,
-    );
-  }
-
-  static Uint8List dataFromBase64String(String base64String) {
-    return base64Decode(base64String);
-  }
-
-  static String base64String(Uint8List data) {
-    return base64Encode(data);
-  }
 }
 
 class _InputanBerita extends State<InputanBerita> {
@@ -394,7 +378,7 @@ class _InputanBerita extends State<InputanBerita> {
 
   Future pickImage() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 25);
 
       if (image == null) return;
 
@@ -406,7 +390,7 @@ class _InputanBerita extends State<InputanBerita> {
 
   Future pickImageC() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      final image = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 25);
 
       if (image == null) return;
 
@@ -447,23 +431,36 @@ class _InputanBerita extends State<InputanBerita> {
     );
   }
 
+  Future<String> encode(image) async {
+    File imageFile = File(image);
+    Uint8List bytes = await imageFile.readAsBytes();
+    String imgString = Utility.base64String(bytes);
+    return imgString;
+  }
+
   Future<void> addNews(String kategori) async {
+    if (image != null) {
+      imgString = await encode(image);
+    }
     News news = News(
-      image: image,
+      image: imgString,
       judul: judulController.text,
       deskripsi: descriptionController.text,
       author: authorController.text,
       kategori: kategoriController.text,
       date: dateController.text,
     );
-
+    print(imgString);
     await NewsClient.create(news);
   }
 
   Future<void> editNews(int id) async {
+    if (image != null) {
+      imgString = await encode(image);
+    }
     News news = News(
       id: id,
-      image: image,
+      image: imgString,
       judul: judulController.text,
       deskripsi: descriptionController.text,
       author: authorController.text,
