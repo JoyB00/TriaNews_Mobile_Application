@@ -426,7 +426,7 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                           ),
                           padding:
                               MaterialStateProperty.all<EdgeInsetsGeometry>(
-                            const EdgeInsets.symmetric(horizontal: 120.0),
+                            const EdgeInsets.symmetric(horizontal: 90.0),
                           ),
                         ),
                         child: const Row(

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:news_pbp/image/image_setup.dart';
 import 'package:news_pbp/pages/preview_screen.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -242,4 +243,8 @@ pw.Header footerPDF(String formattedDate) {
       ),
     ),
   );
+  
+  //  pw.Image decode(image){
+  //   return Utility.imageFromBase64String(image);
+  // }
 }
