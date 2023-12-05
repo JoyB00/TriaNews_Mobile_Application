@@ -5,12 +5,11 @@ import 'package:news_pbp/pages/profileNew.dart';
 class HomePage extends StatefulWidget {
   final int? id;
   const HomePage({Key? key, this.id}) : super(key: key);
-
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   late List<Widget> _widgetOptions;

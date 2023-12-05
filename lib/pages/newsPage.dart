@@ -41,12 +41,14 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
   Image convert = Image.asset('images/luffy.jpg');
   String? image;
   File? userImage;
+  bool isLoading = false;
 
   List<News> newsList = [];
   void refresh() async {
     final data = await NewsClient.fetchAll();
     setState(() {
       newsList = data;
+      isLoading = false;
     });
   }
 
@@ -60,8 +62,11 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
 
   @override
   void initState() {
-    refresh();
     super.initState();
+    setState(() {
+      isLoading = true;
+    });
+    refresh();
   }
 
   @override
@@ -92,133 +97,144 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                             )),
                   ).then((_) => refresh());
                 }),
-            IconButton(icon: const Icon(Icons.clear), onPressed: () async {})
           ],
         ),
-        body: Column(children: [
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const BarcodeScannerPageView()));
-            },
-            child: const Text(
-              'Cari Berita Melalui Qr Code',
-              style: TextStyle(color: Color.fromRGBO(122, 149, 229, 1)),
-            ),
-          ),
-          Expanded(
-              child: ListView.builder(
-                  itemCount: newsList.length,
-                  itemBuilder: (context, index) {
-                    return Slidable(
-                      actionPane: const SlidableDrawerActionPane(),
-                      secondaryActions: [
-                        IconSlideAction(
-                          caption: 'Update',
-                          color: const Color.fromRGBO(122, 149, 229, 1),
-                          icon: Icons.update,
-                          onTap: () async {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => InputanBerita(
-                                        image: newsList[index].image,
-                                        id: newsList[index].id,
-                                        judul: newsList[index].judul,
-                                        author: newsList[index].author,
-                                        deskripsi: newsList[index].deskripsi,
-                                        kategori: newsList[index].kategori,
-                                        date: newsList[index].date,
-                                      )),
-                            ).then((_) => refresh());
-                          },
-                        ),
-                        IconSlideAction(
-                          caption: 'Delete',
-                          color: Colors.red,
-                          icon: Icons.delete,
-                          onTap: () async {
-                            await deleteNews(newsList[index].id!);
-                          },
-                        )
-                      ],
-                      child: ListTile(
-                        title: Container(
-                            margin: EdgeInsets.only(
-                                top: 1.h, left: 3.w, right: 3.w),
-                            width: 100.w,
-                            height: 25.h,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.0),
-                                color: Colors.white),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                SizedBox(
-                                  width: 30.w,
-                                  height: 90.h,
-                                  child: Image.file(
-                                    File(newsList[index].image!),
-                                  ),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 2.h, vertical: 4.w)),
-                                    Text(
-                                      "${newsList[index].date}",
-                                      style: TextStyle(
-                                          fontSize: 13.sp, color: Colors.grey),
-                                    ),
-                                    SizedBox(
-                                      width: 50.w,
-                                      child: Text(
-                                        newsList[index].judul!,
-                                        style: TextStyle(
-                                          fontSize: 20.sp,
-                                          fontWeight: FontWeight.bold,
+        body: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Column(children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const BarcodeScannerPageView()));
+                  },
+                  child: const Text(
+                    'Cari Berita Melalui Qr Code',
+                    style: TextStyle(color: Color.fromRGBO(122, 149, 229, 1)),
+                  ),
+                ),
+                Expanded(
+                    child: ListView.builder(
+                        itemCount: newsList.length,
+                        itemBuilder: (context, index) {
+                          return Slidable(
+                            actionPane: const SlidableDrawerActionPane(),
+                            secondaryActions: [
+                              IconSlideAction(
+                                caption: 'Update',
+                                color: const Color.fromRGBO(122, 149, 229, 1),
+                                icon: Icons.update,
+                                onTap: () async {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => InputanBerita(
+                                              image: newsList[index].image,
+                                              id: newsList[index].id,
+                                              judul: newsList[index].judul,
+                                              author: newsList[index].author,
+                                              deskripsi:
+                                                  newsList[index].deskripsi,
+                                              kategori:
+                                                  newsList[index].kategori,
+                                              date: newsList[index].date,
+                                            )),
+                                  ).then((_) => refresh());
+                                },
+                              ),
+                              IconSlideAction(
+                                caption: 'Delete',
+                                color: Colors.red,
+                                icon: Icons.delete,
+                                onTap: () async {
+                                  await deleteNews(newsList[index].id!);
+                                },
+                              )
+                            ],
+                            child: ListTile(
+                              title: Container(
+                                  margin: EdgeInsets.only(
+                                      top: 1.h, left: 3.w, right: 3.w),
+                                  width: 100.w,
+                                  height: 25.h,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      color: Colors.white),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      SizedBox(
+                                        width: 30.w,
+                                        height: 90.h,
+                                        child: Image.file(
+                                          File(newsList[index].image!),
                                         ),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 3,
-                                        softWrap: true,
                                       ),
-                                    ),
-                                    Text(
-                                      "${newsList[index].kategori}",
-                                      style: TextStyle(
-                                          fontSize: 15.sp, color: Colors.grey),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        // loadDetailNews(newsList[index].id!);
-                                        print(" asdas ${newsList[index].id}");
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DetailNews(
-                                                        index: newsList[index]
-                                                            .id)));
-                                      },
-                                      child: const Text(
-                                        'Lihat Detail',
-                                        style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                249, 148, 23, 1)),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 2.h,
+                                                  vertical: 4.w)),
+                                          Text(
+                                            "${newsList[index].date}",
+                                            style: TextStyle(
+                                                fontSize: 13.sp,
+                                                color: Colors.grey),
+                                          ),
+                                          SizedBox(
+                                            width: 50.w,
+                                            child: Text(
+                                              newsList[index].judul!,
+                                              style: TextStyle(
+                                                fontSize: 20.sp,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 3,
+                                              softWrap: true,
+                                            ),
+                                          ),
+                                          Text(
+                                            "${newsList[index].kategori}",
+                                            style: TextStyle(
+                                                fontSize: 15.sp,
+                                                color: Colors.grey),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              // loadDetailNews(newsList[index].id!);
+                                              print(
+                                                  " asdas ${newsList[index].id}");
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          DetailNews(
+                                                              index: newsList[
+                                                                      index]
+                                                                  .id)));
+                                            },
+                                            child: const Text(
+                                              'Lihat Detail',
+                                              style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      249, 148, 23, 1)),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
-                      ),
-                    );
-                  }))
-        ]));
+                                    ],
+                                  )),
+                            ),
+                          );
+                        }))
+              ]));
   }
 
   Future<void> deleteNews(int id) async {

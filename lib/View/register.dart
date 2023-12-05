@@ -53,6 +53,7 @@ class _RegisterState extends State<Register> {
                   ),
                   Padding(padding: EdgeInsets.all(5.0.w)),
                   TextFormField(
+                      key: const ValueKey('username'),
                       controller: usernameController,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.person),
@@ -68,7 +69,7 @@ class _RegisterState extends State<Register> {
                       }),
                   Padding(padding: EdgeInsets.all(1.h)),
                   TextFormField(
-                      controller: emailController,
+                      key: const ValueKey('email'),
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.email),
                         labelText: 'Email',
@@ -83,6 +84,7 @@ class _RegisterState extends State<Register> {
                       }),
                   Padding(padding: EdgeInsets.all(1.h)),
                   TextFormField(
+                      key: const ValueKey('password'),
                       controller: passwordController,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock),
@@ -114,6 +116,7 @@ class _RegisterState extends State<Register> {
                       padding: EdgeInsets.symmetric(
                           vertical: 1.0.w, horizontal: 10.0.h)),
                   TextFormField(
+                      key: const ValueKey('notelp'),
                       controller: notelpController,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.phone),
@@ -131,6 +134,7 @@ class _RegisterState extends State<Register> {
                       }),
                   Padding(padding: EdgeInsets.all(1.h)),
                   TextFormField(
+                      key: const ValueKey('dateofbirth'),
                       controller: _dateController,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.calendar_today),
@@ -169,6 +173,7 @@ class _RegisterState extends State<Register> {
                     ],
                   ),
                   ElevatedButton(
+                    key: const ValueKey('register'),
                     onPressed: () {
                       if (_isTermsChecked) {
                         _handleRegistration();

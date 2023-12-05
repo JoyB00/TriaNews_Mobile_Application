@@ -33,8 +33,8 @@ class UserClient {
           headers: {"Content-Type": "application/json"},
           body: user.toRawJson());
 
+      print(response.body);
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
-
       return response;
     } catch (e) {
       return Future.error(e.toString());
@@ -62,7 +62,7 @@ class UserClient {
       var response = await put(Uri.http(url, '$endpoint/${user.id}'),
           headers: {"Content-Type": "application/json"},
           body: user.toRawJson());
-      // print(response.body);
+      print(response.body);
       if (response.statusCode != 200) {
         throw Exception(response.reasonPhrase);
       }

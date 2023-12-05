@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_pbp/View/login.dart';
+import 'package:news_pbp/pages/loginView.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 

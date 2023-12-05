@@ -65,6 +65,7 @@ class _LoginViewState extends State<LoginView> {
             Padding(
               padding: EdgeInsets.all(2.0.h),
               child: TextField(
+                key: const ValueKey("username"),
                 controller: userController,
                 decoration: InputDecoration(
                   hintText: 'Username',
@@ -79,6 +80,7 @@ class _LoginViewState extends State<LoginView> {
             Padding(
               padding: EdgeInsets.all(2.0.h),
               child: TextField(
+                key: const ValueKey("password"),
                 controller: passController,
                 obscureText: visible,
                 onChanged: (value) => setState(() {
@@ -116,6 +118,7 @@ class _LoginViewState extends State<LoginView> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
+                  key: const ValueKey("login"),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       User user = User(
@@ -129,7 +132,7 @@ class _LoginViewState extends State<LoginView> {
                             .showSnackBar(const SnackBar(
                           content: Text('Login Sukses'),
                         ));
-                        loadUserData(user);
+                        // loadUserData(user);
                         // ignore: use_build_context_synchronously
                         Navigator.push(
                           context,
@@ -160,22 +163,6 @@ class _LoginViewState extends State<LoginView> {
                                   ],
                                 ));
                       }
-
-                      // ignore: use_build_context_synchronously
-                      // } else {
-                      //   // ignore: use_build_context_synchronously
-                      //   ScaffoldMessenger.of(context)
-                      //       .showSnackBar(const SnackBar(
-                      //     content: Text('Login Sukses'),
-                      //   ));
-                      //   // loadUserData(user.id ?? 0);
-                      //   // ignore: use_build_context_synchronously
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (_) => HomePage(id: user.id)),
-                      //   );
-                      // }
                     }
                   },
                   child: const Text('Login'),

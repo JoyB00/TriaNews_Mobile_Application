@@ -158,13 +158,13 @@ class ProfilePageState extends State<ProfilePage> {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
-                          context,
-                            MaterialPageRoute(
-                              builder: (context) => UpdateProfilePage(
-                                id: id,
-                              ),
-                            ),
-                          ).then((_) => loadUserData());
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UpdateProfilePage(
+                            id: id,
+                          ),
+                        ),
+                      ).then((_) => loadUserData());
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
@@ -201,10 +201,8 @@ _getFromGallery(var id) async {
 
 Future<void> editImage(int id, String result) async {
   User temp = await UserClient.find(id);
-
   User user = temp;
   user.image = result;
-
   await UserClient.update(user);
 }
 
