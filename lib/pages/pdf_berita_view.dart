@@ -1,4 +1,4 @@
-import 'dart:io';
+//import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:news_pbp/pages/preview_screen.dart';
@@ -10,7 +10,7 @@ import 'package:uuid/uuid.dart';
 
 Future<void> createPdf(
   int id,
-  File image,
+  Uint8List image,
   String judul,
   String deskripsi,
   String author,
@@ -62,8 +62,6 @@ Future<void> createPdf(
     return pw.MemoryImage(imageBytes);
   }
 
-  final imageBytes = image.readAsBytesSync();
-
   final imageLogo =
       (await rootBundle.load("images/Tria News.png")).buffer.asUint8List();
 
@@ -88,7 +86,7 @@ Future<void> createPdf(
                 pw.SizedBox(height: 5),
                 title(judul, tanggalPublish, author),
                 pw.SizedBox(height: 5),
-                imageNews(pdfImageProvider, imageBytes),
+                imageNews(pdfImageProvider, image),
                 pw.SizedBox(height: 5),
                 body(deskripsi),
                 pw.SizedBox(height: 100),

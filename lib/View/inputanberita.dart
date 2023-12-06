@@ -378,7 +378,7 @@ class _InputanBerita extends State<InputanBerita> {
 
   Future pickImage() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 25);
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 10);
 
       if (image == null) return;
 
@@ -390,7 +390,7 @@ class _InputanBerita extends State<InputanBerita> {
 
   Future pickImageC() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 25);
+      final image = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 10);
 
       if (image == null) return;
 

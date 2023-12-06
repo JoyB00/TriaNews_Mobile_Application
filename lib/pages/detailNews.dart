@@ -1,4 +1,4 @@
-import 'dart:io';
+//import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -178,7 +178,7 @@ class DetailNewsState extends State<DetailNews> {
                             onPressed: () {
                               createPdf(
                                   widget.index!,
-                                  File(image),
+                                  Utility.dataFromBase64String(image),
                                   judul,
                                   deskripsi,
                                   author,
