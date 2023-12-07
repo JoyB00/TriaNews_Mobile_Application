@@ -9,7 +9,7 @@ class UserClient {
   // static final String endpointLogin = '/api/login';
   // static final String endpointForgotPass = '/api/forgotpass';
 
-  static final String url = '192.168.229.9';
+  static final String url = '192.168.18.39';
   static final String endpoint = 'API_News/public/api/user';
   static final String endpointLogin = 'API_News/public/api/login';
   static final String endpointForgotPass = 'API_News/public/api/forgotpass';

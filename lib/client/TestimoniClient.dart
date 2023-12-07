@@ -7,7 +7,7 @@ import 'package:news_pbp/entity/user.dart';
 class TestimoniClient {
   // static final String url = '10.0.2.2:8000';
   // static final String endpoint = '/api/testimoni';
-  static final String url = '192.168.229.9';
+  static final String url = '192.168.18.39';
   static final String endpoint = 'API_News/public/api/testimoni';
 
   static Future<List<Testimoni>> fetchAll() async {

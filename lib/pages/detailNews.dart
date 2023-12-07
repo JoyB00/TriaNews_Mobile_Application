@@ -233,7 +233,7 @@ class DetailNewsState extends State<DetailNews> {
                                 onPressed: () {
                                   createPdf(
                                       widget.index!,
-                                      File(image),
+                                      Utility.dataFromBase64String(image),
                                       judul,
                                       deskripsi,
                                       author,
@@ -275,8 +275,7 @@ class DetailNewsState extends State<DetailNews> {
                   ));
   }
 
-  Image decode(image){
+  Image decode(image) {
     return Utility.imageFromBase64String(image);
   }
 }
-

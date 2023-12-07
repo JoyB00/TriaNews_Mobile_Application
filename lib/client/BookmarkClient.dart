@@ -6,7 +6,7 @@ import 'package:news_pbp/entity/bookmark.dart';
 class BookmarkClient {
   // static final String url = '10.0.2.2:8000';
   // static final String endpoint = '/api/bookmark';
-  static final String url = '192.168.229.9';
+  static final String url = '192.168.18.39';
   static final String endpoint = 'API_News/public/api/bookmark';
 
   // mengambil semua data Bookmark dari API
