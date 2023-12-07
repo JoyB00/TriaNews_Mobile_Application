@@ -172,7 +172,7 @@ class _ForgotPassState extends State<ForgotPass> {
                   style: ButtonStyle(
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                       const EdgeInsets.symmetric(
-                          horizontal: 150.0, vertical: 20.0),
+                          horizontal: 120.0, vertical: 20.0),
                     ),
                     backgroundColor: MaterialStateProperty.all<Color>(
                         const Color(0xFF7A95E6)),

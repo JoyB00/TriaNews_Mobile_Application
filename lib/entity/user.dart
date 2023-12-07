@@ -2,7 +2,14 @@ import 'dart:convert';
 
 class User {
   final int? id;
-  String? email, notelp, username, password, dateofbirth, role, image;
+  String? email,
+      notelp,
+      username,
+      password,
+      dateofbirth,
+      role,
+      membership,
+      image;
 
   User(
       {this.id,
@@ -12,6 +19,7 @@ class User {
       this.password,
       this.dateofbirth,
       this.role,
+      this.membership,
       this.image});
 
   factory User.fromRawJson(String str) => User.fromJson(json.decode(str));
@@ -24,6 +32,7 @@ class User {
         password: json['password'],
         dateofbirth: json['dateofbirth'],
         role: json['role'],
+        membership: json['membership'],
         image: json['image'],
       );
 
@@ -37,6 +46,7 @@ class User {
         "password": password,
         "dateofbirth": dateofbirth,
         "role": role,
+        "membership": membership,
         "image": image,
       };
 }

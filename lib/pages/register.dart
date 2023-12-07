@@ -56,8 +56,8 @@ class _RegisterState extends State<Register> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        height: 800.0,
-                        width: 380.0,
+                        height: 900.0,
+                        width: 370.0,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0),
                           color: const Color.fromRGBO(238, 245, 255, 0.9),
@@ -83,192 +83,175 @@ class _RegisterState extends State<Register> {
                             const SizedBox(height: 20),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
+                              child: TextFormField(
+                                controller: usernameController,
+                                decoration: InputDecoration(
+                                  prefixIcon: const Icon(Icons.person),
+                                  labelText: 'Username',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
                                 ),
-                                child: TextFormField(
-                                  controller: usernameController,
-                                  decoration: const InputDecoration(
-                                    prefixIcon: Icon(Icons.person),
-                                    labelText: 'Username',
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Username tidak boleh kosong';
+                                  } else if (value.length < 6) {
+                                    return 'Username kurang dari 6 karakter';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 10.0, left: 10.0, bottom: 10.0),
+                              child: TextFormField(
+                                  controller: emailController,
+                                  decoration: InputDecoration(
+                                    prefixIcon: const Icon(Icons.email),
+                                    labelText: 'Email',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
                                   ),
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Username tidak boleh kosong';
-                                    } else if (value.length < 6) {
-                                      return 'Username kurang dari 6 karakter';
+                                      return 'Email Tidak Boleh Kosong';
+                                    } else if (!value.contains('@')) {
+                                      return 'Email harus Memakai @';
                                     }
                                     return null;
-                                  },
-                                ),
-                              ),
+                                  }),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
                                   right: 10.0, left: 10.0, bottom: 10.0),
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                ),
-                                child: TextFormField(
-                                    controller: emailController,
-                                    decoration: const InputDecoration(
-                                      prefixIcon: Icon(Icons.email),
-                                      labelText: 'Email',
-                                    ),
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Email Tidak Boleh Kosong';
-                                      } else if (!value.contains('@')) {
-                                        return 'Email harus Memakai @';
-                                      }
-                                      return null;
-                                    }),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 10.0, left: 10.0, bottom: 10.0),
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                ),
-                                child: TextFormField(
-                                    controller: passwordController,
-                                    decoration: InputDecoration(
-                                      prefixIcon: const Icon(Icons.lock),
-                                      labelText: 'Password',
-                                      suffixIcon: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            showPassword = !showPassword;
-                                          });
-                                        },
-                                        icon: Icon(
-                                          showPassword
-                                              ? Icons.visibility_off
-                                              : Icons.visibility,
-                                          color: showPassword
-                                              ? Colors.grey
-                                              : Colors.blue,
-                                        ),
-                                      ),
-                                    ),
-                                    obscureText: showPassword,
-                                    validator: (value) {
-                                      if (value == '') {
-                                        return 'Password tidak boleh kosong';
-                                      } else if (value!.length < 5) {
-                                        return "password Kurang dari 5 digit";
-                                      }
-                                      return null;
-                                    }),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 10.0, left: 10.0, bottom: 10.0),
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                ),
-                                child: TextFormField(
-                                    controller: passwordConfirmController,
-                                    decoration: InputDecoration(
-                                      prefixIcon: const Icon(Icons.lock),
-                                      labelText: 'Konfirmasi Password',
-                                      suffixIcon: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            showPassword = !showPassword;
-                                          });
-                                        },
-                                        icon: Icon(
-                                          showPassword
-                                              ? Icons.visibility_off
-                                              : Icons.visibility,
-                                          color: showPassword
-                                              ? Colors.grey
-                                              : Colors.blue,
-                                        ),
-                                      ),
-                                    ),
-                                    obscureText: showPassword,
-                                    validator: (value) {
-                                      if (value == '') {
-                                        return 'Password tidak boleh kosong';
-                                      } else if (value !=
-                                          passwordController.text) {
-                                        return "Password tidak sesuai!";
-                                      }
-                                      return null;
-                                    }),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 10.0, left: 10.0, bottom: 10.0),
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                ),
-                                child: TextFormField(
-                                    controller: notelpController,
-                                    decoration: const InputDecoration(
-                                      prefixIcon: Icon(Icons.phone),
-                                      labelText: 'Phone Number',
-                                    ),
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ],
-                                    keyboardType: TextInputType.number,
-                                    validator: (value) {
-                                      if (value == '') {
-                                        return 'No hp Tidak Boleh Kosong';
-                                      } else if (value!.length <= 11) {
-                                        return 'No Hp tidak boleh kurang dari 11 digit';
-                                      }
-                                      return null;
-                                    }),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 10.0, left: 10.0, bottom: 10.0),
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                ),
-                                child: TextFormField(
-                                  controller: _dateController,
+                              child: TextFormField(
+                                  controller: passwordController,
                                   decoration: InputDecoration(
-                                    labelText: 'Tanggal Lahir',
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 20.0,
-                                      vertical: 15.0,
-                                    ),
-                                    prefixIcon:
-                                        const Icon(Icons.calendar_today),
+                                    prefixIcon: const Icon(Icons.lock),
+                                    labelText: 'Password',
                                     suffixIcon: IconButton(
                                       onPressed: () {
                                         setState(() {
-                                          _selectDate();
+                                          showPassword = !showPassword;
                                         });
                                       },
-                                      icon: const Icon(
-                                        Icons.calendar_today,
-                                        color: Colors.blue,
+                                      icon: Icon(
+                                        showPassword
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                        color: showPassword
+                                            ? Colors.grey
+                                            : Colors.blue,
                                       ),
                                     ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
                                   ),
+                                  obscureText: showPassword,
                                   validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Tanggal tidak boleh kosong';
+                                    if (value == '') {
+                                      return 'Password tidak boleh kosong';
+                                    } else if (value!.length < 5) {
+                                      return "password Kurang dari 5 digit";
                                     }
                                     return null;
-                                  },
+                                  }),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 10.0, left: 10.0, bottom: 10.0),
+                              child: TextFormField(
+                                  controller: passwordConfirmController,
+                                  decoration: InputDecoration(
+                                    prefixIcon: const Icon(Icons.lock),
+                                    labelText: 'Konfirmasi Password',
+                                    suffixIcon: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          showPassword = !showPassword;
+                                        });
+                                      },
+                                      icon: Icon(
+                                        showPassword
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                        color: showPassword
+                                            ? Colors.grey
+                                            : Colors.blue,
+                                      ),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                  ),
+                                  obscureText: showPassword,
+                                  validator: (value) {
+                                    if (value == '') {
+                                      return 'Password tidak boleh kosong';
+                                    } else if (value !=
+                                        passwordController.text) {
+                                      return "Password tidak sesuai!";
+                                    }
+                                    return null;
+                                  }),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 10.0, left: 10.0, bottom: 10.0),
+                              child: TextFormField(
+                                  controller: notelpController,
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.phone),
+                                    labelText: 'Phone Number',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                  ),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  keyboardType: TextInputType.number,
+                                  validator: (value) {
+                                    if (value == '') {
+                                      return 'No hp Tidak Boleh Kosong';
+                                    } else if (value!.length <= 11) {
+                                      return 'No Hp tidak boleh kurang dari 11 digit';
+                                    }
+                                    return null;
+                                  }),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 10.0, left: 10.0, bottom: 10.0),
+                              child: TextFormField(
+                                controller: _dateController,
+                                decoration: InputDecoration(
+                                  labelText: 'Tanggal Lahir',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  prefixIcon: const Icon(Icons.calendar_today),
+                                  suffixIcon: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _selectDate();
+                                      });
+                                    },
+                                    icon: const Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
                                 ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Tanggal tidak boleh kosong';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             const SizedBox(height: 20.0),
@@ -344,6 +327,8 @@ class _RegisterState extends State<Register> {
       username: usernameController.text,
       password: passwordController.text,
       dateofbirth: _dateController.text,
+      role: 'viewer',
+      membership: 'Standard',
     );
     await UserClient.create(input);
   }

@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
 // import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:news_pbp/View/camera/display_picture.dart';
 import 'package:news_pbp/client/UserClient.dart';
 import 'package:news_pbp/entity/user.dart';
+import 'package:news_pbp/image/image_setup.dart';
 import 'package:news_pbp/view/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,7 +41,6 @@ class _CameraViewState extends State<CameraView> {
   }
 
   Future<void> initializeCamera() async {
-    // LoggingUtils.logStartFunction("initialize camera".toUpperCase());
     final cameras = await availableCameras();
     final firstCamera = cameras.first;
     _cameraController = CameraController(firstCamera, ResolutionPreset.medium);
@@ -101,12 +103,12 @@ class _CameraViewState extends State<CameraView> {
 
   Future<DisplayPictureScreen?> previewImageResult() async {
     try {
-      loadUserData();
+      await loadUserData();
       await _initializeCameraFuture;
       final image = await _cameraController.takePicture();
       if (!mounted) return null;
-      String result = image.path;
-      editImage(id, result);
+      String result = await encode(image.path);
+      await editImage(id, result);
       Navigator.of(context).pop(
         MaterialPageRoute(builder: (context) {
           _cameraController.pausePreview();
@@ -126,5 +128,16 @@ class _CameraViewState extends State<CameraView> {
     user.image = result;
 
     await UserClient.update(user);
+  }
+
+  Future<String> encode(image) async {
+    File imageFile = File(image);
+    Uint8List bytes = await imageFile.readAsBytes();
+    String imgString = Utility.base64String(bytes);
+    return imgString;
+  }
+
+  Image decode(image) {
+    return Utility.imageFromBase64String(image);
   }
 }

@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_pbp/client/UserClient.dart';
 import 'package:news_pbp/entity/user.dart';
+import 'package:news_pbp/image/image_setup.dart';
+import 'package:news_pbp/pages/membership.dart';
 import 'package:news_pbp/view/camera/camera.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,10 +28,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
   File? userImage;
   String? image;
   String username = "";
+  String membership = "";
   int id = -1;
   bool isLoading = false;
   Image convert = Image.asset('images/luffy.jpg');
   String? gambar;
+  String imageFile = 'images/luffy.jpg';
 
   void _showImageOptions() {
     showModalBottomSheet(
@@ -89,14 +93,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       onPressed: () async {
                         try {
                           User user = await UserClient.find(id);
-                          user.image = null;
                           setState(() {
+                            user.image = null;
                             gambar = user.image;
                           });
                           await UserClient.update(user);
-                          Navigator.pop(context);
+                          notifyDeleteFotoProfile();
                         } catch (e) {
-                          print("asdas");
+                          print(e.toString());
                         }
                       },
                       style: ButtonStyle(
@@ -144,7 +148,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     MaterialPageRoute(
                                       builder: (_) => const CameraView(),
                                     ),
-                                  );
+                                  ).then((_) => loadUserData());
                                 },
                                 icon: const Icon(Icons.camera_alt_outlined,
                                     size: 30, color: Colors.white)),
@@ -181,6 +185,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 onPressed: () async {
                                   Navigator.pop(context);
                                   await _getFromGallery(id);
+                                  setState(() {
+                                    gambar = imageFile;
+                                    userImage = File(gambar!);
+                                    convert = Image.file(userImage!);
+                                  });
                                 },
                                 icon: const Icon(Icons.photo_outlined,
                                     size: 30, color: Colors.white),
@@ -212,6 +221,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     setState(() {
       id = user.id!;
       username = user.username!;
+      membership = user.membership!;
       usernameController.text = user.username!;
       emailController.text = user.email!;
       passwordController.text = user.password!;
@@ -220,8 +230,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       image = user.image;
       gambar = user.image;
       if (gambar != null) {
-        userImage = File(gambar!);
-        convert = Image.file(userImage!);
+        convert = decode(user.image);
       }
       isLoading = false;
     });
@@ -289,10 +298,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             },
                             child: Container(
                                 width: 120.0,
-                                height: 120.0,
+                                height: 110.0,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50.0),
                                   color: Colors.white,
+
                                   // image: DecorationImage(
                                   //   image: convert.image,
                                   //   fit: BoxFit.cover,
@@ -312,14 +322,69 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           const SizedBox(
                             height: 5.0,
                           ),
-                          Text(
-                            username,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                            ),
-                          ),
+                          membership != 'Standard'
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 40,
+                                      height: 45,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: membership == 'Gold'
+                                                ? const AssetImage(
+                                                    'images/gold.png')
+                                                : const AssetImage(
+                                                    'images/plat.png')),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    Text(
+                                      membership,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.0,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const MembershipPage()));
+                                    });
+                                  },
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                      Color.fromRGBO(122, 149, 229, 1),
+                                    ),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        side: const BorderSide(
+                                            width: 3, color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    "Daftar Member",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
                         ],
                       ),
                     ),
@@ -658,9 +723,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
   }
 
+  notifyDeleteFotoProfile() {
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Menghapus Foto Profile'),
+    ));
+    Navigator.pop(context);
+  }
+
   _getFromGallery(var id) async {
     // ignore: deprecated_member_use
-    String? imageFile;
     PickedFile? pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
@@ -668,30 +739,31 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
     if (pickedFile != null) {
       imageFile = pickedFile.path;
-      // imageFile = File(pickedFile.path);
-      setState(() {
-        gambar = imageFile;
-        print('aasdasd ${gambar}');
-      });
-      editImage(id, imageFile);
     }
-  }
-
-  Future<void> editImage(int id, String result) async {
-    User temp = await UserClient.find(id);
-    User user = temp;
-    user.image = result;
-    await UserClient.update(user);
   }
 
   Future<void> editUser(int id) async {
     User user = await UserClient.find(id);
     //User user = temp;
+    if (gambar != null && imageFile != 'images/luffy.jpg') {
+      user.image = await encode(imageFile);
+    }
     user.email = emailController.text;
     user.notelp = notelpController.text;
     user.username = usernameController.text;
     user.password = passwordController.text;
 
     await UserClient.update(user);
+  }
+
+  Future<String> encode(image) async {
+    File imageFile = File(image);
+    Uint8List bytes = await imageFile.readAsBytes();
+    String imgString = Utility.base64String(bytes);
+    return imgString;
+  }
+
+  Image decode(image) {
+    return Utility.imageFromBase64String(image);
   }
 }

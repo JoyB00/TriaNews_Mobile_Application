@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:news_pbp/client/BookmarkClient.dart';
 import 'package:news_pbp/client/NewsClient.dart';
 import 'package:news_pbp/entity/news.dart';
+import 'package:news_pbp/image/image_setup.dart';
 import 'package:news_pbp/pages/detailNews.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -63,6 +64,32 @@ class BookmarkView extends State<BookmarkList> {
         body: isLoading
             ? const Center(child: CircularProgressIndicator())
             : Column(children: [
+                Container(
+                  width: 500,
+                  height: 70.0,
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(122, 149, 229, 1),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30.0),
+                      bottomRight: Radius.circular(30.0),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 20.0),
+                        child: const Text(
+                          "Bookmark",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w900,
+                            fontSize: 22.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 Expanded(
                     child: ListView.builder(
                         itemCount: bookmarkList.length,
@@ -83,9 +110,7 @@ class BookmarkView extends State<BookmarkList> {
                                     SizedBox(
                                       width: 30.w,
                                       height: 90.h,
-                                      child: Image.file(
-                                        File(bookmarkList[index].image!),
-                                      ),
+                                      child: decode(bookmarkList[index].image!),
                                     ),
                                     Column(
                                       crossAxisAlignment:
@@ -153,5 +178,9 @@ class BookmarkView extends State<BookmarkList> {
   Future<void> deleteNews(int id) async {
     await NewsClient.destroy(id);
     refresh();
+  }
+
+  Image decode(image) {
+    return Utility.imageFromBase64String(image);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_pbp/client/UserClient.dart';
 import 'package:news_pbp/entity/user.dart';
+import 'package:news_pbp/pages/FYPPage.dart';
 import 'package:news_pbp/pages/newsPage.dart';
 import 'package:news_pbp/pages/newsPageViewer.dart';
 import 'package:news_pbp/pages/profile.dart';
@@ -30,9 +31,7 @@ class _HomePageState extends State<HomePage> {
 
     _widgetOptions = [
       userRole == 'viewer' ? const NewsPageViewer() : const NewsPage(),
-      Center(
-        child: Text('userRole ${userRole}'),
-      ),
+      const FYPPage(),
       const ProfilePageNew(),
     ];
   }

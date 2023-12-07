@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:news_pbp/client/NewsClient.dart';
 // import 'package:news_pbp/database/sql_news.dart';
 import 'package:news_pbp/entity/news.dart';
+import 'package:news_pbp/image/image_setup.dart';
 import 'package:news_pbp/pages/detailNews.dart';
 import 'package:news_pbp/qr_scan/scan_qr_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -113,9 +114,7 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                                     SizedBox(
                                       width: 30.w,
                                       height: 90.h,
-                                      child: Image.file(
-                                        File(newsList[index].image!),
-                                      ),
+                                      child: decode(newsList[index].image!),
                                     ),
                                     Column(
                                       crossAxisAlignment:
@@ -176,6 +175,10 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                           );
                         }))
               ]));
+  }
+
+  Image decode(image) {
+    return Utility.imageFromBase64String(image);
   }
 
   Future<void> deleteNews(int id) async {

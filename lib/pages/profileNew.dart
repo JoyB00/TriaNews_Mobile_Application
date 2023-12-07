@@ -3,7 +3,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:news_pbp/View/camera/camera.dart';
 import 'package:news_pbp/client/UserClient.dart';
-// import 'package:news_pbp/database/sql_helper.dart';
 import 'package:news_pbp/entity/user.dart';
 import 'package:news_pbp/pages/updateProfile.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -37,8 +36,6 @@ class ProfilePageState extends State<ProfilePage> {
     final prefs = await SharedPreferences.getInstance();
     User user = await UserClient.find(prefs.getInt('userId'));
     setState(() {
-      print(user.id);
-      print(user.email);
       id = user.id!;
       userEmail = user.email!;
       userNama = user.username!;

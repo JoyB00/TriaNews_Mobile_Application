@@ -3,9 +3,14 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:news_pbp/client/UserClient.dart';
 import 'package:news_pbp/entity/user.dart';
+import 'package:news_pbp/image/image_setup.dart';
+import 'package:news_pbp/pages/aboutPage.dart';
 import 'package:news_pbp/pages/bookmarkPage.dart';
 import 'package:news_pbp/pages/editProfile.dart';
+import 'package:news_pbp/pages/kritikSaran.dart';
+import 'package:news_pbp/pages/listTestimoniPage.dart';
 import 'package:news_pbp/pages/loginView.dart';
+import 'package:news_pbp/pages/membership.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePageNew extends StatefulWidget {
@@ -26,6 +31,7 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
   String userNoTelp = '';
   String userPass = '';
   String userTglLahir = '';
+  String userMembership = '';
   var id = 0;
   String? image;
   File? userImage;
@@ -38,17 +44,26 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
     setState(() {
       id = user.id!;
       userEmail = user.email!;
+      userMembership = user.membership!;
       userNama = user.username!;
       userNoTelp = user.notelp!;
       userPass = user.password!;
       userTglLahir = user.dateofbirth!;
       image = user.image;
+      print(user.membership);
       if (image != null) {
         userImage = File(image!);
-        convert = Image.file(userImage!);
+        // convert = Image.file(userImage!);
+        convert = decode(user.image);
+      } else {
+        convert = Image.asset('images/luffy.jpg');
       }
       isLoading = false;
     });
+  }
+
+  Image decode(image) {
+    return Utility.imageFromBase64String(image);
   }
 
   @override
@@ -70,7 +85,7 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                 children: [
                   Container(
                     width: 500,
-                    height: 230.0,
+                    height: 250.0,
                     decoration: const BoxDecoration(
                       color: Color.fromRGBO(122, 149, 229, 1),
                       borderRadius: BorderRadius.only(
@@ -93,7 +108,7 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                           ),
                         ),
                         const SizedBox(
-                          height: 15.0,
+                          height: 20.0,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -112,10 +127,49 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 10.0),
+                            const SizedBox(
+                              width: 10.0,
+                            ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                userMembership == 'Gold'
+                                    ? SizedBox(
+                                        width: 230,
+                                        child: Row(children: [
+                                          Container(
+                                            width: 40,
+                                            height: 45,
+                                            decoration: const BoxDecoration(
+                                              image: DecorationImage(
+                                                image: AssetImage(
+                                                    'images/gold.png'),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 7,
+                                          ),
+                                        ]))
+                                    : userMembership == 'Platinum'
+                                        ? SizedBox(
+                                            width: 230,
+                                            child: Row(children: [
+                                              Container(
+                                                width: 40,
+                                                height: 45,
+                                                decoration: const BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                        'images/plat.png'),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 7,
+                                              ),
+                                            ]))
+                                        : const SizedBox(),
                                 Text(
                                   userNama,
                                   style: const TextStyle(
@@ -195,7 +249,7 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                     children: [
                       ListTile(
                           leading: const Icon(
-                            Icons.add_box_outlined,
+                            Icons.card_membership_outlined,
                             size: 30,
                             color: Colors.black,
                           ),
@@ -206,19 +260,19 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => EditProfilePage(),
+                                    builder: (_) => const MembershipPage(),
                                   ),
-                                );
+                                ).then((_) => loadUserData());
                               },
                               child: const Text(
-                                "Kategori Berita",
+                                "Membership",
                                 style: TextStyle(
                                     fontSize: 25.0, color: Colors.black),
                               ),
                             ),
                           ),
                           subtitle: const Text(
-                            "Anda Dapat memilih Kategori Berita Sesuai Dengan kategori Yang anda sukai",
+                            "Dapatkan informasi berita yang lebih luas, melalui membership",
                             style: TextStyle(
                               fontSize: 10.0,
                               fontWeight: FontWeight.w300,
@@ -234,7 +288,7 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => const EditProfilePage(),
+                                  builder: (_) => const MembershipPage(),
                                 ),
                               ).then((_) => loadUserData());
                             },
@@ -314,9 +368,13 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => EditProfilePage(),
+                                    builder: (_) => const KritikSaran(
+                                      rating: null,
+                                      deskripsi: null,
+                                      id: null,
+                                    ),
                                   ),
-                                );
+                                ).then((_) => loadUserData());
                               },
                               child: const Text(
                                 "Kritik & Saran",
@@ -342,7 +400,63 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => EditProfilePage(),
+                                  builder: (_) => const KritikSaran(
+                                    rating: null,
+                                    deskripsi: null,
+                                    id: null,
+                                  ),
+                                ),
+                              );
+                            },
+                          )),
+                      const Divider(
+                        color: Colors.grey,
+                        thickness: 0.4,
+                        indent: 20.0,
+                        endIndent: 20.0,
+                      ),
+                      ListTile(
+                          leading: const Icon(
+                            Icons.rate_review_outlined,
+                            size: 30,
+                            color: Colors.black,
+                          ),
+                          title: Container(
+                            alignment: Alignment.centerLeft,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => ListTestimoni(),
+                                  ),
+                                ).then((_) => loadUserData());
+                              },
+                              child: const Text(
+                                "Testimoni User",
+                                style: TextStyle(
+                                    fontSize: 25.0, color: Colors.black),
+                              ),
+                            ),
+                          ),
+                          subtitle: const Text(
+                            "Segala bentuk saran serta kritik dari berbagai pengguna dapat anda lihat disini",
+                            style: TextStyle(
+                              fontSize: 10.0,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(
+                              Icons.chevron_right_rounded,
+                              size: 40.0,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => ListTestimoni(),
                                 ),
                               );
                             },
@@ -366,7 +480,7 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => EditProfilePage(),
+                                    builder: (_) => AboutPage(),
                                   ),
                                 );
                               },
@@ -394,7 +508,7 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => EditProfilePage(),
+                                  builder: (_) => AboutPage(),
                                 ),
                               );
                             },

@@ -1,9 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:news_pbp/pages/loginView.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-void main() {
+void main() async {
+  if (Platform.isWindows) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
   runApp(const MainApp());
 }
 

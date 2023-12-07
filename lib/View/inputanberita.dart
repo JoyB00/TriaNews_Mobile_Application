@@ -11,6 +11,14 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:news_pbp/image/image_setup.dart';
 
+const List<String> kategori = <String>[
+  'Politik',
+  'Olahraga',
+  'Hiburan',
+  'Kesehatan',
+  'Lainnya'
+];
+
 class InputanBerita extends StatefulWidget {
   // const InputanBerita({Key? key}) : super(key: key);
 
@@ -32,6 +40,7 @@ class InputanBerita extends StatefulWidget {
 }
 
 class _InputanBerita extends State<InputanBerita> {
+  String dropdownValue = kategori.first;
   Future<File> imageFile = Future<File>.value(File(""));
   String? image;
   final _formKey = GlobalKey<FormState>();
@@ -235,30 +244,47 @@ class _InputanBerita extends State<InputanBerita> {
                           }),
                       Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 5.h, vertical: 2.w)),
-                      TextFormField(
-                          controller: kategoriController,
-                          decoration: InputDecoration(
-                            labelText:
-                                'Kategori Berita (sport/politik/digital)',
-                            prefixIcon:
-                                const Icon(Icons.input, color: Colors.black),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.black, width: 0.2.h),
+                              horizontal: 5.h, vertical: 4.w)),
+                      Align(
+                        alignment: Alignment.centerLeft, // Align to the left
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            DropdownButtonFormField<String>(
+                              value: dropdownValue,
+                              icon: const Icon(Icons.arrow_drop_down),
+                              iconSize: 24,
+                              elevation: 16,
+                              style: const TextStyle(color: Colors.black),
+                              decoration: InputDecoration(
+                                labelText: 'Kategori Berita',
+                                prefixIcon: const Icon(Icons.category,
+                                    color: Colors.black),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                labelStyle:
+                                    const TextStyle(color: Colors.black),
+                              ),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  dropdownValue = newValue!;
+                                });
+                              },
+                              items: kategori.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
                             ),
-                            labelStyle: const TextStyle(color: Colors.black),
-                          ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Kategori Tidak Boleh Kosong';
-                            } else if (value.compareTo('sport') != 0 &&
-                                value.compareTo('politik') != 0 &&
-                                value.compareTo('digital') != 0) {
-                              return 'Kategori Berita Invalid';
-                            }
-                            return null;
-                          }),
+                          ],
+                        ),
+                      ),
                       Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: 5.h, vertical: 2.w)),
@@ -341,7 +367,7 @@ class _InputanBerita extends State<InputanBerita> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 if (widget.id == null) {
-                                  await addNews(kategoriController.text);
+                                  await addNews();
                                 } else {
                                   await editNews(widget.id!);
                                 }
@@ -444,7 +470,7 @@ class _InputanBerita extends State<InputanBerita> {
     return Utility.imageFromBase64String(image);
   }
 
-  Future<void> addNews(String kategori) async {
+  Future<void> addNews() async {
     if (image != null) {
       imgString = await encode(image);
     }
@@ -453,7 +479,7 @@ class _InputanBerita extends State<InputanBerita> {
       judul: judulController.text,
       deskripsi: descriptionController.text,
       author: authorController.text,
-      kategori: kategoriController.text,
+      kategori: dropdownValue,
       date: dateController.text,
     );
     print(imgString);
@@ -470,7 +496,7 @@ class _InputanBerita extends State<InputanBerita> {
       judul: judulController.text,
       deskripsi: descriptionController.text,
       author: authorController.text,
-      kategori: kategoriController.text,
+      kategori: dropdownValue,
       date: dateController.text,
     );
     await NewsClient.update(news);
