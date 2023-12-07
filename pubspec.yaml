@@ -43,7 +43,7 @@ dev_dependencies:
 msix_config:
   display_name: ditonton
   publisher_display_name: asdos company
-  identity_name: com.asdos.ditonton
+  identity_name: com.example.news-pbp
   logo_path: D:\Dendy\KULIAH\PANITIA\logo atma jaya.png
   msix_version: 1.0.0.0
   capabilities: internetClient

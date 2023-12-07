@@ -1,7 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package = "com.asdos.ditonton" 
->
-<user.permission android:name="android.permission.INTERNET"/>
+package = "com.example.news-pbp" >
+<uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="news_pbp"
         android:name="${applicationName}"
