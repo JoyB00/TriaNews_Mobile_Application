@@ -140,6 +140,8 @@ class DetailNewsState extends State<DetailNews> {
                         style: TextStyle(
                             fontSize: 18.sp, fontWeight: FontWeight.w400),
                       )),
+
+                  
                   //  Jangan diubah!!
                   Container(
                       padding:
