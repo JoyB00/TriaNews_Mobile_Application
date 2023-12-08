@@ -219,6 +219,7 @@ class _MembershipPageState extends State<MembershipPage> {
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: TextFormField(
+                          key: const Key('inputUang'),
                           controller: uangController,
                           decoration: InputDecoration(
                             hintText: 'Masukkan Uang Sesuai Nominal',
@@ -244,6 +245,7 @@ class _MembershipPageState extends State<MembershipPage> {
                     SizedBox(
                       height: 25,
                       child: ElevatedButton(
+                        key: const Key('bayar'),
                         onPressed: () async {
                           String inputUang = uangController.text;
                           double nominalUang =
@@ -713,6 +715,7 @@ class _MembershipPageState extends State<MembershipPage> {
                             height: 25,
                             width: 100,
                             child: ElevatedButton(
+                              
                               onPressed: () {
                                 setState(() {
                                   _showBottomGold();
