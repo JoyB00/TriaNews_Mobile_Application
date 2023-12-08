@@ -6,7 +6,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:news_pbp/main.dart';
 import 'package:news_pbp/pages/profileNew.dart';
 import 'package:news_pbp/view/home.dart';
-import 'package:news_pbp/view/login.dart';
+import 'package:news_pbp/pages/loginView.dart';
 import 'package:news_pbp/view/register.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -23,7 +23,7 @@ void main() {
     }));
     await tester.enterText(find.byType(TextField).at(0), "Dendy12");
     await tester.enterText(find.byType(TextField).at(1), "12345");
-    await tester.tap(find.byType(ElevatedButton).at(0));
+    await tester.tap(find.byKey(const ValueKey("login")));
     await tester.pumpAndSettle();
     expect(find.text("Login Sukses"), findsOneWidget);
   });

@@ -51,19 +51,22 @@ class DetailNewsState extends State<DetailNews> {
     setState(() {
       isLoading = true;
     });
-    loadNewsData(widget.index!);
     loadUserData();
+    loadNewsData(widget.index!);
   }
 
   Future<void> loadNewsData(int id) async {
     News news = await NewsClient.find(id);
     setState(() {
-      image = news.image!;
+      if (news.image != null) {
+        image = news.image!;
+      }
       judul = news.judul!;
       deskripsi = news.deskripsi!;
       author = news.author!;
       kategori = news.kategori!;
       tanggalPublish = news.date!;
+      isLoading = false;
     });
   }
 
@@ -80,7 +83,6 @@ class DetailNewsState extends State<DetailNews> {
     User user = await UserClient.find(prefs.getInt('userId'));
     setState(() {
       idUser = user.id!;
-      isLoading = false;
     });
   }
 
@@ -177,7 +179,9 @@ class DetailNewsState extends State<DetailNews> {
                             ),
                           )),
 
-                      Center(child: decode(image)),
+                      image != 'unnamed.jpg'
+                          ? Center(child: decode(image))
+                          : const SizedBox(),
                       Container(
                           margin: EdgeInsets.only(left: 4.5.w, top: 3.0.h),
                           child: Text(

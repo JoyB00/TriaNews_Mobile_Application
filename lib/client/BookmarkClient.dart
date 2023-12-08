@@ -5,9 +5,9 @@ import 'package:news_pbp/entity/bookmark.dart';
 
 class BookmarkClient {
   // static final String url = '10.0.2.2:8000';
-  // static final String endpoint = '/api/bookmark';
-  static final String url = '192.168.18.39';
-  static final String endpoint = 'API_News/public/api/bookmark';
+  static final String endpoint = '/api/bookmark';
+  static final String url = '20.40.101.65:8000';
+  // static final String endpoint = 'API_News/public/api/bookmark';
 
   // mengambil semua data Bookmark dari API
   static Future<List<Bookmark>> fetchAll() async {
@@ -28,9 +28,9 @@ class BookmarkClient {
 
   static Future<List<News>> getBookmarkNews(id) async {
     try {
-      // var response = await get(Uri.http(url, '/api/getBookmarkNews/$id'));
-      var response =
-          await get(Uri.http(url, 'API_News/public/api/getBookmarkNews/$id'));
+      var response = await get(Uri.http(url, '/api/getBookmarkNews/$id'));
+      // var response =
+      //     await get(Uri.http(url, 'API_News/public/api/getBookmarkNews/$id'));
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
       // mengambil bagian data dari response body
@@ -57,10 +57,10 @@ class BookmarkClient {
 
   static Future<Bookmark> findBookmark(id_berita, id_user) async {
     try {
-      // var response = await get(Uri.http(
-      //     url, '/api/findBookmark/$id_berita/$id_user')); //request ke api
-      var response = await get(Uri.http(url,
-          'API_News/public/api/findBookmark/$id_berita/$id_user')); //request ke api
+      var response = await get(Uri.http(
+          url, '/api/findBookmark/$id_berita/$id_user')); //request ke api
+      // var response = await get(Uri.http(url,
+      //     'API_News/public/api/findBookmark/$id_berita/$id_user')); //request ke api
       print('${response.body} ${response.statusCode}');
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
       return Bookmark.fromJson(json.decode(response.body)['data']);

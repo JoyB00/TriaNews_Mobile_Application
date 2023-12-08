@@ -14,7 +14,6 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-
   Future<void> loadUserData(user) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -116,6 +115,7 @@ class _LoginViewState extends State<LoginView> {
                 ),
               ),
               ElevatedButton(
+                key: ValueKey("login"),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     User user = User(

@@ -9,27 +9,30 @@ import 'package:news_pbp/qr_scan/scan_qr_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class NewsPageViewer extends StatefulWidget {
-  const NewsPageViewer({super.key, this.id});
+class NewsPageSpesific extends StatefulWidget {
+  const NewsPageSpesific({super.key, this.id, this.kategori});
+  final String? kategori;
   final int? id;
 
   @override
-  State<NewsPageViewer> createState() => _NewsPageState();
+  State<NewsPageSpesific> createState() => _NewsPageState();
 }
 
-class _NewsPageState extends State<NewsPageViewer> {
+class _NewsPageState extends State<NewsPageSpesific> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
-        body: ElevatedCardExample(),
+        body: ElevatedCardExample(kategori: widget.kategori),
       ),
     );
   }
 }
 
 class ElevatedCardExample extends StatefulWidget {
-  const ElevatedCardExample({Key? key}) : super(key: key);
+  const ElevatedCardExample({Key? key, this.kategori}) : super(key: key);
+
+  final String? kategori;
 
   @override
   State<ElevatedCardExample> createState() => _ElevatedCardExampleState();
@@ -43,7 +46,8 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
 
   List<News> newsList = [];
   void refresh() async {
-    final data = await NewsClient.fetchAll();
+    print(widget.kategori);
+    final data = await NewsClient.showSpesificNews(widget.kategori!);
     setState(() {
       newsList = data;
       isLoading = false;

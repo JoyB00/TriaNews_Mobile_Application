@@ -2,17 +2,34 @@ import 'package:news_pbp/entity/news.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart';
+import 'package:news_pbp/view/inputanberita.dart';
 
 class NewsClient {
   // static final String url = '10.0.2.2:8000';
-  // static final String endpoint = '/api/news';
-  static final String url = '192.168.18.39';
-  static final String endpoint = 'API_News/public/api/news';
+  static final String endpoint = '/api/news';
+  static final String url = '20.40.101.65:8000';
+  // static final String endpoint = 'API_News/public/api/news';
 
   // mengambil semua data news dari API
   static Future<List<News>> fetchAll() async {
     try {
       var response = await get(Uri.http(url, endpoint));
+      if (response.statusCode != 200) throw Exception(response.reasonPhrase);
+
+      // mengambil bagian data dari response body
+      Iterable list = json.decode(response.body)['data'];
+
+      // list.map untuk membuat list objek News berdasarkan tiap element dari list
+      return list.map((e) => News.fromJson(e)).toList();
+    } catch (e) {
+      return Future.error(e.toString());
+    }
+  }
+
+  static Future<List<News>> showSpesificNews(String kategori) async {
+    try {
+      var response =
+          await get(Uri.http(url, '/api/showSpesificNews/$kategori'));
 
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 

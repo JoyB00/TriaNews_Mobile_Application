@@ -1,16 +1,18 @@
+import 'package:news_pbp/entity/reviews.dart';
 import 'package:news_pbp/entity/testimoni.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:news_pbp/entity/user.dart';
 
-class TestimoniClient {
+class ReviewClient {
   // static final String url = '10.0.2.2:8000';
-  static final String endpoint = '/api/testimoni';
-  static final String url = '20.40.101.65:8000';
-  // static final String endpoint = 'API_News/public/api/testimoni';
+  static final String endpoint = '/api/review';
 
-  static Future<List<Testimoni>> fetchAll() async {
+  static final String url = '20.40.101.65:8000';
+  // static final String endpoint = 'API_News/public/api/review';
+
+  static Future<List<Review>> fetchAll() async {
     try {
       var response = await get(Uri.http(url, endpoint));
 
@@ -21,7 +23,7 @@ class TestimoniClient {
       print(response.body);
 
       // list.map untuk membuat list objek Testimoni berdasarkan tiap element dari list
-      return list.map((e) => Testimoni.fromJson(e)).toList();
+      return list.map((e) => Review.fromJson(e)).toList();
     } catch (e) {
       return Future.error(e.toString());
     }
@@ -38,11 +40,11 @@ class TestimoniClient {
     }
   }
 
-  static Future<Response> create(Testimoni testimoni) async {
+  static Future<Response> create(Review review) async {
     try {
       var response = await post(Uri.http(url, endpoint),
           headers: {"Content-Type": "application/json"},
-          body: testimoni.toRawJson());
+          body: review.toRawJson());
       print(response.body);
 
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
@@ -53,11 +55,11 @@ class TestimoniClient {
     }
   }
 
-  static Future<Response> update(Testimoni testimoni) async {
+  static Future<Response> update(Review review) async {
     try {
-      var response = await put(Uri.http(url, '$endpoint/${testimoni.id}'),
+      var response = await put(Uri.http(url, '$endpoint/${review.id}'),
           headers: {"Content-Type": "application/json"},
-          body: testimoni.toRawJson());
+          body: review.toRawJson());
       print(response.body);
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 

@@ -4,7 +4,7 @@ package = "com.example.news-pbp" >
     <application
         android:label="news_pbp"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/tria_news">
         <activity
             android:name=".MainActivity"
             android:exported="true"

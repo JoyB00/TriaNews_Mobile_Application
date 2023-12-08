@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-
 class Testimoni {
   final int? id, id_user;
   final int? rating;

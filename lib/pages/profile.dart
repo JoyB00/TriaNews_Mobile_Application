@@ -11,6 +11,7 @@ import 'package:news_pbp/pages/kritikSaran.dart';
 import 'package:news_pbp/pages/listTestimoniPage.dart';
 import 'package:news_pbp/pages/loginView.dart';
 import 'package:news_pbp/pages/membership.dart';
+import 'package:news_pbp/pages/newsPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePageNew extends StatefulWidget {
@@ -32,6 +33,7 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
   String userPass = '';
   String userTglLahir = '';
   String userMembership = '';
+  String role = '';
   var id = 0;
   String? image;
   File? userImage;
@@ -50,6 +52,7 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
       userPass = user.password!;
       userTglLahir = user.dateofbirth!;
       image = user.image;
+      role = user.role!;
       print(user.membership);
       if (image != null) {
         userImage = File(image!);
@@ -247,52 +250,99 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      ListTile(
-                          leading: const Icon(
-                            Icons.card_membership_outlined,
-                            size: 30,
-                            color: Colors.black,
-                          ),
-                          title: Container(
-                            alignment: Alignment.centerLeft,
-                            child: TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const MembershipPage(),
-                                  ),
-                                ).then((_) => loadUserData());
-                              },
-                              child: const Text(
-                                "Membership",
-                                style: TextStyle(
-                                    fontSize: 25.0, color: Colors.black),
+                      role == 'viewer'
+                          ? ListTile(
+                              leading: const Icon(
+                                Icons.card_membership_outlined,
+                                size: 30,
+                                color: Colors.black,
                               ),
-                            ),
-                          ),
-                          subtitle: const Text(
-                            "Dapatkan informasi berita yang lebih luas, melalui membership",
-                            style: TextStyle(
-                              fontSize: 10.0,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          trailing: IconButton(
-                            icon: const Icon(
-                              Icons.chevron_right_rounded,
-                              size: 40.0,
-                              color: Colors.black,
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const MembershipPage(),
+                              title: Container(
+                                alignment: Alignment.centerLeft,
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const MembershipPage(),
+                                      ),
+                                    ).then((_) => loadUserData());
+                                  },
+                                  child: const Text(
+                                    "Membership",
+                                    style: TextStyle(
+                                        fontSize: 25.0, color: Colors.black),
+                                  ),
                                 ),
-                              ).then((_) => loadUserData());
-                            },
-                          )),
+                              ),
+                              subtitle: const Text(
+                                "Dapatkan informasi berita yang lebih luas, melalui membership",
+                                style: TextStyle(
+                                  fontSize: 10.0,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                              trailing: IconButton(
+                                icon: const Icon(
+                                  Icons.chevron_right_rounded,
+                                  size: 40.0,
+                                  color: Colors.black,
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const MembershipPage(),
+                                    ),
+                                  ).then((_) => loadUserData());
+                                },
+                              ))
+                          : ListTile(
+                              leading: const Icon(
+                                Icons.newspaper_outlined,
+                                size: 30,
+                                color: Colors.black,
+                              ),
+                              title: Container(
+                                alignment: Alignment.centerLeft,
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const NewsPage(),
+                                      ),
+                                    ).then((_) => loadUserData());
+                                  },
+                                  child: const Text(
+                                    "Kelola Berita",
+                                    style: TextStyle(
+                                        fontSize: 25.0, color: Colors.black),
+                                  ),
+                                ),
+                              ),
+                              subtitle: const Text(
+                                "Sebagai Admin anda bisa mengelola berita yang ada dalam aplikasi",
+                                style: TextStyle(
+                                  fontSize: 10.0,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                              trailing: IconButton(
+                                icon: const Icon(
+                                  Icons.chevron_right_rounded,
+                                  size: 40.0,
+                                  color: Colors.black,
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const NewsPage(),
+                                    ),
+                                  ).then((_) => loadUserData());
+                                },
+                              )),
                       const Divider(
                         color: Colors.grey,
                         thickness: 0.4,

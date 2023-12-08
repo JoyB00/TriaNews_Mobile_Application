@@ -28,7 +28,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "10724825291c8c0949a7886ab1e8b4f0
 "assets/images/Tria%2520News.png": "4bf6c57dc3e5b4aae8a37bf1ea6e2fa2",
 "assets/images/unnamed.jpg": "a3263c41cede9e5ddc341d4a7a9ace6c",
 "assets/images/Wilju.jpeg": "69f710982c586432de3f5678bf3854dd",
-"assets/NOTICES": "5d564b9c9bdf085ff0d8a1c46d045cb1",
+"assets/NOTICES": "6fbe076aedaa6aadd0db00ae3e692376",
 "assets/shaders/ink_sparkle.frag": "f8b80e740d33eb157090be4e995febdf",
 "canvaskit/canvaskit.js": "5caccb235fad20e9b72ea6da5a0094e6",
 "canvaskit/canvaskit.wasm": "d9f69e0f428f695dc3d66b3a83a4aa8e",
@@ -43,9 +43,9 @@ const RESOURCES = {"assets/AssetManifest.bin": "10724825291c8c0949a7886ab1e8b4f0
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "ba9bb4efc5ed54d5d29b4f80d4fe9ad6",
-"/": "ba9bb4efc5ed54d5d29b4f80d4fe9ad6",
-"main.dart.js": "1de5028bb2698406c653134a7741a658",
+"index.html": "dd1a63a9ee83bdd46b09e3aae11d0706",
+"/": "dd1a63a9ee83bdd46b09e3aae11d0706",
+"main.dart.js": "83991f59d12ed3dc10478bbebe24144a",
 "manifest.json": "590e2ce7f47f96f6066e5e45c6ef777c",
 "version.json": "7638bcd37d19df8e9b8cff7f8fd6e402"};
 // The application shell files that are downloaded before a service worker can

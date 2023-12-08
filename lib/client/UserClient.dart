@@ -5,14 +5,14 @@ import 'package:http/http.dart';
 
 class UserClient {
   // static final String url = '10.0.2.2:8000';
-  // static final String endpoint = '/api/user';
-  // static final String endpointLogin = '/api/login';
-  // static final String endpointForgotPass = '/api/forgotpass';
+  static final String endpoint = '/api/user';
+  static final String endpointLogin = '/api/login';
+  static final String endpointForgotPass = '/api/forgotpass';
 
-  static final String url = '192.168.18.39';
-  static final String endpoint = 'API_News/public/api/user';
-  static final String endpointLogin = 'API_News/public/api/login';
-  static final String endpointForgotPass = 'API_News/public/api/forgotpass';
+  static final String url = '20.40.101.65:8000';
+  // static final String endpoint = 'API_News/public/api/user';
+  // static final String endpointLogin = 'API_News/public/api/login';
+  // static final String endpointForgotPass = 'API_News/public/api/forgotpass';
 
   // mengambil data user dari API sesuai id
   static Future<User> find(id) async {

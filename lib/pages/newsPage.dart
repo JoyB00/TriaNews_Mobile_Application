@@ -169,7 +169,9 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
                                       SizedBox(
                                         width: 30.w,
                                         height: 90.h,
-                                        child: decode(newsList[index].image!),
+                                        child: newsList[index].image != null
+                                            ? decode(newsList[index].image!)
+                                            : SizedBox(),
                                       ),
                                       Column(
                                         crossAxisAlignment:
