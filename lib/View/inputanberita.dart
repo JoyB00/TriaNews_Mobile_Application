@@ -16,7 +16,7 @@ const List<String> kategori = <String>[
   'Olahraga',
   'Hiburan',
   'Kesehatan',
-  'Lainnya'
+  'International'
 ];
 
 class InputanBerita extends StatefulWidget {
@@ -515,9 +515,10 @@ class _InputanBerita extends State<InputanBerita> {
   }
 
   Future<void> addNews() async {
-    if (image != null) {
-      imgString = await encode(image);
-    }
+    // print(image);
+    // if (image != null) {
+    //   imgString = await encode(image);
+    // }
     News news = News(
       image: imgString,
       judul: judulController.text,

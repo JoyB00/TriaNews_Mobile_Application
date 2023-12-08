@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:news_pbp/client/UserClient.dart';
 import 'package:news_pbp/entity/user.dart';
 import 'package:news_pbp/pages/loginView.dart';
+import 'package:toastification/toastification.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -22,6 +23,34 @@ class _RegisterState extends State<Register> {
   bool showPassword = false;
   bool visible = false;
   bool _isTermsChecked = false;
+
+  void _showToast() {
+    toastification.show(
+      context: context,
+      autoCloseDuration: const Duration(seconds: 3),
+      title: 'Registrasi Sukses',
+      animationDuration: const Duration(milliseconds: 300),
+      animationBuilder: (context, animation, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+      icon: Icon(Icons.check),
+      backgroundColor: Colors.green,
+      foregroundColor: Colors.white,
+      brightness: Brightness.light,
+      padding: const EdgeInsets.all(5),
+      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+      borderRadius: BorderRadius.circular(8),
+      elevation: 4,
+      showProgressBar: true,
+      showCloseButton: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -394,9 +423,10 @@ class _RegisterState extends State<Register> {
                 try {
                   await addUser();
                   // ignore: use_build_context_synchronously
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Register Sukses'),
-                  ));
+                  // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  //   content: Text('Register Sukses'),
+                  // ));
+                  _showToast();
                   // ignore: use_build_context_synchronously
                   Navigator.push(
                     context,

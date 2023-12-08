@@ -8,6 +8,7 @@ import 'package:news_pbp/main.dart';
 import 'package:news_pbp/view/forgotpass.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toastification/toastification.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -20,20 +21,75 @@ class _LoginViewState extends State<LoginView> {
   bool visible = true;
   String temp = "";
   void pushRegister(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => const Register(),
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return Register();
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0);
+          const end = Offset.zero;
+          const curve = Curves.easeInOutCubic;
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        },
       ),
     );
   }
 
   void pushForgotPassword(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ForgotPassword(),
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return ForgotPassword();
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0);
+          const end = Offset.zero;
+          const curve = Curves.easeInOutCubic;
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        },
       ),
+    );
+  }
+
+  void _showToast() {
+    toastification.show(
+      context: context,
+      autoCloseDuration: const Duration(seconds: 3),
+      title: 'Selamat Datang',
+      animationDuration: const Duration(milliseconds: 300),
+      animationBuilder: (context, animation, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+      icon: Icon(Icons.check),
+      backgroundColor: Colors.green,
+      foregroundColor: Colors.white,
+      brightness: Brightness.light,
+      padding: const EdgeInsets.all(5),
+      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+      borderRadius: BorderRadius.circular(8),
+      elevation: 4,
+      showProgressBar: true,
+      showCloseButton: true,
+      closeOnClick: false,
+      pauseOnHover: true,
     );
   }
 
@@ -140,6 +196,7 @@ class _LoginViewState extends State<LoginView> {
                               builder: (_) => HomePage(id: user.id)),
                         );
                       } catch (e) {
+                        // ignore: use_build_context_synchronously
                         showDialog(
                             context: context,
                             builder: (_) => AlertDialog(

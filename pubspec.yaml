@@ -35,6 +35,7 @@ dependencies:
   carousel_slider: ^4.2.1
   dots_indicator: ^3.0.0
   popover: ^0.2.8+2
+  toastification: ^0.0.2
 
 dev_dependencies:
   flutter_test:

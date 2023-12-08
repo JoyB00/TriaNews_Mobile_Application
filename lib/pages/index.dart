@@ -8,6 +8,7 @@ import 'package:news_pbp/entity/user.dart';
 import 'package:news_pbp/image/image_setup.dart';
 import 'package:news_pbp/pages/detailNews.dart';
 import 'package:news_pbp/pages/editProfile.dart';
+import 'package:news_pbp/qr_scan/scan_qr_page.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -77,9 +78,22 @@ class _NewsLandingPage extends State<NewsLandingPage> {
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Container(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const BarcodeScannerPageView()));
+                    },
+                    child: const Text(
+                      'Cari Berita Melalui Qr Code',
+                      style: TextStyle(color: Color.fromRGBO(122, 149, 229, 1)),
+                    ),
+                  ),
                   Container(
                     alignment: Alignment.centerLeft,
                     child: const Row(
