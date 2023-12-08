@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:news_pbp/client/NewsClient.dart';
+import 'package:news_pbp/client/UserClient.dart';
 import 'package:news_pbp/entity/news.dart';
+import 'package:news_pbp/entity/user.dart';
 import 'package:news_pbp/image/image_setup.dart';
 import 'package:news_pbp/pages/detailNews.dart';
 import 'package:news_pbp/pages/editProfile.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NewsLandingPage extends StatefulWidget {
   const NewsLandingPage({super.key, this.id});
@@ -20,13 +23,23 @@ class _NewsLandingPage extends State<NewsLandingPage> {
   // Image? image;
   // File? userImage;
   bool isLoading = false;
+  User user = User();
 
   List<News> newsList = [];
   void refresh() async {
+    await loadUserData();
     final data = await NewsClient.fetchAll();
     setState(() {
       newsList = data;
       isLoading = false;
+    });
+  }
+
+  Future<void> loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    User data = await UserClient.find(prefs.getInt('userId'));
+    setState(() {
+      user = data;
     });
   }
 
@@ -93,11 +106,14 @@ class _NewsLandingPage extends State<NewsLandingPage> {
                         mainAxisCellCount: 2,
                         child: GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          DetailNews(index: newsList[0].id)));
+                              user.membership == "Standard" &&
+                                      newsList[0].kategori == "International"
+                                  ? notifyMembership()
+                                  : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailNews(
+                                              index: newsList[0].id)));
                             },
                             child: Image(
                               image: decode(newsList[0].image!).image,
@@ -109,11 +125,14 @@ class _NewsLandingPage extends State<NewsLandingPage> {
                         mainAxisCellCount: 2,
                         child: GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          DetailNews(index: newsList[1].id)));
+                              user.membership == "Standard" &&
+                                      newsList[1].kategori == "International"
+                                  ? notifyMembership()
+                                  : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailNews(
+                                              index: newsList[1].id)));
                             },
                             child: Image(
                               image: decode(newsList[1].image!).image,
@@ -125,11 +144,14 @@ class _NewsLandingPage extends State<NewsLandingPage> {
                         mainAxisCellCount: 1,
                         child: GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          DetailNews(index: newsList[2].id)));
+                              user.membership == "Standard" &&
+                                      newsList[2].kategori == "International"
+                                  ? notifyMembership()
+                                  : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailNews(
+                                              index: newsList[2].id)));
                             },
                             child: Image(
                               image: decode(newsList[2].image!).image,
@@ -141,11 +163,14 @@ class _NewsLandingPage extends State<NewsLandingPage> {
                         mainAxisCellCount: 1,
                         child: GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          DetailNews(index: newsList[3].id)));
+                              user.membership == "Standard" &&
+                                      newsList[3].kategori == "International"
+                                  ? notifyMembership()
+                                  : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailNews(
+                                              index: newsList[3].id)));
                             },
                             child: Image(
                               image: decode(newsList[3].image!).image,
@@ -157,11 +182,14 @@ class _NewsLandingPage extends State<NewsLandingPage> {
                         mainAxisCellCount: 1,
                         child: GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          DetailNews(index: newsList[4].id)));
+                              user.membership == "Standard" &&
+                                      newsList[4].kategori == "International"
+                                  ? notifyMembership()
+                                  : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailNews(
+                                              index: newsList[4].id)));
                             },
                             child: Image(
                               image: decode(newsList[4].image!).image,
@@ -173,11 +201,14 @@ class _NewsLandingPage extends State<NewsLandingPage> {
                         mainAxisCellCount: 1,
                         child: GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          DetailNews(index: newsList[5].id)));
+                              user.membership == "Standard" &&
+                                      newsList[5].kategori == "International"
+                                  ? notifyMembership()
+                                  : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailNews(
+                                              index: newsList[5].id)));
                             },
                             child: Image(
                               image: decode(newsList[5].image!).image,
@@ -260,13 +291,17 @@ class _NewsLandingPage extends State<NewsLandingPage> {
                                         ),
                                         TextButton(
                                           onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        DetailNews(
-                                                            index:
-                                                                newsList[index]
+                                            user.membership == "Standard" &&
+                                                    newsList[index].kategori ==
+                                                        "International"
+                                                ? notifyMembership()
+                                                : Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            DetailNews(
+                                                                index: newsList[
+                                                                        index]
                                                                     .id)));
                                           },
                                           child: const Text(
@@ -286,6 +321,67 @@ class _NewsLandingPage extends State<NewsLandingPage> {
                 ],
               ),
             ),
+    );
+  }
+
+  void notifyMembership() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+            side: const BorderSide(
+                color: Color.fromRGBO(122, 149, 229, 1), width: 2.0),
+          ),
+          content: Stack(
+            children: [
+              Positioned(
+                right: 0.0,
+                bottom: 25.0,
+                child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      Navigator.pop(context);
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.close,
+                  ),
+                ),
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    "Mohon Maaf",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  Container(
+                    height: 0.5,
+                    width: 300.0,
+                    color: Colors.black,
+                  ),
+                  const SizedBox(height: 10.0),
+                  Container(
+                    child: const Text(
+                      "Anda harus menjadi member\nuntuk membaca berita ini",
+                      style: TextStyle(
+                        fontSize: 15.0,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

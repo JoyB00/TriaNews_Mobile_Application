@@ -663,7 +663,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             } catch (e) {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
-                                content: Text(e.toString()),
+                                content: Text("Email Sudah Terdaftar"),
                               ));
                             }
                           }

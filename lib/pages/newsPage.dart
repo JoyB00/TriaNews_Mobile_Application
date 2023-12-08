@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:news_pbp/View/inputanberita.dart';
 import 'package:news_pbp/client/NewsClient.dart';
+import 'package:news_pbp/client/UserClient.dart';
 import 'package:news_pbp/entity/news.dart';
+import 'package:news_pbp/entity/user.dart';
 import 'package:news_pbp/pages/detailNews.dart';
 import 'package:news_pbp/qr_scan/scan_qr_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,6 +44,7 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
   Image? image;
   File? userImage;
   bool isLoading = false;
+  User user = User();
 
   List<News> newsList = [];
   void refresh() async {
@@ -59,6 +62,8 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
       prefs.setInt('newsId', news.id!);
     });
   }
+
+  
 
   @override
   void initState() {
@@ -241,6 +246,7 @@ class _ElevatedCardExampleState extends State<ElevatedCardExample> {
     await NewsClient.destroy(id);
     refresh();
   }
+
 
   Image decode(image) {
     return Utility.imageFromBase64String(image);

@@ -12,9 +12,9 @@ class ReviewClient {
   static final String url = '20.40.101.65:8000';
   // static final String endpoint = 'API_News/public/api/review';
 
-  static Future<List<Review>> fetchAll() async {
+  static Future<List<Review>> fetchAll(id) async {
     try {
-      var response = await get(Uri.http(url, endpoint));
+      var response = await get(Uri.http(url, '/api/review/$id'));
 
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
@@ -45,7 +45,7 @@ class ReviewClient {
       var response = await post(Uri.http(url, endpoint),
           headers: {"Content-Type": "application/json"},
           body: review.toRawJson());
-      print(response.body);
+      // print(response.body);
 
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
